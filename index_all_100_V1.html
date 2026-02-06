@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olimpiadas Matemáticas - Colombia</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #27ae60;
+            --light: #ecf0f1;
+            --danger: #e74c3c;
+            --dark: #34495e;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+        }
+        h1 { color: var(--primary); margin-bottom: 0.5rem; }
+        p { color: #7f8c8d; }
+        
+        .grid-levels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        button {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+        
+        .btn-level {
+            padding: 15px 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary);
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .btn-level:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(44, 62, 80, 0.3); }
+        
+        .btn-option {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            margin: 12px 0;
+            background-color: #f8f9fa;
+            border: 2px solid #dfe6e9;
+            border-radius: 8px;
+            color: var(--dark);
+            text-align: left;
+            font-size: 1.1rem;
+        }
+        .btn-option:hover:not(:disabled) { border-color: var(--primary); background-color: #eef2f3; }
+        
+        .correct { background-color: var(--accent) !important; border-color: var(--accent) !important; color: white !important; }
+        .wrong { background-color: var(--danger) !important; border-color: var(--danger) !important; color: white !important; }
+        
+        .hidden { display: none; }
+        
+        .header-quiz {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        #question-text { font-size: 1.3rem; margin: 30px 0; color: #2c3e50; }
+        #feedback { min-height: 20px; margin-top: 10px; font-weight: bold; }
+        
+        .btn-control {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+    </style>
+
+    <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div id="start-screen">
+        <h1>Olimpiadas Matemáticas</h1>
+        <p>Selecciona un nivel de dificultad para comenzar</p>
+        <div class="grid-levels" id="level-grid"></div>
+    </div>
+
+    <div id="quiz-screen" class="hidden">
+        <div class="header-quiz">
+            <span id="level-indicator">Nivel 1</span>
+            <span id="score-indicator">Puntos: 0</span>
+        </div>
+        <div id="question-text"></div>
+        <div id="options-container"></div>
+        <div id="feedback"></div>
+        
+        <div style="display:flex; justify-content: space-between;">
+            <button id="exit-btn" class="btn-control" style="background:#e74c3c; color:white;" onclick="location.reload()">Salir</button>
+            <button id="next-btn" class="btn-control hidden" style="background:var(--primary); color:white;" onclick="nextQuestion()">Siguiente</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- BASE DE DATOS COMPLETA (10 NIVELES) ---
+    const db = {
+        1: [
+            { q: "Calcula: $5 + 3 \\times 2$", options: ["16", "11", "10", "13"], ans: 1, topic: "Aritmética" },
+            { q: "Si un cuadrado tiene lado 5, su área es:", options: ["20", "25", "10", "15"], ans: 1, topic: "Geometría" },
+            { q: "Resuelve $x$: $2x - 4 = 10$", options: ["7", "6", "3", "14"], ans: 0, topic: "Álgebra" },
+            { q: "Promedio de 10, 15 y 20:", options: ["12", "15", "17.5", "14"], ans: 1, topic: "Estadística" },
+            { q: "20% de 500:", options: ["50", "100", "20", "250"], ans: 1, topic: "Aritmética" },
+            { q: "Hipotenusa si catetos son 3 y 4:", options: ["5", "7", "6", "12"], ans: 0, topic: "Trigonometría" },
+            { q: "Si $x^2 = 36$ ($x>0$), $x$ es:", options: ["18", "4", "6", "12"], ans: 2, topic: "Álgebra" },
+            { q: "Suma de ángulos internos de un triángulo:", options: ["360°", "90°", "180°", "270°"], ans: 2, topic: "Geometría" },
+            { q: "Probabilidad de sacar par en un dado:", options: ["50%", "30%", "25%", "100%"], ans: 0, topic: "Estadística" },
+            { q: "$\\frac{1}{2} + \\frac{1}{4}$", options: ["$\\frac{2}{6}$", "$\\frac{3}{4}$", "$\\frac{2}{4}$", "$\\frac{1}{6}$"], ans: 1, topic: "Aritmética" }
+        ],
+        2: [
+            { q: "$-5 - (-8) + (-2)$", options: ["1", "-1", "5", "-15"], ans: 0, topic: "Aritmética" },
+            { q: "Área círculo radio 3 ($\\pi \\approx 3.14$)", options: ["28.26", "18.84", "9.42", "6"], ans: 0, topic: "Geometría" },
+            { q: "$\\frac{x}{3} + 1 = 5$", options: ["12", "4", "15", "16"], ans: 0, topic: "Álgebra" },
+            { q: "45° en radianes:", options: ["$\\pi/2$", "$\\pi/4$", "$\\pi/3$", "$\\pi$"], ans: 1, topic: "Trigonometría" },
+            { q: "Mediana de: 2, 5, 8, 1, 9", options: ["5", "8", "2", "6"], ans: 0, topic: "Estadística" },
+            { q: "$\\sqrt{144} + 3^2$", options: ["21", "15", "18", "12"], ans: 0, topic: "Aritmética" },
+            { q: "Rectángulo: Perímetro 20, Base 6. Altura:", options: ["4", "8", "14", "2"], ans: 0, topic: "Geometría" },
+            { q: "Probabilidad 2 caras en 2 monedas:", options: ["50%", "25%", "75%", "10%"], ans: 1, topic: "Estadística" },
+            { q: "$(x^3)(x^4)$", options: ["$x^{12}$", "$x^7$", "$2x^7$", "$x$"], ans: 1, topic: "Álgebra" },
+            { q: "15% de 200:", options: ["30", "15", "45", "20"], ans: 0, topic: "Aritmética" }
+        ],
+        3: [
+            { q: "Factoriza $x^2 - 9$", options: ["$(x-3)^2$", "$(x+3)(x-3)$", "$(x+9)(x-9)$", "No es factorizable"], ans: 1, topic: "Álgebra" },
+            { q: "$\\sin(30^\\circ)$", options: ["1", "0.5", "$\\sqrt{3}/2$", "0"], ans: 1, topic: "Trigonometría" },
+            { q: "Mapa 2cm:10km. Distancia para 5cm:", options: ["20km", "25km", "50km", "15km"], ans: 1, topic: "Proporciones" },
+            { q: "Volumen cubo arista 4:", options: ["16", "64", "12", "32"], ans: 1, topic: "Geometría" },
+            { q: "Sistema: $x+y=10, x-y=2$", options: ["6, 4", "5, 5", "8, 2", "7, 3"], ans: 0, topic: "Álgebra" },
+            { q: "Permutaciones de ABC:", options: ["3", "6", "9", "27"], ans: 1, topic: "Estadística" },
+            { q: "Si $f(x)=2x+1$, $f(-3)$ es:", options: ["-5", "-7", "5", "7"], ans: 0, topic: "Funciones" },
+            { q: "Hipotenusa triángulo 5-12-?", options: ["13", "17", "15", "10"], ans: 0, topic: "Geometría" },
+            { q: "Racionaliza $\\frac{1}{\\sqrt{2}}$", options: ["$\\frac{\\sqrt{2}}{2}$", "$\\sqrt{2}$", "0.5", "2"], ans: 0, topic: "Aritmética" },
+            { q: "Pendiente de $y = -2x + 5$", options: ["5", "2", "-2", "x"], ans: 2, topic: "Geometría Analítica" }
+        ],
+        4: [
+            { q: "Solución de $x^2 - 5x + 6 = 0$", options: ["2 y 3", "-2 y -3", "1 y 6", "-1 y -6"], ans: 0, topic: "Álgebra" },
+            { q: "Volumen cilindro: $r=2, h=5$", options: ["$10\\pi$", "$20\\pi$", "$50\\pi$", "$40\\pi$"], ans: 1, topic: "Geometría" },
+            { q: "$\\tan(45^\\circ)$", options: ["1", "0", "$\\infty$", "$\\sqrt{2}$"], ans: 0, topic: "Trigonometría" },
+            { q: "MCD de 24 y 36", options: ["6", "12", "4", "18"], ans: 1, topic: "Aritmética" },
+            { q: "Distancia entre (1,1) y (4,5)", options: ["3", "4", "5", "6"], ans: 2, topic: "Geometría Analítica" },
+            { q: "Si $2^x = 32$, $x=$", options: ["4", "5", "6", "3"], ans: 1, topic: "Álgebra" },
+            { q: "Área lateral cono ($r=3, g=5$)", options: ["$15\\pi$", "$9\\pi$", "$8\\pi$", "$20\\pi$"], ans: 0, topic: "Geometría" },
+            { q: "Probabilidad suma 7 con dos dados:", options: ["1/6", "1/12", "1/36", "1/9"], ans: 0, topic: "Estadística" },
+            { q: "Simplifica $\\log_{10}(1000)$", options: ["10", "100", "3", "2"], ans: 2, topic: "Álgebra" },
+            { q: "Identidad: $\\sin^2 x + \\cos^2 x = ?$", options: ["0", "1", "$\\tan x$", "2"], ans: 1, topic: "Trigonometría" }
+        ],
+        5: [
+            { q: "Vértice de $y = (x-2)^2 + 3$", options: ["(2,3)", "(-2,3)", "(2,-3)", "(0,0)"], ans: 0, topic: "Álgebra" },
+            { q: "Suma ángulos internos hexágono:", options: ["360°", "540°", "720°", "180°"], ans: 2, topic: "Geometría" },
+            { q: "Si $\\cos x = 1/2$, $x$ puede ser:", options: ["30°", "45°", "60°", "90°"], ans: 2, topic: "Trigonometría" },
+            { q: "Desviación estándar mide:", options: ["Tendencia central", "Dispersión", "Posición", "Frecuencia"], ans: 1, topic: "Estadística" },
+            { q: "Resuelve $|x - 3| = 5$", options: ["8", "-2", "8 y -2", "5 y -5"], ans: 2, topic: "Álgebra" },
+            { q: "Suma progresión: 2, 4, 8... (5 términos)", options: ["30", "62", "32", "60"], ans: 1, topic: "Sucesiones" },
+            { q: "Ecuación círculo radio 4, centro (0,0)", options: ["$x^2+y^2=4$", "$x^2+y^2=16$", "$x^2+y^2=8$", "$x+y=4$"], ans: 1, topic: "Geometría Analítica" },
+            { q: "$\\log_2(32) - \\log_2(4)$", options: ["3", "4", "5", "8"], ans: 0, topic: "Álgebra" },
+            { q: "Ley de Senos relaciona:", options: ["Lados y Ángulos", "Solo Lados", "Áreas", "Hipotenusas"], ans: 0, topic: "Trigonometría" },
+            { q: "Combinatoria: $\\binom{5}{2}$", options: ["20", "10", "5", "60"], ans: 1, topic: "Estadística" }
+        ],
+        6: [
+            { q: "Dominio de $f(x) = \\frac{1}{x-2}$", options: ["$\\mathbb{R}$", "$x \\neq 2$", "$x > 2$", "$x < 2$"], ans: 1, topic: "Funciones" },
+            { q: "Valor de $e^{\\ln 5}$", options: ["e", "5", "1", "0"], ans: 1, topic: "Álgebra" },
+            { q: "Área triángulo vértices (0,0),(4,0),(0,3)", options: ["12", "6", "7", "5"], ans: 1, topic: "Geometría Analítica" },
+            { q: "Periodo de $y = \\sin(2x)$", options: ["$2\\pi$", "$\\pi$", "$\\pi/2$", "$4\\pi$"], ans: 1, topic: "Trigonometría" },
+            { q: "Si $f(x)=x^3$, ¿es par o impar?", options: ["Par", "Impar", "Ninguna", "Ambas"], ans: 1, topic: "Funciones" },
+            { q: "Solución inecuación $2x - 5 > 3$", options: ["$x > 4$", "$x < 4$", "$x > 1$", "$x > 8$"], ans: 0, topic: "Álgebra" },
+            { q: "Volumen esfera radio 3 ($V=\\frac{4}{3}\\pi r^3$)", options: ["$36\\pi$", "$27\\pi$", "$12\\pi$", "$108\\pi$"], ans: 0, topic: "Geometría" },
+            { q: "Probabilidad condicional $P(A|B)$ es:", options: ["$P(A \\cap B)/P(B)$", "$P(A)P(B)$", "$P(A)+P(B)$", "$P(B)/P(A)$"], ans: 0, topic: "Estadística" },
+            { q: "Simplifica $\\frac{x^2-1}{x-1}$", options: ["$x-1$", "$x+1$", "$x$", "1"], ans: 1, topic: "Álgebra" },
+            { q: "Valor de $\\csc(30^\\circ)$", options: ["2", "0.5", "1", "$\\sqrt{2}$"], ans: 0, topic: "Trigonometría" }
+        ],
+        7: [
+            { q: "Parte imaginaria de $(2+3i) + (1-i)$", options: ["2", "3", "2i", "4"], ans: 0, topic: "Números Complejos" },
+            { q: "Límite: $\\lim_{x\\to \\infty} \\frac{2x+1}{x}$", options: ["2", "1", "0", "$\\infty$"], ans: 0, topic: "Cálculo" },
+            { q: "Asíntota vertical de $y = \\frac{1}{x+1}$", options: ["x=1", "x=-1", "y=0", "y=1"], ans: 1, topic: "Funciones" },
+            { q: "Identidad: $\\cos(2x)$ equivale a:", options: ["$2\\sin x$", "$\\cos^2x - \\sin^2x$", "$\\sin^2x + \\cos^2x$", "1"], ans: 1, topic: "Trigonometría" },
+            { q: "Suma infinita: $1 + 1/2 + 1/4 + ...$", options: ["2", "1.5", "$\\infty$", "1"], ans: 0, topic: "Sucesiones" },
+            { q: "Foco de la parábola $y^2 = 4x$", options: ["(1,0)", "(0,1)", "(4,0)", "(-1,0)"], ans: 0, topic: "Geometría Analítica" },
+            { q: "División sintética residuo: $(x^2+3x+2) \\div (x+1)$", options: ["0", "1", "2", "-1"], ans: 0, topic: "Álgebra" },
+            { q: "Vector unitario de $v=(3,4)$", options: ["(0.6, 0.8)", "(3,4)", "(1,1)", "(0.3, 0.4)"], ans: 0, topic: "Vectores" },
+            { q: "¿Cuántos subconjuntos tiene un conjunto de 4 elementos?", options: ["4", "8", "16", "12"], ans: 2, topic: "Estadística/Lógica" },
+            { q: "Si $\\log_x(8) = 3$, $x=$", options: ["2", "3", "4", "8"], ans: 0, topic: "Álgebra" }
+        ],
+        8: [
+            { q: "Derivada de $f(x) = 3x^2 + 5$", options: ["$6x$", "$6x+5$", "$3x$", "$x^2$"], ans: 0, topic: "Cálculo" },
+            { q: "Pendiente tangente a $y=x^2$ en $x=2$", options: ["2", "4", "1", "8"], ans: 1, topic: "Cálculo" },
+            { q: "Excentricidad elipse mide:", options: ["Tamaño", "Redondez", "Área", "Posición"], ans: 1, topic: "Geometría Analítica" },
+            { q: "Producto punto: $(1,2) \\cdot (3,4)$", options: ["11", "7", "5", "10"], ans: 0, topic: "Vectores" },
+            { q: "Solución $2\\sin^2 x - 1 = 0$ ($0<x<90$)", options: ["30°", "45°", "60°", "0°"], ans: 1, topic: "Trigonometría" },
+            { q: "$\\lim_{x\\to 0} \\frac{\\sin x}{x}$", options: ["0", "1", "$\\pi$", "Indefinido"], ans: 1, topic: "Cálculo" },
+            { q: "Expansión binomio $(x+y)^3$: coeficientes", options: ["1,2,1", "1,3,3,1", "1,4,6,4,1", "3,3,3"], ans: 1, topic: "Álgebra" },
+            { q: "Norma del vector $(-3, 4)$", options: ["5", "7", "1", "25"], ans: 0, topic: "Vectores" },
+            { q: "Intersección de conjuntos $A=\\{1,2\\}, B=\\{2,3\\}$", options: ["{1,2,3}", "{2}", "{}", "{1,3}"], ans: 1, topic: "Lógica" },
+            { q: "Si $f(g(x)) = x$, $g$ es:", options: ["Inversa", "Derivada", "Compuesta", "Identidad"], ans: 0, topic: "Funciones" }
+        ],
+        9: [
+            { q: "Integral $\\int 2x \\,dx$", options: ["$x^2 + C$", "$2x^2 + C$", "$x + C$", "$2$"], ans: 0, topic: "Cálculo" },
+            { q: "Puntos críticos de $y = x^3 - 3x$", options: ["1 y -1", "0 y 1", "3 y -3", "0"], ans: 0, topic: "Cálculo" },
+            { q: "Área bajo $y=x$ entre 0 y 2", options: ["1", "2", "4", "0.5"], ans: 1, topic: "Cálculo" },
+            { q: "Si $z = 1 + i$, su módulo es:", options: ["1", "$\\sqrt{2}$", "2", "0"], ans: 1, topic: "Complejos" },
+            { q: "Ecuación hipérbola básica:", options: ["$x^2-y^2=1$", "$x^2+y^2=1$", "$y=x^2$", "$x+y=1$"], ans: 0, topic: "Geometría Analítica" },
+            { q: "Derivada de $\\ln(x)$", options: ["$e^x$", "$1/x$", "$x$", "1"], ans: 1, topic: "Cálculo" },
+            { q: "$\\lim_{x\\to \\infty} (1 + 1/x)^x$", options: ["1", "0", "$e$", "$\\infty$"], ans: 2, topic: "Cálculo" },
+            { q: "Ángulo entre vectores (1,0) y (0,1)", options: ["0°", "45°", "90°", "180°"], ans: 2, topic: "Vectores" },
+            { q: "Matriz identidad $2\\times2$ determinante:", options: ["0", "1", "2", "-1"], ans: 1, topic: "Álgebra Lineal" },
+            { q: "Probabilidad: Eventos mutuamente excluyentes", options: ["$P(A\\cap B)=0$", "$P(A\\cap B)=1$", "$P(A)=P(B)$", "Ninguna"], ans: 0, topic: "Estadística" }
+        ],
+        10: [
+            { q: "Derivada de $f(x) = \\sin(x^2)$ (Regla cadena)", options: ["$2x\\cos(x^2)$", "$\\cos(x^2)$", "$2x\\sin(x)$", "$\\cos(2x)$"], ans: 0, topic: "Cálculo" },
+            { q: "Integral $\\int_{0}^{\\pi} \\sin x \\,dx$", options: ["0", "1", "2", "$\\pi$"], ans: 2, topic: "Cálculo" },
+            { q: "Forma polar de $z=i$", options: ["$1 \\angle 90^\\circ$", "$1 \\angle 0^\\circ$", "$1 \\angle 180^\\circ$", "$0 \\angle 90^\\circ$"], ans: 0, topic: "Complejos" },
+            { q: "Serie Taylor de $e^x$ en 0 (primeros términos)", options: ["$1+x+x^2/2...$", "$x-x^3/6...$", "$1-x+x^2...$", "$1+x+x^2$"], ans: 0, topic: "Cálculo" },
+            { q: "Producto cruz $(1,0,0) \\times (0,1,0)$", options: ["(0,0,1)", "(1,1,0)", "(0,0,0)", "1"], ans: 0, topic: "Vectores 3D" },
+            { q: "¿Cuántos anagramas tiene 'ROMA'?", options: ["24", "12", "6", "4"], ans: 0, topic: "Combinatoria" },
+            { q: "Solución de $y' = y$ (Ec. Diferencial)", options: ["$y=e^x$", "$y=x^2$", "$y=\\sin x$", "$y=x$"], ans: 0, topic: "Cálculo" },
+            { q: "Volumen sólido revolución $y=x, x=1$, eje x", options: ["$\\pi/3$", "$\\pi$", "$2\\pi/3$", "$1/3$"], ans: 0, topic: "Cálculo" },
+            { q: "Si $A$ es matriz $2\\times2$ y $det(A)=3$, $det(2A)=$?", options: ["6", "12", "3", "9"], ans: 1, topic: "Álgebra Lineal" },
+            { q: "Límite $\\lim_{x\\to 0} \\frac{1-\\cos x}{x^2}$", options: ["0", "1", "1/2", "$\\infty$"], ans: 2, topic: "Cálculo" }
+        ]
+    };
+
+    // --- LÓGICA DE LA APP ---
+    const app = document.getElementById('app');
+    const startScreen = document.getElementById('start-screen');
+    const quizScreen = document.getElementById('quiz-screen');
+    const levelGrid = document.getElementById('level-grid');
+    
+    let currentLevel = 1;
+    let currentQIndex = 0;
+    let score = 0;
+    let questions = [];
+
+    // Generar botones de niveles
+    for (let i = 1; i <= 10; i++) {
+        let btn = document.createElement('button');
+        btn.className = 'btn-level';
+        btn.innerHTML = `Nivel ${i}<br><small style="font-weight:normal; font-size:0.8em">Dificultad ${i}</small>`;
+        btn.onclick = () => startLevel(i);
+        levelGrid.appendChild(btn);
+    }
+
+    function startLevel(level) {
+        currentLevel = level;
+        questions = db[level];
+        currentQIndex = 0;
+        score = 0;
+        
+        startScreen.classList.add('hidden');
+        quizScreen.classList.remove('hidden');
+        updateScoreUI();
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        const qData = questions[currentQIndex];
+        const qText = document.getElementById('question-text');
+        const optsDiv = document.getElementById('options-container');
+        const nextBtn = document.getElementById('next-btn');
+        const feedback = document.getElementById('feedback');
+
+        // Reset UI
+        feedback.innerText = "";
+        nextBtn.classList.add('hidden');
+        optsDiv.innerHTML = "";
+        document.getElementById('level-indicator').innerText = `Nivel ${currentLevel} - Pregunta ${currentQIndex + 1}/10`;
+        
+        // Render Pregunta
+        qText.innerHTML = `<span style="color:#7f8c8d; font-size:0.9rem; text-transform:uppercase; letter-spacing:1px">${qData.topic}</span><br>${qData.q}`;
+        
+        // Render Opciones
+        qData.options.forEach((opt, index) => {
+            let btn = document.createElement('button');
+            btn.className = 'btn-option';
+            btn.innerHTML = opt;
+            btn.onclick = () => checkAnswer(index, qData.ans, btn);
+            optsDiv.appendChild(btn);
+        });
+
+        // Renderizar Matemáticas
+        if(window.MathJax) MathJax.typesetPromise();
+    }
+
+    function checkAnswer(selected, correct, btnElement) {
+        const opts = document.querySelectorAll('.btn-option');
+        opts.forEach(b => b.disabled = true);
+
+        if (selected === correct) {
+            btnElement.classList.add('correct');
+            score += 10;
+            document.getElementById('feedback').innerHTML = "<span style='color:#27ae60'>¡Correcto!</span>";
+        } else {
+            btnElement.classList.add('wrong');
+            opts[correct].classList.add('correct');
+            document.getElementById('feedback').innerHTML = "<span style='color:#e74c3c'>Incorrecto</span>";
+        }
+        
+        updateScoreUI();
+        document.getElementById('next-btn').classList.remove('hidden');
+    }
+
+    function updateScoreUI() {
+        document.getElementById('score-indicator').innerText = `Puntos: ${score}`;
+    }
+
+    function nextQuestion() {
+        currentQIndex++;
+        if (currentQIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        const container = document.getElementById('question-text');
+        const optsDiv = document.getElementById('options-container');
+        const nextBtn = document.getElementById('next-btn');
+        const feedback = document.getElementById('feedback');
+        
+        const passed = score >= 60;
+        let msg = passed ? "¡Felicidades! Has aprobado este nivel." : "Buen intento, sigue practicando.";
+        let color = passed ? "#27ae60" : "#e74c3c";
+
+        container.innerHTML = `<h2 style="color:${color}">${passed ? '¡Nivel Completado!' : 'Nivel Finalizado'}</h2>
+                               <p style="font-size:1.5rem; color:#2c3e50">Puntaje Final: <b>${score}/100</b></p>
+                               <p>${msg}</p>`;
+        
+        optsDiv.innerHTML = `<button class="btn-control" style="background:var(--dark); color:white" onclick="location.reload()">Volver al Inicio</button>`;
+        nextBtn.classList.add('hidden');
+        feedback.innerHTML = "";
+        document.getElementById('level-indicator').innerText = `Nivel ${currentLevel} - Finalizado`;
+    }
+</script>
+
+</body>
+</html>

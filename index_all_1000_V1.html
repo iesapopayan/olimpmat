@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafío Matemático 100 Niveles</title>
+    <style>
+        :root {
+            --primary: #4834d4;
+            --accent: #686de0;
+            --success: #6ab04c;
+            --danger: #eb4d4b;
+            --light: #fdfdfd;
+            --dark: #130f40;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f1f2f6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 900px;
+        }
+        h1 { text-align: center; color: var(--dark); margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #7f8c8d; margin-bottom: 20px; font-size: 0.9rem; }
+
+        /* GRID DE 100 NIVELES */
+        .level-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 8px;
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #dfe6e9;
+        }
+        .lvl-btn {
+            aspect-ratio: 1;
+            border: none;
+            background: white;
+            border: 2px solid var(--accent);
+            color: var(--primary);
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        .lvl-btn:hover { background: var(--accent); color: white; transform: scale(1.1); }
+        .lvl-btn.locked { background: #dfe6e9; border-color: #b2bec3; color: #636e72; cursor: not-allowed; }
+        
+        /* ZONAS DE DIFICULTAD (Colores por rango) */
+        .lvl-btn:nth-child(-n+20) { border-color: #2ecc71; color: #2ecc71; } /* 1-20: Fácil */
+        .lvl-btn:nth-child(n+21):nth-child(-n+50) { border-color: #f1c40f; color: #f39c12; } /* 21-50: Medio */
+        .lvl-btn:nth-child(n+51):nth-child(-n+80) { border-color: #e67e22; color: #d35400; } /* 51-80: Difícil */
+        .lvl-btn:nth-child(n+81) { border-color: #e74c3c; color: #c0392b; } /* 81-100: Experto */
+
+        /* PANTALLA QUIZ */
+        #quiz-screen { display: none; text-align: center; }
+        .hud {
+            display: flex;
+            justify-content: space-between;
+            background: var(--dark);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .q-box {
+            font-size: 1.5rem;
+            margin: 30px 0;
+            padding: 20px;
+            background: #fff;
+            border-left: 5px solid var(--primary);
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .opt-btn {
+            padding: 15px;
+            font-size: 1.1rem;
+            border: 2px solid #dfe6e9;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .opt-btn:hover { border-color: var(--primary); background: #f0f3ff; }
+        .correct { background: var(--success) !important; color: white; border-color: var(--success) !important; }
+        .wrong { background: var(--danger) !important; color: white; border-color: var(--danger) !important; }
+        
+        @media (max-width: 600px) { .options-grid { grid-template-columns: 1fr; } }
+    </style>
+    <script>
+    window.MathJax = { tex: { inlineMath: [['$', '$']] }, svg: { fontCache: 'global' } };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div id="menu-screen">
+        <h1>Torre Matemática 100</h1>
+        <p class="subtitle">Selecciona un piso para comenzar. La dificultad aumenta progresivamente.</p>
+        <div class="level-container" id="level-grid"></div>
+    </div>
+
+    <div id="quiz-screen">
+        <div class="hud">
+            <span id="lvl-display">Nivel 1</span>
+            <span id="score-display">Puntos: 0</span>
+        </div>
+        <div class="q-box" id="question-text">Cargando...</div>
+        <div class="options-grid" id="options-box"></div>
+        <div id="msg-box" style="margin-top:20px; font-weight:bold; height:20px;"></div>
+        <button onclick="location.reload()" style="margin-top:30px; padding:10px 20px; cursor:pointer;">Salir al Menú</button>
+    </div>
+</div>
+
+<script>
+    // --- MOTOR GENERATIVO DE PROBLEMAS ---
+    
+    // Utilidad: Número aleatorio entre min y max
+    const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+    // Utilidad: Elegir item aleatorio de array
+    const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+    function generateProblem(level) {
+        let q, ans, topic;
+        
+        // --- ZONA 1: FUNDAMENTOS (Niveles 1-20) ---
+        if (level <= 20) {
+            let max = level * 5; // Los números crecen con el nivel
+            let type = rand(1, 4); // 1:Suma, 2:Resta, 3:Mult, 4:Ec.Simple
+            
+            if (level < 5) type = 1; // Solo sumas al inicio
+            
+            if (type === 1) { // Suma
+                let a = rand(1, max), b = rand(1, max);
+                q = `$${a} + ${b} = ?$`; ans = a + b; topic = "Aritmética";
+            } else if (type === 2) { // Resta
+                let a = rand(max/2, max), b = rand(1, a);
+                q = `$${a} - ${b} = ?$`; ans = a - b; topic = "Aritmética";
+            } else if (type === 3) { // Multiplicación
+                let a = rand(2, 9 + Math.floor(level/2)), b = rand(2, 9);
+                q = `$${a} \\times ${b} = ?$`; ans = a * b; topic = "Aritmética";
+            } else { // Ecuación simple x + a = b
+                let x = rand(1, 12), a = rand(1, 20);
+                let b = x + a;
+                q = `Halla $x$: $x + ${a} = ${b}$`; ans = x; topic = "Álgebra Básica";
+            }
+        }
+        
+        // --- ZONA 2: ÁLGEBRA Y GEOMETRÍA BÁSICA (Niveles 21-50) ---
+        else if (level <= 50) {
+            let type = rand(1, 4);
+            if (type === 1) { // Ecuación ax + b = c
+                let x = rand(1, 10), a = rand(2, 5), b = rand(1, 20);
+                let c = a * x + b;
+                q = `Resuelve: $${a}x + ${b} = ${c}$`; ans = x; topic = "Álgebra";
+            } else if (type === 2) { // Área Cuadrado/Rectángulo
+                let w = rand(2, 10), h = rand(2, 10);
+                q = `Área de un rectángulo de ${w}m $\\times$ ${h}m:`; ans = w * h; topic = "Geometría";
+            } else if (type === 3) { // Potencias
+                let base = rand(2, 5), exp = rand(2, 3);
+                q = `Calcula: $${base}^{${exp}}$`; ans = Math.pow(base, exp); topic = "Aritmética";
+            } else { // Porcentajes
+                let p = pick([10, 20, 25, 50]);
+                let num = rand(1, 20) * 10;
+                q = `${p}% de ${num}`; ans = (num * p) / 100; topic = "Estadística";
+            }
+        }
+        
+        // --- ZONA 3: GEOMETRÍA AVANZADA Y TRIGONOMETRÍA (Niveles 51-80) ---
+        else if (level <= 80) {
+            let type = rand(1, 4);
+            if (type === 1) { // Pitágoras
+                let c1 = rand(3, 8), c2 = rand(3, 8);
+                // Truco: buscar triplete pitagórico simple a veces
+                if(Math.random() > 0.5) { c1=3; c2=4; } 
+                else if(Math.random() > 0.5) { c1=6; c2=8; }
+                
+                let h = Math.sqrt(c1*c1 + c2*c2);
+                if (Number.isInteger(h)) {
+                    q = `Triángulo rectángulo catetos ${c1} y ${c2}. Hipotenusa:`; ans = h;
+                } else {
+                    q = `Hipotenusa al cuadrado ($h^2$) si catetos son ${c1} y ${c2}:`; ans = c1*c1 + c2*c2;
+                }
+                topic = "Geometría";
+            } else if (type === 2) { // Ángulos Triángulo
+                let a1 = rand(30, 80), a2 = rand(30, 80);
+                q = `En un triángulo, dos ángulos miden ${a1}° y ${a2}°. ¿El tercero mide?`; ans = 180 - a1 - a2; topic = "Geometría";
+            } else if (type === 3) { // Trigonometría Básica
+                let deg = pick([0, 90, 180]);
+                let func = pick(["\\sin", "\\cos"]);
+                q = `Valor de $${func}(${deg}^\\circ)$`;
+                if(func == "\\sin") ans = Math.sin(deg * Math.PI/180);
+                else ans = Math.cos(deg * Math.PI/180);
+                ans = Math.round(ans); // Simplificar para 0, 1, -1
+                topic = "Trigonometría";
+            } else { // Sistemas 2x2 simple (x+y=A, x-y=B)
+                let x = rand(2, 10), y = rand(1, x-1);
+                q = `Sistema: <br>$x+y=${x+y}$<br>$x-y=${x-y}$<br>Halla $x$:`; ans = x; topic = "Álgebra";
+            }
+        }
+        
+        // --- ZONA 4: PRE-CÁLCULO Y ESTADÍSTICA (Niveles 81-100) ---
+        else {
+            let type = rand(1, 3);
+            if (type === 1) { // Derivada Polinomio Simple (nx^n-1)
+                let n = rand(2, 4);
+                q = `La derivada de $f(x) = x^${n}$ evaluada en $x=1$:`; 
+                ans = n; // nx^(n-1) -> n(1) = n
+                topic = "Cálculo";
+            } else if (type === 2) { // Factorial
+                let n = rand(3, 5);
+                q = `Calcula $${n}!$`;
+                const fact = num => num <= 1 ? 1 : num * fact(num - 1);
+                ans = fact(n);
+                topic = "Probabilidad";
+            } else { // Logaritmos
+                let bases = [2, 10];
+                let b = pick(bases);
+                let x = rand(1, 3);
+                let val = Math.pow(b, x);
+                q = `$\\log_{${b}}(${val}) = ?$`; ans = x; topic = "Álgebra";
+            }
+        }
+
+        // Generar distractores inteligentes
+        let options = new Set();
+        options.add(ans);
+        while(options.size < 4) {
+            let offset = rand(-5, 5);
+            if(offset !== 0) {
+                // A veces sumar offset, a veces multiplicar (para variar errores)
+                let fake = Math.random() > 0.7 ? ans * rand(2,3) : ans + offset; 
+                // Evitar negativos en geometría básica si la respuesta es positiva
+                if (ans > 0 && fake < 0) fake = Math.abs(fake); 
+                options.add(parseFloat(fake.toFixed(2))); // Redondear decimales
+            }
+        }
+        
+        return {
+            q: q,
+            options: Array.from(options).sort(() => Math.random() - 0.5), // Barajar
+            ans: ans,
+            topic: topic
+        };
+    }
+
+    // --- LÓGICA DE JUEGO ---
+    let currentLevel = 1;
+    let score = 0;
+    let questionCount = 0;
+    const TOTAL_Q_PER_LEVEL = 10; // 10 preguntas por nivel
+
+    // Inicializar Grid
+    const levelGrid = document.getElementById('level-grid');
+    for (let i = 1; i <= 100; i++) {
+        let btn = document.createElement('button');
+        btn.className = 'lvl-btn';
+        btn.innerText = i;
+        btn.title = "Nivel " + i;
+        btn.onclick = () => startLevel(i);
+        levelGrid.appendChild(btn);
+    }
+
+    function startLevel(lvl) {
+        currentLevel = lvl;
+        score = 0;
+        questionCount = 0;
+        
+        document.getElementById('menu-screen').style.display = 'none';
+        document.getElementById('quiz-screen').style.display = 'block';
+        document.getElementById('lvl-display').innerText = `Nivel ${lvl}`;
+        
+        nextQuestion();
+    }
+
+    function nextQuestion() {
+        if (questionCount >= TOTAL_Q_PER_LEVEL) {
+            finishLevel();
+            return;
+        }
+        
+        const data = generateProblem(currentLevel);
+        const qText = document.getElementById('question-text');
+        const optsBox = document.getElementById('options-box');
+        const msg = document.getElementById('msg-box');
+        
+        msg.innerText = "";
+        qText.innerHTML = `<small style="color:#aaa; font-size:0.6em; text-transform:uppercase">${data.topic}</small><br>${data.q}`;
+        optsBox.innerHTML = "";
+        
+        data.options.forEach(opt => {
+            let btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerHTML = opt; // Puede contener LaTeX? No usualmente en respuestas simples, pero se podría.
+            btn.onclick = () => {
+                // Bloquear botones
+                Array.from(optsBox.children).forEach(b => b.disabled = true);
+                
+                if (Math.abs(opt - data.ans) < 0.01) { // Comparación segura para floats
+                    btn.classList.add('correct');
+                    score += 10;
+                    msg.innerHTML = "<span style='color:var(--success)'>¡Correcto!</span>";
+                } else {
+                    btn.classList.add('wrong');
+                    // Buscar la correcta para resaltarla
+                    Array.from(optsBox.children).forEach(b => {
+                        if(Math.abs(parseFloat(b.innerText) - data.ans) < 0.01) b.classList.add('correct');
+                    });
+                    msg.innerHTML = "<span style='color:var(--danger)'>Incorrecto</span>";
+                }
+                
+                document.getElementById('score-display').innerText = `Puntos: ${score}`;
+                questionCount++;
+                setTimeout(nextQuestion, 1500); // Esperar 1.5s antes de la siguiente
+            };
+            optsBox.appendChild(btn);
+        });
+
+        if(window.MathJax) MathJax.typesetPromise();
+    }
+
+    function finishLevel() {
+        const passed = score >= 60;
+        document.getElementById('question-text').innerHTML = passed 
+            ? `<h2 style="color:var(--success)">¡Nivel ${currentLevel} Superado!</h2>Puntaje: ${score}/100` 
+            : `<h2 style="color:var(--danger)">Inténtalo de nuevo</h2>Puntaje: ${score}/100`;
+            
+        document.getElementById('options-box').innerHTML = `
+            <button class="opt-btn" onclick="location.reload()">Volver al Mapa</button>
+            ${passed && currentLevel < 100 ? `<button class="opt-btn" onclick="startLevel(${currentLevel+1})">Siguiente Nivel</button>` : ''}
+            ${!passed ? `<button class="opt-btn" onclick="startLevel(${currentLevel})">Reintentar</button>` : ''}
+        `;
+        document.getElementById('msg-box').innerText = "";
+    }
+</script>
+
+</body>
+</html>
