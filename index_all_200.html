@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matemáticas 20 Niveles - Con Retroalimentación</title>
+    <style>
+        :root {
+            --primary: #4834d4; /* Azul profundo */
+            --secondary: #686de0;
+            --success: #6ab04c; /* Verde */
+            --error: #eb4d4b;   /* Rojo */
+            --warning: #f0932b; /* Naranja para explicación */
+            --bg: #f1f2f6;
+            --text: #2f3542;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 850px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        h1 { text-align: center; color: var(--primary); margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #747d8c; font-size: 0.9rem; margin-bottom: 30px; }
+
+        /* --- GRID DE 20 NIVELES --- */
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .lvl-btn {
+            background: white;
+            border: 2px solid #dfe4ea;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .lvl-btn:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(72, 52, 212, 0.15); }
+        .lvl-btn h3 { margin: 0; font-size: 1.5rem; color: var(--primary); }
+        .lvl-btn span { font-size: 0.8rem; color: #a4b0be; text-transform: uppercase; font-weight: bold; }
+
+        /* --- INTERFAZ DEL QUIZ --- */
+        #quiz-interface { display: none; animation: fadeIn 0.3s ease; }
+        
+        .progress-bar {
+            height: 6px;
+            background: #dfe4ea;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .progress-fill { height: 100%; background: var(--success); width: 0%; transition: width 0.3s; }
+
+        .question-card {
+            background: #fdfdfd;
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+
+        .options-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        @media (max-width: 600px) { .options-container { grid-template-columns: 1fr; } }
+
+        .opt-btn {
+            padding: 15px;
+            font-size: 1rem;
+            border: 2px solid #f1f2f6;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.2s;
+            font-weight: 500;
+            color: #57606f;
+        }
+        .opt-btn:hover:not(:disabled) { border-color: var(--secondary); background: #f8f9ff; }
+
+        .correct { background: var(--success) !important; color: white !important; border-color: var(--success) !important; }
+        .wrong { background: var(--error) !important; color: white !important; border-color: var(--error) !important; }
+
+        /* --- EXPLICACIÓN (Oculta por defecto) --- */
+        #explanation-box {
+            display: none; /* CLAVE: Oculto inicialmente */
+            margin-top: 20px;
+            background: #fff5e6; /* Fondo naranja muy suave */
+            border: 2px solid #ffeaa7;
+            padding: 20px;
+            border-radius: 10px;
+            color: #d35400;
+        }
+        #explanation-box h4 { margin: 0 0 10px 0; display: flex; align-items: center; gap: 10px; }
+
+        .controls { margin-top: 20px; display: flex; justify-content: flex-end; }
+        .btn-next {
+            background: var(--primary); color: white; border: none; padding: 12px 30px;
+            border-radius: 8px; font-weight: bold; cursor: pointer; display: none; font-size: 1rem;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>window.MathJax = { tex: { inlineMath: [['$', '$']] } };</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div id="level-screen">
+        <h1>Academia Matemática Real</h1>
+        <p class="subtitle">20 Niveles de Dificultad Progresiva. Resuelve problemas y aprende de tus errores.</p>
+        <div class="level-grid" id="grid">
+            </div>
+    </div>
+
+    <div id="quiz-interface">
+        <button onclick="location.reload()" style="background:none; border:none; color:#747d8c; cursor:pointer; margin-bottom:10px">← Volver al Menú</button>
+        <div class="progress-bar"><div class="progress-fill" id="prog-bar"></div></div>
+        
+        <div class="question-card">
+            <small style="color:#a4b0be; text-transform:uppercase; font-weight:bold; letter-spacing:1px" id="q-topic">TEMA</small>
+            <div id="q-text" style="margin-top:10px">Cargando pregunta...</div>
+        </div>
+
+        <div class="options-container" id="opts"></div>
+
+        <div id="explanation-box">
+            <h4>💡 ¿Por qué esa no es la respuesta?</h4>
+            <div id="expl-text"></div>
+        </div>
+
+        <div class="controls">
+            <button class="btn-next" id="next-btn" onclick="nextQuestion()">Siguiente Pregunta ➜</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* --- MOTOR GENERADOR DE PROBLEMAS CONTEXTUALIZADOS --- 
+       En lugar de escribir 100 problemas a mano, usamos plantillas inteligentes
+       que generan problemas únicos con sus explicaciones matemáticas exactas.
+    */
+
+    const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+    // Genera una pregunta basada en la dificultad (1-20)
+    function generateQuestion(level) {
+        let q = {}, price, discount, tax, amount, time, rate, a, b, c;
+
+        // --- BLOQUE 1: FINANZAS BÁSICAS (Niveles 1-5) ---
+        if (level <= 5) {
+            let type = rand(1, 4);
+            if (type === 1) { // Compras con devuelta
+                price = rand(10, 50) * 100; // Ej: 2500
+                let pay = Math.ceil(price / 1000) * 1000 + rand(1,5)*1000;
+                q.text = `En la tienda escolar, compras una merienda por $${price} pesos. Si pagas con un billete de $${pay}, ¿cuánto te sobra?`;
+                q.ans = pay - price;
+                q.topic = "Finanzas Diarias";
+                q.expl = `Debes restar el costo del producto al dinero que entregaste:<br> $${pay} - ${price} = ${q.ans}$.`;
+            } else if (type === 2) { // Descuentos simples
+                price = rand(2, 10) * 10000; // Ej: 40000
+                discount = rand(1, 4) * 10; // 10%, 20%...
+                q.text = `Unos tenis cuestan $${price}, pero hoy tienen el ${discount}% de descuento. ¿Cuánto valen ahora?`;
+                q.ans = price * (1 - discount/100);
+                q.topic = "Porcentajes";
+                q.expl = `Primero calcula el descuento: $${discount}\\%$ de $${price}$ es $${price * discount/100}$.<br>Luego réstalo al original: $${price} - ${price * discount/100} = ${q.ans}$.`;
+            } else if (type === 3) { // Cantidad por Precio
+                let units = rand(3, 8);
+                let unitPrice = rand(15, 45) * 100;
+                q.text = `Si un kilo de arroz vale $${unitPrice}, ¿cuánto valen ${units} kilos?`;
+                q.ans = units * unitPrice;
+                q.topic = "Aritmética";
+                q.expl = `Es una multiplicación simple: $${units} \\times ${unitPrice} = ${q.ans}$.`;
+            } else { // Tiempo
+                let start = rand(1, 5);
+                let duration = rand(2, 4);
+                q.text = `Sales de viaje a las ${start}:00 pm y el viaje dura ${duration} horas. ¿A qué hora llegas?`;
+                q.ans = start + duration; 
+                q.text = q.text.replace("?", " (formato militar 24h)?"); // Ajuste texto
+                q.ans = 12 + start + duration; // Convertir a tarde
+                q.topic = "Tiempo";
+                q.expl = `Si sales a las ${start} pm son las ${12+start} horas. Sumas ${duration}: ${12+start} + ${duration} = ${q.ans} horas.`;
+            }
+        }
+
+        // --- BLOQUE 2: PROPORCIONES Y GEOMETRÍA (Niveles 6-10) ---
+        else if (level <= 10) {
+            let type = rand(1, 4);
+            if (type === 1) { // Área Rectángulo (Terrenos)
+                let w = rand(5, 15), h = rand(10, 20);
+                q.text = `Un lote rectangular mide ${w}m de frente por ${h}m de fondo. ¿Cuál es su área?`;
+                q.ans = w * h;
+                q.topic = "Geometría (Área)";
+                q.expl = `El área de un rectángulo es base por altura: $A = ${w} \\times ${h} = ${q.ans} m^2$.`;
+            } else if (type === 2) { // Regla de tres (Recetas/Mapas)
+                let baseUnits = rand(2, 5);
+                let baseReq = rand(100, 300);
+                let targetUnits = baseUnits * rand(2, 4);
+                q.text = `Para hacer ${baseUnits} arepas necesitas ${baseReq}g de queso. Para hacer ${targetUnits} arepas, necesitas:`;
+                q.ans = (baseReq / baseUnits) * targetUnits;
+                q.topic = "Proporciones";
+                q.expl = `Primero halla cuánto queso requiere 1 arepa: $${baseReq} / ${baseUnits} = ${baseReq/baseUnits}g$.<br>Luego multiplica por las arepas deseadas: $${baseReq/baseUnits} \\times ${targetUnits} = ${q.ans}$.`;
+            } else if (type === 3) { // Perímetro (Cercas)
+                let l = rand(10, 50);
+                q.text = `Se quiere cercar un corral cuadrado de ${l} metros de lado. ¿Cuántos metros de alambre se necesitan para una vuelta?`;
+                q.ans = l * 4;
+                q.topic = "Perímetro";
+                q.expl = `Un cuadrado tiene 4 lados iguales. Perímetro = $4 \\times ${l} = ${q.ans}$.`;
+            } else { // Velocidad
+                let d = rand(100, 300);
+                let t = rand(2, 5);
+                q.text = `Un bus viaja de Bogotá a Tunja recorriendo ${d} km en ${t} horas. Velocidad promedio:`;
+                q.ans = d / t;
+                q.topic = "Física Básica";
+                q.expl = `La fórmula es $v = d/t$.<br>$v = ${d} / ${t} = ${q.ans} km/h$.`;
+            }
+        }
+
+        // --- BLOQUE 3: ÁLGEBRA Y FINANZAS MEDIAS (Niveles 11-15) ---
+        else if (level <= 15) {
+            let type = rand(1, 4);
+            if (type === 1) { // IVA
+                let base = rand(5, 20) * 10000;
+                q.text = `Un electrodoméstico vale $${base} antes de IVA. Si el IVA es 19%, ¿cuál es el precio final?`;
+                q.ans = base * 1.19;
+                q.topic = "Impuestos";
+                q.expl = `Calcula el 19% ($${base * 0.19}$) y súmalo, o multiplica directo por 1.19.<br>$${base} \\times 1.19 = ${q.ans}$.`;
+            } else if (type === 2) { // Pitágoras (Escaleras/Postes)
+                let c1 = rand(3, 9); 
+                let c2 = rand(4, 12);
+                let h = Math.sqrt(c1*c1 + c2*c2);
+                q.text = `Una escalera se apoya en una pared. La base está a ${c1}m de la pared y la escalera llega a ${c2}m de altura. Longitud de la escalera ($\approx$):`;
+                q.ans = parseFloat(h.toFixed(1));
+                q.topic = "Teorema Pitágoras";
+                q.expl = `Hipotenusa al cuadrado = suma de catetos al cuadrado.<br>$h = \\sqrt{${c1}^2 + ${c2}^2} = \\sqrt{${c1*c1+c2*c2}} \\approx ${q.ans}$.`;
+            } else if (type === 3) { // Ecuación edad
+                let diff = rand(5, 20);
+                let sum = rand(40, 80);
+                // x + (x+diff) = sum -> 2x = sum - diff
+                if((sum - diff) % 2 !== 0) sum++; // Ajuste par
+                let x = (sum - diff) / 2;
+                q.text = `La suma de dos edades es ${sum}. Si una persona es ${diff} años mayor que la otra, ¿cuántos años tiene la menor?`;
+                q.ans = x;
+                q.topic = "Álgebra (Ecuaciones)";
+                q.expl = `Sea $x$ la menor. La mayor es $x + ${diff}$.<br>$x + (x + ${diff}) = ${sum} \\Rightarrow 2x = ${sum-diff} \\Rightarrow x = ${x}$.`;
+            } else { // Probabilidad Dados
+                q.text = `Al lanzar dos dados, ¿cuál es la probabilidad de que la suma sea 7?`;
+                q.ans = 16.6; // 6/36 = 16.66%
+                q.topic = "Probabilidad";
+                q.expl = `Hay 36 combinaciones totales. Las que suman 7 son: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1). Son 6 casos.<br>$P = 6/36 = 1/6 \\approx 16.6\\%$.`;
+                // Caso especial estático para simplificar generador
+            }
+        }
+
+        // --- BLOQUE 4: EXPERTO (Niveles 16-20) ---
+        else {
+            let type = rand(1, 3);
+            if (type === 1) { // Interés Compuesto (Gota a gota vs Banco)
+                let cap = 1000000;
+                let r = 10; // 10%
+                let t = 2; // años
+                q.text = `Inviertes $1.000.000 al 10% de interés compuesto anual. En 2 años tienes:`;
+                q.ans = 1210000;
+                q.topic = "Interés Compuesto";
+                q.expl = `Año 1: Ganas 100k, total 1.1M. Año 2: Ganas 10% de 1.1M (110k).<br>Total: $1.100.000 + 110.000 = 1.210.000$.`;
+            } else if (type === 2) { // Optimización (Volumen)
+                let side = rand(2, 6);
+                q.text = `Tienes un cubo de arista ${side}m. Si duplicas la longitud de sus lados, el volumen se multiplica por:`;
+                q.ans = 8;
+                q.topic = "Geometría 3D";
+                q.expl = `Volumen inicial $V = L^3$. Nuevo lado $2L$, volumen $(2L)^3 = 8L^3$.<br>El volumen crece 8 veces.`;
+            } else { // Trigonometría Sombra
+                let angle = 45;
+                let h = rand(10, 50);
+                q.text = `Un poste mide ${h}m. Si el sol está a 45° de elevación, ¿cuánto mide la sombra?`;
+                q.ans = h;
+                q.topic = "Trigonometría";
+                q.expl = `A 45°, el triángulo rectángulo es isósceles ($\tan(45)=1$).<br>Por tanto, la altura es igual a la base (sombra). Respuesta: ${h}m.`;
+            }
+        }
+
+        // Generar Opciones Incorrectas
+        let options = new Set();
+        options.add(q.ans); // Agregar correcta
+        while(options.size < 4) {
+            let fake;
+            if (Math.random() > 0.5) {
+                fake = q.ans + rand(1, 10) * (q.ans > 100 ? 10 : 1); // Error de suma
+            } else {
+                fake = q.ans * (rand(5, 15)/10); // Error de multiplicación
+            }
+            fake = parseFloat(fake.toFixed(1)); // Redondear
+            if(fake > 0 && fake !== q.ans) options.add(fake);
+        }
+
+        return {
+            q: q.text,
+            options: Array.from(options).sort(() => Math.random() - 0.5),
+            ans: q.ans,
+            topic: q.topic,
+            expl: q.expl
+        };
+    }
+
+    // --- LÓGICA DE LA INTERFAZ ---
+    const grid = document.getElementById('grid');
+    const levelScreen = document.getElementById('level-screen');
+    const quizInterface = document.getElementById('quiz-interface');
+    
+    // Variables de Estado
+    let currentLevel = 1;
+    let questionsSolved = 0;
+    const TOTAL_Q = 5; // 5 preguntas por nivel x 20 niveles = 100 preguntas
+    let currentQuestionData = null;
+
+    // Crear botones de los 20 niveles
+    for (let i = 1; i <= 20; i++) {
+        let btn = document.createElement('div');
+        btn.className = 'lvl-btn';
+        let difficulty = i <= 5 ? "Básico" : i <= 10 ? "Intermedio" : i <= 15 ? "Avanzado" : "Experto";
+        btn.innerHTML = `<h3>${i}</h3><span>${difficulty}</span>`;
+        btn.onclick = () => startLevel(i);
+        grid.appendChild(btn);
+    }
+
+    function startLevel(lvl) {
+        currentLevel = lvl;
+        questionsSolved = 0;
+        levelScreen.style.display = 'none';
+        quizInterface.style.display = 'block';
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        if (questionsSolved >= TOTAL_Q) {
+            alert(`¡Nivel ${currentLevel} completado!`);
+            location.reload();
+            return;
+        }
+
+        // Actualizar barra de progreso
+        let pct = (questionsSolved / TOTAL_Q) * 100;
+        document.getElementById('prog-bar').style.width = pct + '%';
+
+        // Ocultar explicación y botón siguiente
+        document.getElementById('explanation-box').style.display = 'none';
+        document.getElementById('next-btn').style.display = 'none';
+
+        // Generar Datos
+        currentQuestionData = generateQuestion(currentLevel);
+
+        // Renderizar
+        document.getElementById('q-topic').innerText = currentQuestionData.topic;
+        document.getElementById('q-text').innerHTML = currentQuestionData.q;
+        
+        const optsDiv = document.getElementById('opts');
+        optsDiv.innerHTML = "";
+
+        currentQuestionData.options.forEach(opt => {
+            let btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            
+            // Formatear si parece dinero
+            let txt = opt;
+            if (currentQuestionData.topic.includes("Finanza") || currentQuestionData.topic.includes("Impuesto") || currentQuestionData.topic.includes("Interés")) {
+                txt = "$ " + opt.toLocaleString();
+            }
+            
+            btn.innerHTML = txt;
+            btn.onclick = () => checkAnswer(opt, btn);
+            optsDiv.appendChild(btn);
+        });
+
+        if(window.MathJax) MathJax.typesetPromise();
+    }
+
+    function checkAnswer(selectedVal, btnElem) {
+        // Bloquear todos los botones
+        let allBtns = document.querySelectorAll('.opt-btn');
+        allBtns.forEach(b => b.disabled = true);
+
+        let isCorrect = Math.abs(selectedVal - currentQuestionData.ans) < 0.1; // Tolerancia decimal pequeña
+
+        if (isCorrect) {
+            btnElem.classList.add('correct');
+            // Si es correcto, NO mostramos la explicación (feedback solo en error)
+        } else {
+            btnElem.classList.add('wrong');
+            // Buscamos la correcta para resaltarla también
+            allBtns.forEach(b => {
+                // Quitamos el signo $ y comas para comparar si es dinero
+                let val = parseFloat(b.innerText.replace('$','').replace(/,/g,'').trim());
+                if (Math.abs(val - currentQuestionData.ans) < 0.1) b.classList.add('correct');
+            });
+            
+            // MOSTRAR EXPLICACIÓN (Solo aquí)
+            let explBox = document.getElementById('explanation-box');
+            document.getElementById('expl-text').innerHTML = currentQuestionData.expl;
+            explBox.style.display = 'block'; // Hacer visible
+            if(window.MathJax) MathJax.typesetPromise();
+        }
+
+        document.getElementById('next-btn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+        questionsSolved++;
+        loadQuestion();
+    }
+
+</script>
+
+</body>
+</html>
