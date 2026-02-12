@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco Grado 9° - Completo 2026</title>
+    <style>
+        :root {
+            --primary: #1e293b;
+            --secondary: #6366f1; /* Índigo */
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #334155;
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0; padding: 20px;
+            display: flex; justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            background: var(--card);
+            width: 100%; max-width: 1000px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            padding: 30px; display: flex; flex-direction: column;
+        }
+
+        h1 { text-align: center; color: var(--primary); margin: 0 0 10px 0; font-weight: 800; letter-spacing: -0.5px; }
+        .subtitle { text-align: center; color: #64748b; margin-bottom: 30px; font-size: 1rem; }
+
+        /* TABS DE TEMAS */
+        .nav-scroller {
+            display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 20px;
+            scrollbar-width: thin; justify-content: flex-start; /* Alineado izq para scroll */
+        }
+        @media(min-width: 768px) { .nav-scroller { justify-content: center; } }
+        
+        .tab-btn {
+            background: white; border: 2px solid #e2e8f0; padding: 10px 20px;
+            border-radius: 20px; font-weight: 600; color: #64748b; cursor: pointer;
+            transition: all 0.2s; white-space: nowrap; flex-shrink: 0;
+        }
+        .tab-btn:hover { border-color: var(--secondary); color: var(--secondary); }
+        .tab-btn.active { background: var(--secondary); color: white; border-color: var(--secondary); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+
+        /* GRID PREGUNTAS */
+        .grid-layout {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px;
+        }
+
+        .q-card {
+            background: white; border: 1px solid #e2e8f0; border-radius: 12px;
+            padding: 20px 15px; text-align: center; cursor: pointer;
+            transition: 0.2s; position: relative; overflow: hidden;
+        }
+        .q-card:hover { transform: translateY(-3px); border-color: var(--secondary); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        
+        .diff-label {
+            display: inline-block; font-size: 0.7rem; font-weight: 800;
+            text-transform: uppercase; padding: 4px 8px; border-radius: 6px;
+            margin-top: 10px; color: white; letter-spacing: 0.5px;
+        }
+        .easy { background: var(--green); }
+        .med { background: var(--yellow); }
+        .hard { background: var(--red); }
+
+        /* MODAL QUIZ */
+        #quiz-modal { display: none; }
+
+        .quiz-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;
+        }
+        .btn-back {
+            background: none; border: none; font-weight: 700; color: #9ca3af;
+            cursor: pointer; display: flex; align-items: center; gap: 5px;
+        }
+        .btn-back:hover { color: var(--primary); }
+
+        .problem-statement {
+            font-size: 1.35rem; line-height: 1.5; margin-bottom: 30px;
+            color: var(--primary); font-weight: 500;
+        }
+
+        .options-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        @media(max-width: 600px) { .options-container { grid-template-columns: 1fr; } }
+
+        .btn-opt {
+            padding: 18px; background: #f8fafc; border: 2px solid #f1f5f9;
+            border-radius: 10px; text-align: left; font-size: 1.1rem;
+            cursor: pointer; transition: 0.2s; color: var(--text);
+        }
+        .btn-opt:hover { background: white; border-color: var(--secondary); }
+        .btn-opt.correct { background: #d1fae5; border-color: #10b981; color: #065f46; }
+        .btn-opt.wrong { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
+
+        .explanation {
+            margin-top: 25px; padding: 20px; background: #fffbeb;
+            border-left: 5px solid #fbbf24; border-radius: 8px;
+            color: #92400e; display: none; line-height: 1.6;
+        }
+
+        mjx-container { font-size: 115% !important; }
+    </style>
+    <script>window.MathJax = { tex: { inlineMath: [['$', '$']] } };</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<div class="app-container">
+    <h1>Banco Matemático 9°</h1>
+    <p class="subtitle">Incluye: Complejos, Lineal, Cuadrática, Sistemas, Sucesiones, Exp/Log y Probabilidad.</p>
+
+    <div class="nav-scroller" id="nav"></div>
+
+    <div id="grid-view">
+        <div class="grid-layout" id="grid"></div>
+    </div>
+
+    <div id="quiz-modal">
+        <div class="quiz-header">
+            <button class="btn-back" onclick="closeQuiz()">← Regresar</button>
+            <span id="diff-indicator" class="diff-label easy">Fácil</span>
+        </div>
+
+        <div class="problem-statement" id="p-text"></div>
+        <div class="options-container" id="p-opts"></div>
+        <div class="explanation" id="p-expl"></div>
+    </div>
+</div>
+
+<script>
+    /* BASE DE DATOS EXTENDIDA 2026 */
+    const db = {
+        "Exp y Log": [
+            // FÁCIL (Conceptos básicos y cálculo directo)
+            { 
+                q: "Resuelve la ecuación exponencial: $2^x = 32$.", 
+                opts: ["5", "4", "6", "16"], 
+                ans: 0, 
+                expl: "Descomponemos 32 en factores primos: $32 = 2^5$.<br>Entonces $2^x = 2^5 \\Rightarrow x=5$.", 
+                diff: "Fácil" 
+            },
+            { 
+                q: "Calcula el logaritmo: $\\log_5(25)$.", 
+                opts: ["2", "5", "1", "0"], 
+                ans: 0, 
+                expl: "Buscamos el exponente al que hay que elevar 5 para que dé 25.<br>$5^2 = 25$, por tanto el logaritmo es 2.", 
+                diff: "Fácil" 
+            },
+            // MEDIO (Propiedades y ecuaciones simples)
+            { 
+                q: "Aplica propiedades: $\\log(4) + \\log(25)$ es igual a:", 
+                opts: ["log(100) = 2", "log(29)", "log(4/25)", "100"], 
+                ans: 0, 
+                expl: "Suma de logaritmos es el logaritmo del producto:<br>$\\log(4 \\cdot 25) = \\log(100) = 2$.", 
+                diff: "Medio" 
+            },
+            { 
+                q: "Resuelve la ecuación: $3^{x+1} = 81$.", 
+                opts: ["3", "4", "2", "27"], 
+                ans: 0, 
+                expl: "$81 = 3^4$.<br>Igualamos exponentes: $x+1 = 4 \\Rightarrow x=3$.", 
+                diff: "Medio" 
+            },
+            // DIFÍCIL (Aplicaciones y despejes complejos)
+            { 
+                q: "Una población de bacterias se duplica cada hora. Si inicia con 100, ¿cuántas habrá en 5 horas?", 
+                opts: ["3200", "1600", "500", "1000"], 
+                ans: 0, 
+                expl: "Función: $P(t) = 100 \\cdot 2^t$.<br>$P(5) = 100 \\cdot 2^5 = 100 \\cdot 32 = 3200$.", 
+                diff: "Difícil" 
+            },
+            { 
+                q: "Si $f(x) = \\log_2(x)$, calcula $f(8) + f(4)$.", 
+                opts: ["5", "32", "12", "6"], 
+                ans: 0, 
+                expl: "$f(8) = \\log_2(8) = 3$.<br>$f(4) = \\log_2(4) = 2$.<br>Suma: $3+2=5$.", 
+                diff: "Difícil" 
+            }
+        ],
+        "Probabilidad": [
+            // FÁCIL (Eventos simples)
+            { 
+                q: "Lanzar un dado: Probabilidad de obtener un número impar.", 
+                opts: ["50% (3/6)", "16% (1/6)", "33% (2/6)", "100%"], 
+                ans: 0, 
+                expl: "Impares: {1, 3, 5}. Total: {1, 2, 3, 4, 5, 6}.<br>$3/6 = 1/2 = 50\\%$.", 
+                diff: "Fácil" 
+            },
+            { 
+                q: "En una bolsa hay 3 bolas rojas y 7 verdes. Probabilidad de sacar roja.", 
+                opts: ["3/10", "7/10", "1/3", "30%"], 
+                ans: 0, 
+                expl: "Favorables: 3. Totales: $3+7=10$.<br>Probabilidad: $3/10$.", 
+                diff: "Fácil" 
+            },
+            // MEDIO (Eventos independientes y conteo básico)
+            { 
+                q: "Lanzamos una moneda y un dado. Probabilidad de (Cara y 6).", 
+                opts: ["1/12", "1/6", "1/2", "1/8"], 
+                ans: 0, 
+                expl: "P(Cara) = 1/2. P(6) = 1/6.<br>Eventos independientes: $1/2 \\cdot 1/6 = 1/12$.", 
+                diff: "Medio" 
+            },
+            { 
+                q: "¿Cuántos números de 2 cifras diferentes se pueden formar con {1, 2, 3}?", 
+                opts: ["6", "9", "3", "5"], 
+                ans: 0, 
+                expl: "Para la primera cifra tengo 3 opciones, para la segunda 2.<br>$3 \\cdot 2 = 6$. (12, 13, 21, 23, 31, 32).", 
+                diff: "Medio" 
+            },
+            // DIFÍCIL (Combinatoria y eventos dependientes)
+            { 
+                q: "En un grupo de 5 estudiantes, se eligen 2 para un comité. ¿Cuántas parejas posibles hay?", 
+                opts: ["10", "20", "5", "25"], 
+                ans: 0, 
+                expl: "Es una Combinación (orden no importa).<br>$C(5,2) = (5 \\cdot 4) / 2 = 10$.", 
+                diff: "Difícil" 
+            },
+            { 
+                q: "Probabilidad de sacar 2 ases seguidos de una baraja (sin reposición, total 52 cartas, 4 ases).", 
+                opts: ["4/52 * 3/51", "4/52 * 4/52", "1/13 * 1/13", "8/52"], 
+                ans: 0, 
+                expl: "Primera carta: 4/52. Segunda carta (quedan 3 ases y 51 cartas): 3/51.<br>Multiplicación: $12/2652$.", 
+                diff: "Difícil" 
+            }
+        ],
+        "Complejos": [
+            { q: "Calcula $\\sqrt{-36}$.", opts: ["6i", "-6", "6", "-6i"], ans: 0, expl: "$\\sqrt{36} \\cdot \\sqrt{-1} = 6i$.", diff: "Fácil" },
+            { q: "Suma $(2+3i) + (4-i)$.", opts: ["6 + 2i", "6 + 4i", "2 + 2i", "8 - 3i"], ans: 0, expl: "$2+4=6$. $3i-i=2i$.", diff: "Fácil" },
+            { q: "Multiplica $(2i)(5i)$.", opts: ["-10", "10i", "10", "-10i"], ans: 0, expl: "$10 \\cdot i^2 = 10(-1) = -10$.", diff: "Medio" },
+            { q: "Conjugado de $-3 - 4i$.", opts: ["-3 + 4i", "3 - 4i", "3 + 4i", "-3 - 4i"], ans: 0, expl: "Cambia signo imaginario: $-3 + 4i$.", diff: "Medio" },
+            { q: "Norma de $3 + 4i$.", opts: ["5", "7", "25", "12"], ans: 0, expl: "$\\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$.", diff: "Difícil" },
+            { q: "Calcula $i^{21}$.", opts: ["i", "-i", "1", "-1"], ans: 0, expl: "$21 \\div 4 = 5$ residuo 1. $i^1 = i$.", diff: "Difícil" }
+        ],
+        "Recta y Lineal": [
+            { q: "Pendiente de $y = 5x - 2$.", opts: ["5", "-2", "2", "x"], ans: 0, expl: "Forma $y=mx+b$. $m=5$.", diff: "Fácil" },
+            { q: "Corte con eje Y de $f(x) = 2x + 4$.", opts: ["4", "2", "0", "-2"], ans: 0, expl: "Si $x=0, y=4$.", diff: "Fácil" },
+            { q: "Pendiente entre (1,1) y (2,3).", opts: ["2", "1", "3", "0.5"], ans: 0, expl: "$(3-1)/(2-1) = 2/1 = 2$.", diff: "Medio" },
+            { q: "Ecuación recta pendiente 2 pasa por (0,3).", opts: ["y = 2x + 3", "y = 3x + 2", "y = 2x", "y = x + 3"], ans: 0, expl: "$b=3$ (corte Y). $y = 2x + 3$.", diff: "Medio" },
+            { q: "Recta perpendicular a $y = 2x$. Pendiente es:", opts: ["-1/2", "2", "-2", "1/2"], ans: 0, expl: "Producto debe ser -1. $2 \\cdot m = -1 \\Rightarrow m = -1/2$.", diff: "Difícil" },
+            { q: "Halla $x$ si los puntos (1,2), (2,4), (3,x) son colineales.", opts: ["6", "5", "8", "7"], ans: 0, expl: "Pendiente debe ser constante (2). Si $x=3, y=6$.", diff: "Difícil" }
+        ],
+        "Cuadrática": [
+            { q: "Soluciones de $x^2 = 49$.", opts: ["7 y -7", "49", "7", "0"], ans: 0, expl: "Raíz cuadrada de 49 es $\\pm 7$.", diff: "Fácil" },
+            { q: "Vértice X de $y = (x-3)^2 + 1$.", opts: ["3", "-3", "1", "-1"], ans: 0, expl: "Forma canónica: vértice en $(3, 1)$.", diff: "Fácil" },
+            { q: "Factoriza $x^2 + 4x + 3 = 0$.", opts: ["-3 y -1", "3 y 1", "-3 y 1", "3 y -1"], ans: 0, expl: "$(x+3)(x+1)=0$. Soluciones son -3 y -1.", diff: "Medio" },
+            { q: "Discriminante de $x^2 + 2x + 5 = 0$.", opts: ["-16 (Negativo)", "0", "16 (Positivo)", "4"], ans: 0, expl: "$b^2 - 4ac = 4 - 20 = -16$. Sin solución real.", diff: "Medio" },
+            { q: "Área máxima de rectángulo perímetro 20.", opts: ["25", "20", "24", "100"], ans: 0, expl: "Cuadrado de lado 5. $5 \\cdot 5 = 25$.", diff: "Difícil" },
+            { q: "Altura máx de $h(t) = -t^2 + 6t$.", opts: ["9", "6", "3", "12"], ans: 0, expl: "Vértice $t=3$. $h(3) = -9 + 18 = 9$.", diff: "Difícil" }
+        ],
+        "Sistemas 2x2": [
+            { q: "$x+y=8, x-y=2$. Halla $x$.", opts: ["5", "3", "4", "6"], ans: 0, expl: "$2x=10 \\Rightarrow x=5$.", diff: "Fácil" },
+            { q: "Si $x=2$ en $2x+y=10$, ¿$y$?", opts: ["6", "8", "4", "2"], ans: 0, expl: "$4+y=10 \\Rightarrow y=6$.", diff: "Fácil" },
+            { q: "3 lápices y 1 goma = 500. 1 lápiz = 100. ¿Goma?", opts: ["200", "100", "300", "150"], ans: 0, expl: "$3(100) + G = 500 \\Rightarrow G = 200$.", diff: "Medio" },
+            { q: "Sustitución: $y=2x, x+y=9$.", opts: ["x=3, y=6", "x=2, y=4", "x=4, y=5", "x=3, y=3"], ans: 0, expl: "$x+2x=9 \\Rightarrow 3x=9 \\Rightarrow x=3$.", diff: "Medio" },
+            { q: "Padre tiene doble edad que hijo. Suman 60.", opts: ["40 y 20", "30 y 30", "45 y 15", "50 y 10"], ans: 0, expl: "$P=2H, P+H=60 \\Rightarrow 3H=60 \\Rightarrow H=20$.", diff: "Difícil" },
+            { q: "2 números suman 50. El mayor excede al menor en 10.", opts: ["30 y 20", "25 y 25", "35 y 15", "40 y 10"], ans: 0, expl: "$x+y=50, x-y=10 \\Rightarrow 2x=60 \\Rightarrow x=30$.", diff: "Difícil" }
+        ],
+        "Sucesiones": [
+            { q: "Siguiente término: 5, 10, 15...", opts: ["20", "25", "16", "30"], ans: 0, expl: "Suma 5.", diff: "Fácil" },
+            { q: "Siguiente término: 2, 4, 8, 16...", opts: ["32", "24", "20", "64"], ans: 0, expl: "Multiplica por 2.", diff: "Fácil" },
+            { q: "Término 10 de $a_n = 2n$.", opts: ["20", "10", "12", "18"], ans: 0, expl: "$2 \\cdot 10 = 20$.", diff: "Medio" },
+            { q: "Suma 1+2+3+4+5.", opts: ["15", "10", "20", "12"], ans: 0, expl: "Cálculo directo.", diff: "Medio" },
+            { q: "Término 5 de $a_n = n^2 + 1$.", opts: ["26", "25", "24", "10"], ans: 0, expl: "$5^2 + 1 = 26$.", diff: "Difícil" },
+            { q: "Ahorras 100 hoy, 200 mañana, 400 pasado... (Geométrica). Día 5:", opts: ["1600", "800", "3200", "1000"], ans: 0, expl: "100, 200, 400, 800, 1600.", diff: "Difícil" }
+        ]
+    };
+
+    // --- LÓGICA DE INTERFAZ ---
+    const navScroller = document.getElementById('nav');
+    const gridEl = document.getElementById('grid');
+    const modal = document.getElementById('quiz-modal');
+    const gridView = document.getElementById('grid-view');
+    
+    let currentTopic = Object.keys(db)[0];
+
+    // Inicializar Tabs
+    Object.keys(db).forEach((topic, idx) => {
+        let btn = document.createElement('button');
+        btn.className = `tab-btn ${idx===0 ? 'active' : ''}`;
+        btn.innerText = topic;
+        btn.onclick = () => switchTab(topic, btn);
+        navScroller.appendChild(btn);
+    });
+
+    function switchTab(topic, btn) {
+        currentTopic = topic;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderGrid();
+    }
+
+    function renderGrid() {
+        gridEl.innerHTML = "";
+        const list = db[currentTopic];
+        
+        list.forEach((item, idx) => {
+            let card = document.createElement('div');
+            card.className = 'q-card';
+            let diffClass = item.diff === "Fácil" ? "easy" : item.diff === "Medio" ? "med" : "hard";
+            
+            card.innerHTML = `
+                <div style="font-weight:700; color:#334155; margin-bottom:5px">Problema ${idx+1}</div>
+                <div style="font-size:0.9rem; color:#64748b; height:40px; overflow:hidden;">
+                    ${item.q.replace(/<[^>]*>?/gm, '').substring(0, 50)}...
+                </div>
+                <span class="diff-label ${diffClass}">${item.diff}</span>
+            `;
+            card.onclick = () => openQuiz(idx);
+            gridEl.appendChild(card);
+        });
+        
+        if(window.MathJax) MathJax.typesetPromise();
+    }
+
+    function openQuiz(idx) {
+        const p = db[currentTopic][idx];
+        gridView.style.display = 'none';
+        modal.style.display = 'block';
+
+        let diffClass = p.diff === "Fácil" ? "easy" : p.diff === "Medio" ? "med" : "hard";
+        let badge = document.getElementById('diff-indicator');
+        badge.className = `diff-label ${diffClass}`;
+        badge.innerText = p.diff;
+
+        document.getElementById('p-text').innerHTML = p.q;
+        document.getElementById('p-expl').style.display = 'none';
+
+        const optsDiv = document.getElementById('p-opts');
+        optsDiv.innerHTML = "";
+        
+        let mixed = p.opts.map((txt, i) => ({txt, isCorrect: i === p.ans}));
+        mixed.sort(() => Math.random() - 0.5);
+
+        mixed.forEach(opt => {
+            let btn = document.createElement('button');
+            btn.className = 'btn-opt';
+            btn.innerHTML = opt.txt;
+            btn.onclick = () => {
+                document.querySelectorAll('.btn-opt').forEach(b => b.disabled = true);
+                if(opt.isCorrect) btn.classList.add('correct');
+                else btn.classList.add('wrong');
+                
+                document.getElementById('p-expl').style.display = 'block';
+                document.getElementById('p-expl').innerHTML = `<strong>Explicación:</strong><br>${p.expl}`;
+                if(window.MathJax) MathJax.typesetPromise();
+            };
+            optsDiv.appendChild(btn);
+        });
+
+        if(window.MathJax) MathJax.typesetPromise();
+    }
+
+    function closeQuiz() {
+        modal.style.display = 'none';
+        gridView.style.display = 'block';
+    }
+
+    renderGrid();
+
+</script>
+
+</body>
+</html>
