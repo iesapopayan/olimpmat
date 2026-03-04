@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco de Ejercicios: Sumatorias</title>
+    
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1, h2 {
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .formulas-base {
+            background-color: #eff6ff;
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 2rem;
+        }
+
+        .level-section {
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .exercise-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .exercise-number {
+            font-weight: bold;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .math-problem {
+            font-size: 1.25rem;
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .toggle-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+
+        .toggle-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        .explanation {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--border-color);
+            display: none;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Banco de Ejercicios: Sumatorias</h1>
+
+    <div class="formulas-base">
+        <h3>Fórmulas Base</h3>
+        <p><strong>Constante:</strong> $\sum_{i=1}^{n} c = c \cdot n$</p>
+        <p><strong>Producto por constante:</strong> $\sum_{i=1}^{n} c \cdot a_i = c \sum_{i=1}^{n} a_i$</p>
+        <p><strong>Suma/Resta:</strong> $\sum_{i=1}^{n} (a_i \pm b_i) = \sum_{i=1}^{n} a_i \pm \sum_{i=1}^{n} b_i$</p>
+        <p><strong>Exponente 1:</strong> $\sum_{i=1}^{n} i = \frac{n(n+1)}{2}$</p>
+        <p><strong>Exponente 2:</strong> $\sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6}$</p>
+        <p><strong>Exponente 3:</strong> $\sum_{i=1}^{n} i^3 = \left[\frac{n(n+1)}{2}\right]^2$</p>
+    </div>
+
+    <h2 class="level-section">Nivel 1: Propiedades Básicas (Constantes y Exponente 1)</h2>
+    <div class="grid-container">
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 1</span>
+            <div class="math-problem">$\sum_{i=1}^{5} 4$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Se aplica la propiedad de la sumatoria de una constante. Multiplicamos la constante por el límite superior: $4 \cdot 5 = 20$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 2</span>
+            <div class="math-problem">$\sum_{k=1}^{10} -3$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Propiedad de la constante con un número negativo: $-3 \cdot 10 = -30$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 3</span>
+            <div class="math-problem">$\sum_{j=1}^{6} 2j$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Se extrae la constante y se aplica la fórmula del exponente 1: $2 \sum_{j=1}^{6} j = 2 \cdot \left(\frac{6 \cdot 7}{2}\right) = 2 \cdot 21 = 42$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 4</span>
+            <div class="math-problem">$\sum_{i=1}^{8} \frac{1}{2}i$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Extraemos la fracción como constante: $\frac{1}{2} \cdot \left(\frac{8 \cdot 9}{2}\right) = \frac{1}{2} \cdot 36 = 18$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 5</span>
+            <div class="math-problem">$\sum_{n=1}^{5} (n + 3)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Separamos la sumatoria (propiedad de la suma) en $\sum n + \sum 3$. Aplicamos fórmulas: $\left(\frac{5 \cdot 6}{2}\right) + (3 \cdot 5) = 15 + 15 = 30$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 6</span>
+            <div class="math-problem">$\sum_{k=1}^{4} (3k - 2)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Separamos en resta y extraemos la constante: $3\sum k - \sum 2$. Evaluamos: $3\left(\frac{4 \cdot 5}{2}\right) - (2 \cdot 4) = 3(10) - 8 = 30 - 8 = 22$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 7</span>
+            <div class="math-problem">$\sum_{i=1}^{7} (5 - i)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Separamos en $\sum 5 - \sum i$. Evaluamos: $(5 \cdot 7) - \left(\frac{7 \cdot 8}{2}\right) = 35 - 28 = 7$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 8</span>
+            <div class="math-problem">$\sum_{j=1}^{10} (2j + 5)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">$2\sum j + \sum 5$. Evaluamos: $2\left(\frac{10 \cdot 11}{2}\right) + (5 \cdot 10) = 110 + 50 = 160$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 9</span>
+            <div class="math-problem">$\sum_{m=1}^{6} (4m - 10)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">$4\sum m - \sum 10$. Evaluamos: $4\left(\frac{6 \cdot 7}{2}\right) - (10 \cdot 6) = 4(21) - 60 = 84 - 60 = 24$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 10</span>
+            <div class="math-problem">$\sum_{i=1}^{12} (3i + 1)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">$3\sum i + \sum 1$. Evaluamos: $3\left(\frac{12 \cdot 13}{2}\right) + (1 \cdot 12) = 3(78) + 12 = 234 + 12 = 246$.</div>
+        </div>
+    </div>
+
+    <h2 class="level-section">Nivel 2: Incorporando Cuadrados (Exponente 2)</h2>
+    <div class="grid-container">
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 11</span>
+            <div class="math-problem">$\sum_{i=1}^{4} i^2$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Aplicación directa de la fórmula del exponente 2 para $n=4$: $\frac{4(4+1)(2(4)+1)}{6} = \frac{4 \cdot 5 \cdot 9}{6} = 30$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 12</span>
+            <div class="math-problem">$\sum_{k=1}^{5} 3k^2$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Extraemos la constante 3 y aplicamos la fórmula al cuadrado para $n=5$: $3 \cdot \left(\frac{5 \cdot 6 \cdot 11}{6}\right) = 3 \cdot 55 = 165$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 13</span>
+            <div class="math-problem">$\sum_{j=1}^{6} (j^2 + j)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Separamos en $\sum j^2 + \sum j$. Evaluamos ambas: $\left(\frac{6 \cdot 7 \cdot 13}{6}\right) + \left(\frac{6 \cdot 7}{2}\right) = 91 + 21 = 112$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 14</span>
+            <div class="math-problem">$\sum_{n=1}^{5} (2n^2 - n)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Separamos y extraemos constante: $2\sum n^2 - \sum n$. Evaluamos: $2\left(\frac{5 \cdot 6 \cdot 11}{6}\right) - \left(\frac{5 \cdot 6}{2}\right) = 2(55) - 15 = 110 - 15 = 95$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 15</span>
+            <div class="math-problem">$\sum_{i=1}^{4} (i^2 + 3)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Suma de una variable al cuadrado y una constante: $\sum i^2 + \sum 3$. Resulta en $\left(\frac{4 \cdot 5 \cdot 9}{6}\right) + (3 \cdot 4) = 30 + 12 = 42$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 16</span>
+            <div class="math-problem">$\sum_{k=1}^{5} (k^2 + 2k + 1)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Trinomio perfecto. Separamos en $\sum k^2 + 2\sum k + \sum 1$. Evaluamos: $\left(\frac{5 \cdot 6 \cdot 11}{6}\right) + 2\left(\frac{5 \cdot 6}{2}\right) + (1 \cdot 5) = 55 + 30 + 5 = 90$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 17</span>
+            <div class="math-problem">$\sum_{m=1}^{4} (3m^2 - 2m)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">$3\sum m^2 - 2\sum m$. Evaluamos: $3(30) - 2\left(\frac{4 \cdot 5}{2}\right) = 90 - 20 = 70$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 18</span>
+            <div class="math-problem">$\sum_{i=1}^{7} (i^2 - 4)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">$\sum i^2 - \sum 4$. Evaluamos para $n=7$: $\left(\frac{7 \cdot 8 \cdot 15}{6}\right) - (4 \cdot 7) = 140 - 28 = 112$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 19</span>
+            <div class="math-problem">$\sum_{j=1}^{5} (4j^2 - j + 2)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Aplicamos las tres reglas juntas: $4\sum j^2 - \sum j + \sum 2$. Evaluamos: $4(55) - 15 + 10 = 220 - 15 + 10 = 215$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 20</span>
+            <div class="math-problem">$\sum_{n=1}^{6} (n^2 + 5n - 3)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">$\sum n^2 + 5\sum n - \sum 3$. Evaluamos para $n=6$: $91 + 5(21) - (3 \cdot 6) = 91 + 105 - 18 = 178$.</div>
+        </div>
+    </div>
+
+    <h2 class="level-section">Nivel 3: Incorporando Cubos (Exponente 3) y Combinaciones Complejas</h2>
+    <div class="grid-container">
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 21</span>
+            <div class="math-problem">$\sum_{i=1}^{4} i^3$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Aplicación directa de la fórmula del cubo para $n=4$: $\left[\frac{4 \cdot 5}{2}\right]^2 = 10^2 = 100$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 22</span>
+            <div class="math-problem">$\sum_{k=1}^{3} 2k^3$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Extraemos la constante: $2 \sum k^3$. Para $n=3$: $2 \cdot \left[\frac{3 \cdot 4}{2}\right]^2 = 2 \cdot 6^2 = 2 \cdot 36 = 72$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 23</span>
+            <div class="math-problem">$\sum_{j=1}^{4} (j^3 + j^2)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Separamos cubo y cuadrado: $\sum j^3 + \sum j^2$. Para $n=4$: $100 + 30 = 130$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 24</span>
+            <div class="math-problem">$\sum_{n=1}^{5} (n^3 - n)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">$\sum n^3 - \sum n$. Para $n=5$: $\left[\frac{5 \cdot 6}{2}\right]^2 - \left(\frac{5 \cdot 6}{2}\right) = 15^2 - 15 = 225 - 15 = 210$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 25</span>
+            <div class="math-problem">$\sum_{i=1}^{3} (i^3 + 2i^2 + i)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Polinomio completo. $\sum i^3 + 2\sum i^2 + \sum i$. Para $n=3$: $36 + 2\left(\frac{3 \cdot 4 \cdot 7}{6}\right) + \left(\frac{3 \cdot 4}{2}\right) = 36 + 2(14) + 6 = 36 + 28 + 6 = 70$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 26</span>
+            <div class="math-problem">$\sum_{k=1}^{4} (2k^3 - 3k^2)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">$2\sum k^3 - 3\sum k^2$. Para $n=4$: $2(100) - 3(30) = 200 - 90 = 110$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 27</span>
+            <div class="math-problem">$\sum_{m=1}^{3} (m^3 - m^2 + m - 1)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">Aplicamos todas las fórmulas. Para $n=3$: $\sum m^3 - \sum m^2 + \sum m - \sum 1 = 36 - 14 + 6 - 3 = 25$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 28</span>
+            <div class="math-problem">$\sum_{j=1}^{4} (j^3 + 4j - 5)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">$\sum j^3 + 4\sum j - \sum 5$. Para $n=4$: $100 + 4(10) - 20 = 100 + 40 - 20 = 120$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 29</span>
+            <div class="math-problem">$\sum_{i=1}^{5} (i^3 - i^2 + 2i)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">$\sum i^3 - \sum i^2 + 2\sum i$. Para $n=5$: $225 - 55 + 2(15) = 225 - 55 + 30 = 200$.</div>
+        </div>
+
+        <div class="exercise-card">
+            <span class="exercise-number">Ejercicio 30</span>
+            <div class="math-problem">$\sum_{n=1}^{4} (2n^3 - n^2 + 3n - 4)$</div>
+            <button class="toggle-btn" onclick="toggleExplanation(this)">Ver Explicación</button>
+            <div class="explanation">El desafío final combinando todas las reglas: $2\sum n^3 - \sum n^2 + 3\sum n - \sum 4$. Para $n=4$: $2(100) - 30 + 3(10) - (4 \cdot 4) = 200 - 30 + 30 - 16 = 184$.</div>
+        </div>
+    </div>
+
+    <script>
+        function toggleExplanation(btn) {
+            const explanationDiv = btn.nextElementSibling;
+            if (explanationDiv.style.display === "block") {
+                explanationDiv.style.display = "none";
+                btn.textContent = "Ver Explicación";
+                btn.style.backgroundColor = "var(--primary-color)";
+            } else {
+                explanationDiv.style.display = "block";
+                btn.textContent = "Ocultar Explicación";
+                btn.style.backgroundColor = "var(--text-muted)";
+            }
+        }
+    </script>
+</body>
+</html>
