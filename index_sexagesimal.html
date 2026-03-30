@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco de Problemas: Sistema Sexagesimal y Radianes</title>
+    
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1, h2 {
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .level-title {
+            margin-top: 40px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .problem-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .problem-statement {
+            font-size: 1.1em;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .btn-toggle {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .btn-toggle:hover {
+            background-color: #2980b9;
+        }
+
+        .solution-box {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #eaf2f8;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .solution-box.active {
+            display: block;
+            animation: fadeIn 0.4s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Práctica: Sistema Sexagesimal y Radianes</h1>
+    <p style="text-align: center;">Resuelve los siguientes problemas y haz clic en el botón para verificar tu procedimiento.</p>
+
+    <h2 class="level-title">Nivel 1: Conversiones Básicas</h2>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 1:</strong> Convierte $15^\circ$ a minutos.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol1')">Ver Solución</button>
+        <div id="sol1" class="solution-box">
+            <p>Sabemos que $1^\circ = 60'$. Para convertir grados a minutos, multiplicamos por 60.</p>
+            <p>$$15 \times 60 = 900'$$</p>
+            <p><strong>Respuesta:</strong> $900'$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 2:</strong> Convierte $4500'$ a grados.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol2')">Ver Solución</button>
+        <div id="sol2" class="solution-box">
+            <p>Para pasar de una unidad menor (minutos) a una mayor (grados), dividimos entre 60.</p>
+            <p>$$4500 \div 60 = 75^\circ$$</p>
+            <p><strong>Respuesta:</strong> $75^\circ$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 3:</strong> Convierte la medida $2^\circ 15' 30''$ a su equivalente total en segundos.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol3')">Ver Solución</button>
+        <div id="sol3" class="solution-box">
+            <p>Convertimos cada parte a segundos y luego sumamos:</p>
+            <ul>
+                <li>Grados a segundos: $2 \times 3600 = 7200''$</li>
+                <li>Minutos a segundos: $15 \times 60 = 900''$</li>
+                <li>Segundos: $30''$</li>
+            </ul>
+            <p>Total: $7200 + 900 + 30 = 8130''$</p>
+            <p><strong>Respuesta:</strong> $8130''$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 4:</strong> Expresa $8000''$ en grados, minutos y segundos.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol4')">Ver Solución</button>
+        <div id="sol4" class="solution-box">
+            <p>Primero, dividimos entre 60 para obtener los minutos totales:</p>
+            <p>$8000 \div 60 = 133$ minutos con un residuo de $20''$.</p>
+            <p>Luego, dividimos los 133 minutos entre 60 para obtener los grados:</p>
+            <p>$133 \div 60 = 2^\circ$ con un residuo de $13'$.</p>
+            <p><strong>Respuesta:</strong> $2^\circ 13' 20''$</p>
+        </div>
+    </div>
+
+    <h2 class="level-title">Nivel 2: Radianes y Sistema Decimal</h2>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 5:</strong> Convierte $30^\circ$ a radianes.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol5')">Ver Solución</button>
+        <div id="sol5" class="solution-box">
+            <p>Para convertir de grados a radianes, multiplicamos por $\frac{\pi}{180^\circ}$.</p>
+            <p>$$30^\circ \times \frac{\pi}{180^\circ} = \frac{30\pi}{180} = \frac{\pi}{6} \text{ rad}$$</p>
+            <p><strong>Respuesta:</strong> $\frac{\pi}{6}$ rad</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 6:</strong> Convierte $\frac{\pi}{4}$ radianes a grados.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol6')">Ver Solución</button>
+        <div id="sol6" class="solution-box">
+            <p>Sabiendo que $\pi \text{ rad} = 180^\circ$, sustituimos $\pi$ por $180^\circ$ y dividimos:</p>
+            <p>$$\frac{180^\circ}{4} = 45^\circ$$</p>
+            <p><strong>Respuesta:</strong> $45^\circ$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 7:</strong> Convierte $45.5^\circ$ al formato de grados y minutos.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol7')">Ver Solución</button>
+        <div id="sol7" class="solution-box">
+            <p>La parte entera son los grados ($45^\circ$). La parte decimal ($0.5^\circ$) se multiplica por 60 para pasar a minutos.</p>
+            <p>$$0.5 \times 60 = 30'$$</p>
+            <p><strong>Respuesta:</strong> $45^\circ 30'$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 8:</strong> Convierte $12.34^\circ$ a grados, minutos y segundos.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol8')">Ver Solución</button>
+        <div id="sol8" class="solution-box">
+            <p>Grados: $12^\circ$</p>
+            <p>Minutos: $0.34 \times 60 = 20.4'$ (Tomamos la parte entera: $20'$).</p>
+            <p>Segundos: Tomamos el decimal restante de los minutos ($0.4'$) y lo multiplicamos por 60: $0.4 \times 60 = 24''$.</p>
+            <p><strong>Respuesta:</strong> $12^\circ 20' 24''$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 9:</strong> Convierte $10^\circ 45' 36''$ a grados en formato decimal.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol9')">Ver Solución</button>
+        <div id="sol9" class="solution-box">
+            <p>Dividimos los minutos entre 60 y los segundos entre 3600.</p>
+            <ul>
+                <li>$45 \div 60 = 0.75^\circ$</li>
+                <li>$36 \div 3600 = 0.01^\circ$</li>
+            </ul>
+            <p>Total: $10 + 0.75 + 0.01 = 10.76^\circ$</p>
+            <p><strong>Respuesta:</strong> $10.76^\circ$</p>
+        </div>
+    </div>
+
+    <h2 class="level-title">Nivel 3: Operaciones Básicas (Sin Acarreo)</h2>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 10:</strong> Suma $15^\circ 20' 10''$ y $10^\circ 30' 40''$.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol10')">Ver Solución</button>
+        <div id="sol10" class="solution-box">
+            <p>Sumamos cada unidad de forma independiente en sus columnas respectivas:</p>
+            <p>Segundos: $10'' + 40'' = 50''$</p>
+            <p>Minutos: $20' + 30' = 50'$</p>
+            <p>Grados: $15^\circ + 10^\circ = 25^\circ$</p>
+            <p><strong>Respuesta:</strong> $25^\circ 50' 50''$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 11:</strong> Resta $10^\circ 15' 20''$ de $40^\circ 45' 50''$.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol11')">Ver Solución</button>
+        <div id="sol11" class="solution-box">
+            <p>Restamos cada unidad por separado (el minuendo es mayor en todas las columnas).</p>
+            <p>Segundos: $50'' - 20'' = 30''$</p>
+            <p>Minutos: $45' - 15' = 30'$</p>
+            <p>Grados: $40^\circ - 10^\circ = 30^\circ$</p>
+            <p><strong>Respuesta:</strong> $30^\circ 30' 30''$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 12:</strong> Multiplica $12^\circ 10' 15''$ por 3.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol12')">Ver Solución</button>
+        <div id="sol12" class="solution-box">
+            <p>Multiplicamos cada término por 3 directamente:</p>
+            <p>$15'' \times 3 = 45''$</p>
+            <p>$10' \times 3 = 30'$</p>
+            <p>$12^\circ \times 3 = 36^\circ$</p>
+            <p><strong>Respuesta:</strong> $36^\circ 30' 45''$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 13:</strong> Divide $48^\circ 36' 24''$ entre 2.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol13')">Ver Solución</button>
+        <div id="sol13" class="solution-box">
+            <p>Dividimos cada término entre 2 de manera directa, ya que todos son pares.</p>
+            <p>$48^\circ \div 2 = 24^\circ$</p>
+            <p>$36' \div 2 = 18'$</p>
+            <p>$24'' \div 2 = 12''$</p>
+            <p><strong>Respuesta:</strong> $24^\circ 18' 12''$</p>
+        </div>
+    </div>
+    
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 14:</strong> Convierte $150^\circ$ a radianes y simplifica la fracción.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol14')">Ver Solución</button>
+        <div id="sol14" class="solution-box">
+            <p>Multiplicamos por $\frac{\pi}{180^\circ}$:</p>
+            <p>$$150^\circ \times \frac{\pi}{180^\circ} = \frac{150\pi}{180}$$</p>
+            <p>Simplificamos dividiendo numerador y denominador entre 30:</p>
+            <p>$$\frac{5\pi}{6} \text{ rad}$$</p>
+            <p><strong>Respuesta:</strong> $\frac{5\pi}{6}$ rad</p>
+        </div>
+    </div>
+
+    <h2 class="level-title">Nivel 4: Operaciones Complejas (Reagrupación)</h2>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 15:</strong> Suma $25^\circ 45' 50''$ y $12^\circ 35' 20''$.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol15')">Ver Solución</button>
+        <div id="sol15" class="solution-box">
+            <p>Suma directa: $37^\circ 80' 70''$.</p>
+            <p>Ajuste de segundos: $70'' = 1' 10''$. Los segundos quedan en $10''$ y pasamos $1'$ a los minutos ($80' + 1' = 81'$).</p>
+            <p>Ajuste de minutos: $81' = 1^\circ 21'$. Los minutos quedan en $21'$ y pasamos $1^\circ$ a los grados ($37^\circ + 1^\circ = 38^\circ$).</p>
+            <p><strong>Respuesta:</strong> $38^\circ 21' 10''$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 16:</strong> Resta $15^\circ 40' 50''$ de $50^\circ 20' 30''$.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol16')">Ver Solución</button>
+        <div id="sol16" class="solution-box">
+            <p>Como $30'' < 50''$, prestamos $1'$ de los $20'$ (quedan $19'$). $30'' + 60'' = 90''$. Restamos: $90'' - 50'' = 40''$.</p>
+            <p>Como $19' < 40'$, prestamos $1^\circ$ de los $50^\circ$ (quedan $49^\circ$). $19' + 60' = 79'$. Restamos: $79' - 40' = 39'$.</p>
+            <p>Restamos grados: $49^\circ - 15^\circ = 34^\circ$.</p>
+            <p><strong>Respuesta:</strong> $34^\circ 39' 40''$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 17:</strong> Multiplica $14^\circ 35' 42''$ por 5.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol17')">Ver Solución</button>
+        <div id="sol17" class="solution-box">
+            <p>Multiplicación directa: $70^\circ \ 175' \ 210''$.</p>
+            <p>Ajuste de segundos: $210'' \div 60 = 3'$ con residuo $30''$. Sumamos $3'$ a los minutos: $175' + 3' = 178'$.</p>
+            <p>Ajuste de minutos: $178' \div 60 = 2^\circ$ con residuo $58'$. Sumamos $2^\circ$ a los grados: $70^\circ + 2^\circ = 72^\circ$.</p>
+            <p><strong>Respuesta:</strong> $72^\circ 58' 30''$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 18:</strong> Divide $37^\circ 15' 40''$ entre 4.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol18')">Ver Solución</button>
+        <div id="sol18" class="solution-box">
+            <p>Grados: $37^\circ \div 4 = 9^\circ$ y sobra $1^\circ$.</p>
+            <p>Ese $1^\circ$ se convierte en $60'$ y se suma a los minutos: $60' + 15' = 75'$.</p>
+            <p>Minutos: $75' \div 4 = 18'$ y sobran $3'$.</p>
+            <p>Esos $3'$ se convierten en $180''$ y se suman a los segundos: $180'' + 40'' = 220''$.</p>
+            <p>Segundos: $220'' \div 4 = 55''$.</p>
+            <p><strong>Respuesta:</strong> $9^\circ 18' 55''$</p>
+        </div>
+    </div>
+
+    <h2 class="level-title">Nivel 5: Problemas de Aplicación Combinados</h2>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 19:</strong> Un ángulo mide $\frac{3\pi}{5}$ radianes. Exprésalo en el sistema sexagesimal (grados, minutos y segundos).</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol19')">Ver Solución</button>
+        <div id="sol19" class="solution-box">
+            <p>Sustituimos $\pi$ por $180^\circ$ y resolvemos:</p>
+            <p>$$\frac{3(180^\circ)}{5} = \frac{540^\circ}{5} = 108^\circ$$</p>
+            <p>Como es un número entero, los minutos y segundos son cero.</p>
+            <p><strong>Respuesta:</strong> $108^\circ 0' 0''$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 20:</strong> En un triángulo, dos de sus ángulos internos miden $45^\circ 30'$ y $\frac{\pi}{3}$ radianes. ¿Cuánto mide el tercer ángulo en grados y minutos?</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol20')">Ver Solución</button>
+        <div id="sol20" class="solution-box">
+            <p><strong>Paso 1:</strong> Convertir $\frac{\pi}{3}$ rad a grados.</p>
+            <p>$\frac{180^\circ}{3} = 60^\circ$</p>
+            <p><strong>Paso 2:</strong> Sumar los dos ángulos conocidos.</p>
+            <p>$45^\circ 30' + 60^\circ = 105^\circ 30'$</p>
+            <p><strong>Paso 3:</strong> Sabiendo que la suma de los ángulos internos de un triángulo es $180^\circ$, restamos para encontrar el tercero.</p>
+            <p>Expresamos $180^\circ$ como $179^\circ 60'$ para facilitar la resta.</p>
+            <p>$179^\circ 60' - 105^\circ 30' = 74^\circ 30'$</p>
+            <p><strong>Respuesta:</strong> $74^\circ 30'$</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Función de JavaScript para mostrar/ocultar las soluciones
+    function toggleSolution(id) {
+        const solutionBox = document.getElementById(id);
+        const button = solutionBox.previousElementSibling;
+        
+        if (solutionBox.classList.contains('active')) {
+            solutionBox.classList.remove('active');
+            button.textContent = 'Ver Solución';
+        } else {
+            solutionBox.classList.add('active');
+            button.textContent = 'Ocultar Solución';
+        }
+    }
+</script>
+
+</body>
+</html>
