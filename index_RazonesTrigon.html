@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrenamiento: Razones Trigonométricas</title>
+    
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #27ae60;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1, h2 {
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .level-title {
+            margin-top: 40px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .problem-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-2px);
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        .problem-statement {
+            font-size: 1.1em;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .btn-toggle {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .btn-toggle:hover {
+            background-color: #219653;
+        }
+
+        .solution-box {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #e9f7ef;
+            border-radius: 4px;
+        }
+
+        .solution-box.active {
+            display: block;
+            animation: fadeIn 0.4s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Banco de Problemas: Razones Trigonométricas</h1>
+    <p style="text-align: center;">Resuelve los ejercicios y verifica tu procedimiento paso a paso.</p>
+
+    <h2 class="level-title">Nivel 1: Conceptos Básicos en el Triángulo Rectángulo</h2>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 1:</strong> En un triángulo rectángulo, la hipotenusa mide $13\text{ cm}$ y el cateto opuesto al ángulo $\alpha$ mide $5\text{ cm}$. ¿Cuál es el valor de $\sin(\alpha)$?</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol1')">Ver Solución</button>
+        <div id="sol1" class="solution-box">
+            <p>La razón seno se define como el cociente entre el cateto opuesto y la hipotenusa:</p>
+            <p>$$\sin(\alpha) = \frac{\text{Cateto Opuesto}}{\text{Hipotenusa}}$$</p>
+            <p>$$\sin(\alpha) = \frac{5}{13}$$</p>
+            <p><strong>Respuesta:</strong> $\frac{5}{13}$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 2:</strong> En un triángulo rectángulo, los catetos miden $3\text{ m}$ y $4\text{ m}$. Si $\beta$ es el ángulo opuesto al cateto de $4\text{ m}$, calcula $\tan(\beta)$.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol2')">Ver Solución</button>
+        <div id="sol2" class="solution-box">
+            <p>La tangente se define como:</p>
+            <p>$$\tan(\beta) = \frac{\text{Cateto Opuesto}}{\text{Cateto Adyacente}}$$</p>
+            <p>El cateto opuesto a $\beta$ es $4\text{ m}$ y el adyacente es $3\text{ m}$.</p>
+            <p>$$\tan(\beta) = \frac{4}{3}$$</p>
+            <p><strong>Respuesta:</strong> $\frac{4}{3}$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 3:</strong> Un triángulo rectángulo tiene una hipotenusa de $10\text{ cm}$ y un cateto adyacente al ángulo $\theta$ de $8\text{ cm}$. Calcula $\cos(\theta)$.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol3')">Ver Solución</button>
+        <div id="sol3" class="solution-box">
+            <p>El coseno se define como:</p>
+            <p>$$\cos(\theta) = \frac{\text{Cateto Adyacente}}{\text{Hipotenusa}}$$</p>
+            <p>$$\cos(\theta) = \frac{8}{10}$$</p>
+            <p>Simplificando la fracción:</p>
+            <p><strong>Respuesta:</strong> $\frac{4}{5}$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 4:</strong> Si en un triángulo rectángulo $\sin(\alpha) = \frac{3}{5}$, ¿cuál es el valor de $\cos(\alpha)$?</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol4')">Ver Solución</button>
+        <div id="sol4" class="solution-box">
+            <p>Sabemos que $\sin(\alpha) = \frac{\text{Opuesto}}{\text{Hipotenusa}} = \frac{3}{5}$. Por lo tanto, el cateto opuesto es $3$ y la hipotenusa es $5$.</p>
+            <p>Usamos el Teorema de Pitágoras ($a^2 + b^2 = c^2$) para hallar el cateto adyacente ($x$):</p>
+            <p>$$3^2 + x^2 = 5^2 \Rightarrow 9 + x^2 = 25 \Rightarrow x^2 = 16 \Rightarrow x = 4$$</p>
+            <p>Ahora calculamos el coseno:</p>
+            <p>$$\cos(\alpha) = \frac{\text{Adyacente}}{\text{Hipotenusa}} = \frac{4}{5}$$</p>
+            <p><strong>Respuesta:</strong> $\frac{4}{5}$</p>
+        </div>
+    </div>
+
+    <h2 class="level-title">Nivel 2: Cálculo de Lados Desconocidos</h2>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 5:</strong> En un triángulo rectángulo, la hipotenusa mide $20\text{ cm}$ y uno de los ángulos agudos es de $30^\circ$. Calcula la longitud del cateto opuesto a este ángulo.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol5')">Ver Solución</button>
+        <div id="sol5" class="solution-box">
+            <p>Usamos la razón seno:</p>
+            <p>$$\sin(30^\circ) = \frac{x}{20}$$</p>
+            <p>Sabemos que $\sin(30^\circ) = 0.5$ (o $\frac{1}{2}$). Despejamos $x$:</p>
+            <p>$$0.5 \times 20 = x \Rightarrow x = 10$$</p>
+            <p><strong>Respuesta:</strong> $10\text{ cm}$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 6:</strong> Se necesita construir una rampa que forme un ángulo de $15^\circ$ con el suelo. Si la longitud total de la rampa (hipotenusa) debe ser de $8\text{ metros}$, ¿qué distancia horizontal cubrirá la rampa?</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol6')">Ver Solución</button>
+        <div id="sol6" class="solution-box">
+            <p>La distancia horizontal corresponde al cateto adyacente. Usamos el coseno:</p>
+            <p>$$\cos(15^\circ) = \frac{x}{8}$$</p>
+            <p>Despejando $x$:</p>
+            <p>$$x = 8 \times \cos(15^\circ)$$</p>
+            <p>Usando calculadora: $\cos(15^\circ) \approx 0.9659$</p>
+            <p>$$x = 8 \times 0.9659 \approx 7.73$$</p>
+            <p><strong>Respuesta:</strong> Aproximadamente $7.73\text{ m}$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 7:</strong> Un muro proyecta una sombra en el suelo. El ángulo de elevación del sol es de $45^\circ$. Si la altura del muro es de $5\text{ m}$, ¿cuánto mide la sombra?</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol7')">Ver Solución</button>
+        <div id="sol7" class="solution-box">
+            <p>Relacionamos el cateto opuesto (altura) con el adyacente (sombra) usando la tangente:</p>
+            <p>$$\tan(45^\circ) = \frac{5}{x}$$</p>
+            <p>Sabemos que $\tan(45^\circ) = 1$:</p>
+            <p>$$1 = \frac{5}{x} \Rightarrow x = 5$$</p>
+            <p><strong>Respuesta:</strong> $5\text{ m}$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 8:</strong> En un triángulo rectángulo, el cateto adyacente a un ángulo de $60^\circ$ mide $12\text{ cm}$. ¿Cuánto mide la hipotenusa?</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol8')">Ver Solución</button>
+        <div id="sol8" class="solution-box">
+            <p>Usamos la razón coseno:</p>
+            <p>$$\cos(60^\circ) = \frac{\text{Adyacente}}{\text{Hipotenusa}} = \frac{12}{h}$$</p>
+            <p>Sabemos que $\cos(60^\circ) = 0.5$ (o $\frac{1}{2}$). Despejamos $h$:</p>
+            <p>$$0.5 = \frac{12}{h} \Rightarrow h = \frac{12}{0.5} \Rightarrow h = 24$$</p>
+            <p><strong>Respuesta:</strong> $24\text{ cm}$</p>
+        </div>
+    </div>
+
+    <h2 class="level-title">Nivel 3: Cálculo de Ángulos (Funciones Inversas)</h2>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 9:</strong> Una escalera de $5\text{ m}$ está apoyada contra una pared. Si la base de la escalera está a $3\text{ m}$ de la pared, ¿qué ángulo forma la escalera con el suelo?</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol9')">Ver Solución</button>
+        <div id="sol9" class="solution-box">
+            <p>Conocemos el cateto adyacente al suelo ($3\text{ m}$) y la hipotenusa ($5\text{ m}$). Usamos la función coseno inversa ($\arccos$):</p>
+            <p>$$\cos(\theta) = \frac{3}{5} = 0.6$$</p>
+            <p>$$\theta = \arccos(0.6)$$</p>
+            <p>Usando calculadora: $\theta \approx 53.13^\circ$</p>
+            <p><strong>Respuesta:</strong> Aproximadamente $53.13^\circ$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 10:</strong> En un triángulo rectángulo, los catetos miden $10\text{ cm}$ y $10\text{ cm}$. Determina la medida de los ángulos agudos.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol10')">Ver Solución</button>
+        <div id="sol10" class="solution-box">
+            <p>Dado que ambos catetos son iguales, usamos la tangente inversa ($\arctan$):</p>
+            <p>$$\tan(\alpha) = \frac{10}{10} = 1$$</p>
+            <p>$$\alpha = \arctan(1)$$</p>
+            <p>El ángulo cuya tangente es $1$ es exactamente $45^\circ$. Como es un triángulo rectángulo ($90^\circ$), el otro ángulo también mide $180^\circ - 90^\circ - 45^\circ = 45^\circ$.</p>
+            <p><strong>Respuesta:</strong> Ambos miden $45^\circ$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 11:</strong> Un poste de luz de $8\text{ m}$ de altura se sujeta con un cable desde su extremo superior hasta un punto en el suelo a $6\text{ m}$ de su base. ¿Qué ángulo forma el cable con el poste?</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol11')">Ver Solución</button>
+        <div id="sol11" class="solution-box">
+            <p>Ojo al detalle: Piden el ángulo con el <strong>poste</strong>, no con el suelo. El cateto opuesto a este ángulo es la distancia en el suelo ($6\text{ m}$) y el adyacente es la altura del poste ($8\text{ m}$).</p>
+            <p>$$\tan(\beta) = \frac{6}{8} = 0.75$$</p>
+            <p>$$\beta = \arctan(0.75) \approx 36.87^\circ$$</p>
+            <p><strong>Respuesta:</strong> $36.87^\circ$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 12:</strong> La hipotenusa de un triángulo rectángulo mide el doble que uno de sus catetos. ¿Cuánto mide el ángulo opuesto a dicho cateto?</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol12')">Ver Solución</button>
+        <div id="sol12" class="solution-box">
+            <p>Llamemos al cateto $x$ y a la hipotenusa $2x$. Usamos la razón seno para el ángulo opuesto a ese cateto:</p>
+            <p>$$\sin(\theta) = \frac{x}{2x} = \frac{1}{2}$$</p>
+            <p>$$\theta = \arcsin(0.5) = 30^\circ$$</p>
+            <p><strong>Respuesta:</strong> $30^\circ$</p>
+        </div>
+    </div>
+
+    <h2 class="level-title">Nivel 4: Problemas de Aplicación y Entorno</h2>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 13:</strong> Un estudiante observa la Torre del Reloj de Popayán. Si se encuentra a $20\text{ m}$ de la base de la torre y el ángulo de elevación hasta la punta es de $40^\circ$, ¿cuál es la altura aproximada de la torre (sin contar la altura del estudiante)?</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol13')">Ver Solución</button>
+        <div id="sol13" class="solution-box">
+            <p>Se relaciona la altura (cateto opuesto) con la distancia horizontal (cateto adyacente) usando la tangente:</p>
+            <p>$$\tan(40^\circ) = \frac{h}{20}$$</p>
+            <p>$$h = 20 \times \tan(40^\circ)$$</p>
+            <p>Usando calculadora: $\tan(40^\circ) \approx 0.839$</p>
+            <p>$$h = 20 \times 0.839 \approx 16.78$$</p>
+            <p><strong>Respuesta:</strong> Aproximadamente $16.78\text{ m}$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 14:</strong> Volando una cometa en el morro de Tulcán, has soltado $50\text{ m}$ de hilo. Si el hilo está tenso y forma un ángulo de elevación de $60^\circ$ con la horizontal, ¿a qué altura se encuentra la cometa respecto a tus manos?</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol14')">Ver Solución</button>
+        <div id="sol14" class="solution-box">
+            <p>El hilo de la cometa actúa como la hipotenusa ($50\text{ m}$). Queremos hallar la altura (cateto opuesto). Usamos el seno:</p>
+            <p>$$\sin(60^\circ) = \frac{h}{50}$$</p>
+            <p>Sabemos que $\sin(60^\circ) = \frac{\sqrt{3}}{2}$ (aprox $0.866$):</p>
+            <p>$$h = 50 \times \frac{\sqrt{3}}{2} = 25\sqrt{3}$$</p>
+            <p>$$h \approx 25 \times 1.732 = 43.3$$</p>
+            <p><strong>Respuesta:</strong> $43.3\text{ m}$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 15:</strong> Desde un faro de $45\text{ m}$ de altura sobre el nivel del mar, se observa un barco con un ángulo de depresión de $12^\circ$. ¿A qué distancia de la base del faro se encuentra el barco?</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol15')">Ver Solución</button>
+        <div id="sol15" class="solution-box">
+            <p>El ángulo de depresión desde el faro es igual al ángulo de elevación desde el barco hacia la punta del faro (por ángulos alternos internos). Usamos la tangente:</p>
+            <p>$$\tan(12^\circ) = \frac{45}{d}$$</p>
+            <p>$$d = \frac{45}{\tan(12^\circ)}$$</p>
+            <p>$\tan(12^\circ) \approx 0.2125$</p>
+            <p>$$d = \frac{45}{0.2125} \approx 211.7$$</p>
+            <p><strong>Respuesta:</strong> $211.7\text{ m}$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 16:</strong> Una rampa para sillas de ruedas en la entrada del colegio tiene una longitud de $6\text{ m}$ y debe subir un desnivel de $0.5\text{ m}$. ¿Qué ángulo de inclinación tiene la rampa?</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol16')">Ver Solución</button>
+        <div id="sol16" class="solution-box">
+            <p>Conocemos el cateto opuesto (desnivel = $0.5\text{ m}$) y la hipotenusa (longitud de la rampa = $6\text{ m}$). Usamos el seno inverso:</p>
+            <p>$$\sin(\theta) = \frac{0.5}{6} \approx 0.0833$$</p>
+            <p>$$\theta = \arcsin(0.0833) \approx 4.78^\circ$$</p>
+            <p><strong>Respuesta:</strong> $4.78^\circ$</p>
+        </div>
+    </div>
+
+    <h2 class="level-title">Nivel 5: Retos y Problemas Combinados</h2>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 17:</strong> Si $\cos(\alpha) = \frac{5}{13}$ y $\alpha$ es un ángulo agudo, utiliza la identidad fundamental $\sin^2(\alpha) + \cos^2(\alpha) = 1$ para encontrar el valor exacto de $\sin(\alpha)$ y $\tan(\alpha)$.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol17')">Ver Solución</button>
+        <div id="sol17" class="solution-box">
+            <p>Aplicamos la identidad:</p>
+            <p>$$\sin^2(\alpha) + \left(\frac{5}{13}\right)^2 = 1$$</p>
+            <p>$$\sin^2(\alpha) + \frac{25}{169} = 1 \Rightarrow \sin^2(\alpha) = 1 - \frac{25}{169} = \frac{169 - 25}{169} = \frac{144}{169}$$</p>
+            <p>Sacando raíz cuadrada: $\sin(\alpha) = \frac{12}{13}$</p>
+            <p>Para la tangente usamos $\tan(\alpha) = \frac{\sin(\alpha)}{\cos(\alpha)}$:</p>
+            <p>$$\tan(\alpha) = \frac{\frac{12}{13}}{\frac{5}{13}} = \frac{12}{5}$$</p>
+            <p><strong>Respuesta:</strong> $\sin(\alpha) = \frac{12}{13}$ ; $\tan(\alpha) = \frac{12}{5}$</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 18:</strong> Dos estudiantes miden la altura de un edificio. Estudiante A está a $30\text{ m}$ del edificio y mide un ángulo de elevación de $45^\circ$. Estudiante B está alineado detrás del estudiante A y mide un ángulo de elevación de $30^\circ$. ¿A qué distancia del edificio está el Estudiante B?</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol18')">Ver Solución</button>
+        <div id="sol18" class="solution-box">
+            <p><strong>Paso 1:</strong> Hallar la altura del edificio ($h$) usando al estudiante A.</p>
+            <p>$$\tan(45^\circ) = \frac{h}{30} \Rightarrow h = 30 \times 1 = 30\text{ m}$$</p>
+            <p><strong>Paso 2:</strong> Usar la altura para hallar la distancia total de B al edificio ($x$).</p>
+            <p>$$\tan(30^\circ) = \frac{30}{x} \Rightarrow x = \frac{30}{\tan(30^\circ)}$$</p>
+            <p>Sabemos que $\tan(30^\circ) = \frac{\sqrt{3}}{3}$:</p>
+            <p>$$x = \frac{30}{\frac{\sqrt{3}}{3}} = \frac{90}{\sqrt{3}} = 30\sqrt{3} \approx 51.96\text{ m}$$</p>
+            <p><strong>Respuesta:</strong> A $51.96\text{ m}$ de la base del edificio.</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 19:</strong> Demuestra matemáticamente por qué en cualquier triángulo rectángulo, $\sin(90^\circ - \theta) = \cos(\theta)$.</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol19')">Ver Solución</button>
+        <div id="sol19" class="solution-box">
+            <p>En un triángulo rectángulo con ángulo agudo $\theta$, el otro ángulo agudo es necesariamente $(90^\circ - \theta)$ ya que la suma de los tres ángulos es $180^\circ$ y ya hay uno de $90^\circ$.</p>
+            <p>El cateto opuesto al ángulo $\theta$ es el mismo lado que sirve como cateto adyacente para el ángulo $(90^\circ - \theta)$.</p>
+            <p>Por lo tanto:</p>
+            <p>$$\cos(\theta) = \frac{\text{Cateto Adyacente a } \theta}{\text{Hipotenusa}}$$</p>
+            <p>$$\sin(90^\circ - \theta) = \frac{\text{Cateto Opuesto a } (90^\circ - \theta)}{\text{Hipotenusa}}$$</p>
+            <p>Dado que "Cateto Adyacente a $\theta$" = "Cateto Opuesto a $(90^\circ - \theta)$", ambas razones son exactamente la misma fracción.</p>
+            <p><strong>Respuesta:</strong> Demostrado por la relación complementaria de los ángulos agudos en el triángulo rectángulo.</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-statement"><strong>Problema 20:</strong> Halla el perímetro de un triángulo rectángulo si sabes que uno de sus ángulos agudos es de $37^\circ$ y el cateto opuesto a este ángulo mide $18\text{ cm}$. (Aproxima $\sin(37^\circ) \approx 0.6$ y $\cos(37^\circ) \approx 0.8$).</div>
+        <button class="btn-toggle" onclick="toggleSolution('sol20')">Ver Solución</button>
+        <div id="sol20" class="solution-box">
+            <p>Para el perímetro, necesitamos los tres lados. Ya tenemos el cateto opuesto ($18\text{ cm}$).</p>
+            <p><strong>Paso 1:</strong> Hallar la hipotenusa ($h$).</p>
+            <p>$$\sin(37^\circ) = \frac{18}{h} \Rightarrow 0.6 = \frac{18}{h} \Rightarrow h = \frac{18}{0.6} = 30\text{ cm}$$</p>
+            <p><strong>Paso 2:</strong> Hallar el cateto adyacente ($a$).</p>
+            <p>$$\cos(37^\circ) = \frac{a}{30} \Rightarrow 0.8 = \frac{a}{30} \Rightarrow a = 30 \times 0.8 = 24\text{ cm}$$</p>
+            <p><strong>Paso 3:</strong> Sumar los lados para el perímetro.</p>
+            <p>$$\text{Perímetro} = 18 + 24 + 30 = 72\text{ cm}$$</p>
+            <p><strong>Respuesta:</strong> $72\text{ cm}$</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function toggleSolution(id) {
+        const solutionBox = document.getElementById(id);
+        const button = solutionBox.previousElementSibling;
+        
+        if (solutionBox.classList.contains('active')) {
+            solutionBox.classList.remove('active');
+            button.textContent = 'Ver Solución';
+        } else {
+            solutionBox.classList.add('active');
+            button.textContent = 'Ocultar Solución';
+        }
+    }
+</script>
+
+</body>
+</html>
