@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solucionario: Identidades Trigonométricas (Grado 10°)</title>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']], processEscapes: true },
+            options: { ignoreHtmlClass: 'tex2jax_ignore', processHtmlClass: 'tex2jax_process' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --primary: #0f766e; 
+            --secondary: #0d9488; 
+            --bg: #f0fdfa; 
+            --text: #1e293b; 
+            --border: #ccfbf1;
+            --solution-bg: #ffffff;
+        }
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            padding: 20px; 
+            line-height: 1.5; 
+        }
+        .container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            background: #fff; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            border: 1px solid var(--border);
+        }
+        .header { 
+            text-align: center; 
+            margin-bottom: 25px; 
+            border-bottom: 3px solid var(--primary); 
+            padding-bottom: 15px; 
+        }
+        .inst { 
+            font-size: 1.2rem; 
+            font-weight: bold; 
+            color: var(--primary); 
+            text-transform: uppercase; 
+            margin: 0 0 5px 0; 
+        }
+        .title { 
+            font-size: 1.6rem; 
+            font-weight: bold; 
+            margin: 0 0 5px 0; 
+        }
+        .subtitle { 
+            font-size: 1rem; 
+            color: #475569; 
+            margin: 0; 
+        }
+        
+        .theme-section {
+            margin-top: 30px;
+        }
+        .section-title { 
+            font-size: 1.3rem; 
+            color: #fff; 
+            background-color: var(--primary);
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 20px 0 15px 0; 
+            font-weight: bold; 
+        }
+        
+        .grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 15px; 
+        }
+        @media (min-width: 768px) {
+            .grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .ex-card { 
+            background: #fafafa; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px; 
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        .ex-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-color: var(--secondary);
+        }
+        .ex-header { 
+            display: flex; 
+            align-items: center; 
+            padding: 12px 15px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .ex-num { 
+            font-weight: bold; 
+            color: var(--primary); 
+            min-width: 35px; 
+            font-size: 1.1rem; 
+        }
+        .ex-eq { 
+            font-size: 1.1rem; 
+            flex-grow: 1; 
+        }
+        
+        .solution {
+            padding: 15px;
+            background: var(--solution-bg);
+            display: none;
+            border-top: 1px dashed #cbd5e1;
+        }
+        
+        .solution-step {
+            margin-bottom: 8px;
+            padding-left: 10px;
+            border-left: 3px solid var(--secondary);
+        }
+
+        .btn-toggle {
+            width: 100%;
+            background: #e2e8f0;
+            color: #475569;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .btn-toggle:hover {
+            background: #cbd5e1;
+            color: #1e293b;
+        }
+        .btn-toggle.active {
+            background: var(--primary);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container tex2jax_process">
+    <div class="header">
+        <h1 class="inst">Institución Educativa San Agustín</h1>
+        <h2 class="title">Solucionario Paso a Paso: Identidades Trigonométricas</h2>
+        <p class="subtitle">Grado Décimo (10°) - Demostraciones Completas</p>
+    </div>
+
+    <!-- TEMA 1 -->
+    <div class="theme-section">
+        <div class="section-title">Tema 1: Identidades Recíprocas</div>
+        <div class="grid">
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">1.</span><span class="ex-eq">\(\sin(x)\csc(x) = 1\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol1', this)">Ver Demostración</button>
+                <div id="sol1" class="solution">
+                    <div class="solution-step">Sabemos que \(\csc(x) = \frac{1}{\sin(x)}\)</div>
+                    <div class="solution-step">\(\sin(x) \cdot \left(\frac{1}{\sin(x)}\right) = 1\)</div>
+                    <div class="solution-step">Simplificando \(\sin(x)\) en numerador y denominador: \(1 = 1\) (L.Q.Q.D)</div>
+                </div>
+            </div>
+            
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">2.</span><span class="ex-eq">\(\frac{1}{\sec(x)} \cdot \csc(x) = \cot(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol2', this)">Ver Demostración</button>
+                <div id="sol2" class="solution">
+                    <div class="solution-step">Sabemos que \(\frac{1}{\sec(x)} = \cos(x)\) y \(\csc(x) = \frac{1}{\sin(x)}\)</div>
+                    <div class="solution-step">\(\cos(x) \cdot \frac{1}{\sin(x)} = \cot(x)\)</div>
+                    <div class="solution-step">\(\frac{\cos(x)}{\sin(x)} = \cot(x)\)</div>
+                    <div class="solution-step">\(\cot(x) = \cot(x)\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">3.</span><span class="ex-eq">\(\cos(x)\sec(x) + \tan(x)\cot(x) = 2\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol3', this)">Ver Demostración</button>
+                <div id="sol3" class="solution">
+                    <div class="solution-step">Por identidades recíprocas: \(\sec(x) = \frac{1}{\cos(x)}\) y \(\cot(x) = \frac{1}{\tan(x)}\)</div>
+                    <div class="solution-step">\(\cos(x)\left(\frac{1}{\cos(x)}\right) + \tan(x)\left(\frac{1}{\tan(x)}\right) = 2\)</div>
+                    <div class="solution-step">\(1 + 1 = 2 \implies 2 = 2\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">4.</span><span class="ex-eq">\(\sec(x)\csc(x)\sin(x) = \sec(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol4', this)">Ver Demostración</button>
+                <div id="sol4" class="solution">
+                    <div class="solution-step">Reescribimos \(\csc(x) = \frac{1}{\sin(x)}\)</div>
+                    <div class="solution-step">\(\sec(x) \cdot \left(\frac{1}{\sin(x)}\right) \cdot \sin(x) = \sec(x)\)</div>
+                    <div class="solution-step">Cancelamos el seno: \(\sec(x) \cdot 1 = \sec(x)\)</div>
+                    <div class="solution-step">\(\sec(x) = \sec(x)\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">5.</span><span class="ex-eq">\(\frac{\csc(x)}{\sec(x)} = \cot(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol5', this)">Ver Demostración</button>
+                <div id="sol5" class="solution">
+                    <div class="solution-step">Expresamos todo en senos y cosenos: \(\csc(x) = \frac{1}{\sin(x)}\) y \(\sec(x) = \frac{1}{\cos(x)}\)</div>
+                    <div class="solution-step">\(\frac{\frac{1}{\sin(x)}}{\frac{1}{\cos(x)}} = \cot(x)\)</div>
+                    <div class="solution-step">Aplicando la ley de extremos y medios (oreja): \(\frac{\cos(x)}{\sin(x)} = \cot(x)\)</div>
+                    <div class="solution-step">\(\cot(x) = \cot(x)\)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEMA 2 -->
+    <div class="theme-section">
+        <div class="section-title">Tema 2: Identidades con Cocientes</div>
+        <div class="grid">
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">6.</span><span class="ex-eq">\(\tan(x)\cos(x) = \sin(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol6', this)">Ver Demostración</button>
+                <div id="sol6" class="solution">
+                    <div class="solution-step">Sabemos que \(\tan(x) = \frac{\sin(x)}{\cos(x)}\)</div>
+                    <div class="solution-step">\(\left(\frac{\sin(x)}{\cos(x)}\right)\cos(x) = \sin(x)\)</div>
+                    <div class="solution-step">Cancelando \(\cos(x)\): \(\sin(x) = \sin(x)\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">7.</span><span class="ex-eq">\(\frac{\tan(x)}{\sin(x)} = \sec(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol7', this)">Ver Demostración</button>
+                <div id="sol7" class="solution">
+                    <div class="solution-step">Reemplazamos \(\tan(x)\): \(\frac{\frac{\sin(x)}{\cos(x)}}{\sin(x)}\)</div>
+                    <div class="solution-step">Agregamos un 1 en el denominador para ley de oreja: \(\frac{\frac{\sin(x)}{\cos(x)}}{\frac{\sin(x)}{1}}\)</div>
+                    <div class="solution-step">\(\frac{\sin(x)}{\sin(x)\cos(x)} = \frac{1}{\cos(x)}\)</div>
+                    <div class="solution-step">\(\sec(x) = \sec(x)\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">8.</span><span class="ex-eq">\(\cot(x)\sin(x) = \cos(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol8', this)">Ver Demostración</button>
+                <div id="sol8" class="solution">
+                    <div class="solution-step">Sabemos que \(\cot(x) = \frac{\cos(x)}{\sin(x)}\)</div>
+                    <div class="solution-step">\(\left(\frac{\cos(x)}{\sin(x)}\right)\sin(x) = \cos(x)\)</div>
+                    <div class="solution-step">Cancelando \(\sin(x)\): \(\cos(x) = \cos(x)\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">9.</span><span class="ex-eq">\(\sin(x) + \cos(x)\cot(x) = \csc(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol9', this)">Ver Demostración</button>
+                <div id="sol9" class="solution">
+                    <div class="solution-step">Sustituimos \(\cot(x) = \frac{\cos(x)}{\sin(x)}\)</div>
+                    <div class="solution-step">\(\sin(x) + \cos(x)\left(\frac{\cos(x)}{\sin(x)}\right) = \sin(x) + \frac{\cos^2(x)}{\sin(x)}\)</div>
+                    <div class="solution-step">Sacamos factor común / sumamos fracciones: \(\frac{\sin^2(x) + \cos^2(x)}{\sin(x)}\)</div>
+                    <div class="solution-step">Aplicamos identidad pitagórica (\(\sin^2(x) + \cos^2(x) = 1\)): \(\frac{1}{\sin(x)}\)</div>
+                    <div class="solution-step">\(\csc(x) = \csc(x)\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">10.</span><span class="ex-eq">\(\frac{\cos(x)}{\cot(x)} + \frac{\sin(x)}{\tan(x)} = \sin(x) + \cos(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol10', this)">Ver Demostración</button>
+                <div id="sol10" class="solution">
+                    <div class="solution-step">Convertimos los divisores: \(\cot(x) = \frac{\cos(x)}{\sin(x)}\) y \(\tan(x) = \frac{\sin(x)}{\cos(x)}\)</div>
+                    <div class="solution-step">\(\frac{\cos(x)}{\frac{\cos(x)}{\sin(x)}} + \frac{\sin(x)}{\frac{\sin(x)}{\cos(x)}}\)</div>
+                    <div class="solution-step">Simplificando las fracciones: \(\frac{\cos(x)\sin(x)}{\cos(x)} + \frac{\sin(x)\cos(x)}{\sin(x)}\)</div>
+                    <div class="solution-step">\(\sin(x) + \cos(x) = \sin(x) + \cos(x)\)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEMA 3 -->
+    <div class="theme-section">
+        <div class="section-title">Tema 3: Identidades Pitagóricas</div>
+        <div class="grid">
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">11.</span><span class="ex-eq">\(1 - \sin^2(x) = \cos^2(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol11', this)">Ver Demostración</button>
+                <div id="sol11" class="solution">
+                    <div class="solution-step">Partimos de la identidad fundamental: \(\sin^2(x) + \cos^2(x) = 1\)</div>
+                    <div class="solution-step">Restamos \(\sin^2(x)\) en ambos lados: \(\cos^2(x) = 1 - \sin^2(x)\)</div>
+                    <div class="solution-step">\(\cos^2(x) = \cos^2(x)\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">12.</span><span class="ex-eq">\(\sec^2(x) - \tan^2(x) = 1\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol12', this)">Ver Demostración</button>
+                <div id="sol12" class="solution">
+                    <div class="solution-step">Partimos de \(\sin^2(x) + \cos^2(x) = 1\)</div>
+                    <div class="solution-step">Dividimos todos los términos entre \(\cos^2(x)\): \(\frac{\sin^2(x)}{\cos^2(x)} + \frac{\cos^2(x)}{\cos^2(x)} = \frac{1}{\cos^2(x)}\)</div>
+                    <div class="solution-step">\(\tan^2(x) + 1 = \sec^2(x)\)</div>
+                    <div class="solution-step">Restamos \(\tan^2(x)\): \(1 = \sec^2(x) - \tan^2(x)\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">13.</span><span class="ex-eq">\(\cos^2(x)(1 + \tan^2(x)) = 1\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol13', this)">Ver Demostración</button>
+                <div id="sol13" class="solution">
+                    <div class="solution-step">Sabemos del ejercicio anterior que \(1 + \tan^2(x) = \sec^2(x)\)</div>
+                    <div class="solution-step">Sustituimos: \(\cos^2(x)(\sec^2(x)) = 1\)</div>
+                    <div class="solution-step">\(\cos^2(x) \cdot \left(\frac{1}{\cos^2(x)}\right) = 1\)</div>
+                    <div class="solution-step">\(1 = 1\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">14.</span><span class="ex-eq">\(\csc^2(x) - \cot^2(x) = \sin^2(x) + \cos^2(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol14', this)">Ver Demostración</button>
+                <div id="sol14" class="solution">
+                    <div class="solution-step">Evaluamos el lado izquierdo: \(\csc^2(x) - \cot^2(x)\)</div>
+                    <div class="solution-step">\(\frac{1}{\sin^2(x)} - \frac{\cos^2(x)}{\sin^2(x)} = \frac{1 - \cos^2(x)}{\sin^2(x)}\)</div>
+                    <div class="solution-step">Como \(1 - \cos^2(x) = \sin^2(x)\), tenemos \(\frac{\sin^2(x)}{\sin^2(x)} = 1\)</div>
+                    <div class="solution-step">Evaluamos el lado derecho: \(\sin^2(x) + \cos^2(x) = 1\)</div>
+                    <div class="solution-step">\(1 = 1\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">15.</span><span class="ex-eq">\(\frac{1}{1-\sin^2(x)} - 1 = \tan^2(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol15', this)">Ver Demostración</button>
+                <div id="sol15" class="solution">
+                    <div class="solution-step">Sustituimos el denominador \(1 - \sin^2(x) = \cos^2(x)\)</div>
+                    <div class="solution-step">\(\frac{1}{\cos^2(x)} - 1 = \tan^2(x)\)</div>
+                    <div class="solution-step">\(\sec^2(x) - 1 = \tan^2(x)\)</div>
+                    <div class="solution-step">Sabemos que \(\sec^2(x) = 1 + \tan^2(x)\), así que \((1 + \tan^2(x)) - 1 = \tan^2(x)\)</div>
+                    <div class="solution-step">\(\tan^2(x) = \tan^2(x)\)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEMA 4 -->
+    <div class="theme-section">
+        <div class="section-title">Tema 4: Suma y Resta de Ángulos</div>
+        <div class="grid">
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">16.</span><span class="ex-eq">\(\sin(x+y) + \sin(x-y) = 2\sin(x)\cos(y)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol16', this)">Ver Demostración</button>
+                <div id="sol16" class="solution">
+                    <div class="solution-step">Expandimos las sumas de ángulos:</div>
+                    <div class="solution-step">\(\sin(x+y) = \sin(x)\cos(y) + \cos(x)\sin(y)\)</div>
+                    <div class="solution-step">\(\sin(x-y) = \sin(x)\cos(y) - \cos(x)\sin(y)\)</div>
+                    <div class="solution-step">Al sumarlas, los términos \(\cos(x)\sin(y)\) se cancelan.</div>
+                    <div class="solution-step">\(2\sin(x)\cos(y) = 2\sin(x)\cos(y)\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">17.</span><span class="ex-eq">\(\cos(x-y) - \cos(x+y) = 2\sin(x)\sin(y)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol17', this)">Ver Demostración</button>
+                <div id="sol17" class="solution">
+                    <div class="solution-step">Expandimos los cosenos:</div>
+                    <div class="solution-step">\(\cos(x-y) = \cos(x)\cos(y) + \sin(x)\sin(y)\)</div>
+                    <div class="solution-step">\(\cos(x+y) = \cos(x)\cos(y) - \sin(x)\sin(y)\)</div>
+                    <div class="solution-step">Restamos el segundo del primero:</div>
+                    <div class="solution-step">\((\cos(x)\cos(y) + \sin(x)\sin(y)) - (\cos(x)\cos(y) - \sin(x)\sin(y))\)</div>
+                    <div class="solution-step">\(2\sin(x)\sin(y) = 2\sin(x)\sin(y)\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">18.</span><span class="ex-eq">\(\frac{\sin(x+y)}{\cos(x)\cos(y)} = \tan(x) + \tan(y)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol18', this)">Ver Demostración</button>
+                <div id="sol18" class="solution">
+                    <div class="solution-step">Expandimos el numerador: \(\sin(x+y) = \sin(x)\cos(y) + \cos(x)\sin(y)\)</div>
+                    <div class="solution-step">Separamos la fracción: \(\frac{\sin(x)\cos(y)}{\cos(x)\cos(y)} + \frac{\cos(x)\sin(y)}{\cos(x)\cos(y)}\)</div>
+                    <div class="solution-step">Simplificamos cancelando los cosenos: \(\frac{\sin(x)}{\cos(x)} + \frac{\sin(y)}{\cos(y)}\)</div>
+                    <div class="solution-step">\(\tan(x) + \tan(y) = \tan(x) + \tan(y)\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">19.</span><span class="ex-eq">\(\cos(\frac{\pi}{2} - x) = \sin(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol19', this)">Ver Demostración</button>
+                <div id="sol19" class="solution">
+                    <div class="solution-step">Aplicamos la fórmula de resta de coseno: \(\cos(A-B) = \cos(A)\cos(B) + \sin(A)\sin(B)\)</div>
+                    <div class="solution-step">\(\cos(\frac{\pi}{2})\cos(x) + \sin(\frac{\pi}{2})\sin(x)\)</div>
+                    <div class="solution-step">Sabemos que \(\cos(\frac{\pi}{2}) = 0\) y \(\sin(\frac{\pi}{2}) = 1\)</div>
+                    <div class="solution-step">\(0 \cdot \cos(x) + 1 \cdot \sin(x) = \sin(x)\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">20.</span><span class="ex-eq">\(\frac{\tan(x+y) - \tan(x)}{1 + \tan(x+y)\tan(x)} = \tan(y)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol20', this)">Ver Demostración</button>
+                <div id="sol20" class="solution">
+                    <div class="solution-step">Identificamos la fórmula de la tangente de una resta: \(\tan(A - B) = \frac{\tan(A) - \tan(B)}{1 + \tan(A)\tan(B)}\)</div>
+                    <div class="solution-step">Donde \(A = (x+y)\) y \(B = x\)</div>
+                    <div class="solution-step">Reemplazando: \(\tan((x+y) - x) = \tan(y)\)</div>
+                    <div class="solution-step">\(\tan(y) = \tan(y)\)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEMA 5 -->
+    <div class="theme-section">
+        <div class="section-title">Tema 5: Ángulos Opuestos (Pares e Impares)</div>
+        <div class="grid">
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">21.</span><span class="ex-eq">\(\sin(-x) + \sin(x) = 0\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol21', this)">Ver Demostración</button>
+                <div id="sol21" class="solution">
+                    <div class="solution-step">La función seno es impar, por lo tanto: \(\sin(-x) = -\sin(x)\)</div>
+                    <div class="solution-step">Reemplazando: \(-\sin(x) + \sin(x) = 0\)</div>
+                    <div class="solution-step">\(0 = 0\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">22.</span><span class="ex-eq">\(\cos(-x)\sec(x) = 1\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol22', this)">Ver Demostración</button>
+                <div id="sol22" class="solution">
+                    <div class="solution-step">La función coseno es par: \(\cos(-x) = \cos(x)\)</div>
+                    <div class="solution-step">Reescribimos \(\sec(x) = \frac{1}{\cos(x)}\)</div>
+                    <div class="solution-step">\(\cos(x) \cdot \frac{1}{\cos(x)} = 1\)</div>
+                    <div class="solution-step">\(1 = 1\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">23.</span><span class="ex-eq">\(\tan(-x)\cot(-x) = 1\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol23', this)">Ver Demostración</button>
+                <div id="sol23" class="solution">
+                    <div class="solution-step">Ambas son funciones impares: \(\tan(-x) = -\tan(x)\) y \(\cot(-x) = -\cot(x)\)</div>
+                    <div class="solution-step">\((-\tan(x)) \cdot (-\cot(x)) = \tan(x)\cot(x)\)</div>
+                    <div class="solution-step">Por identidades recíprocas, \(\tan(x)\left(\frac{1}{\tan(x)}\right) = 1\)</div>
+                    <div class="solution-step">\(1 = 1\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">24.</span><span class="ex-eq">\(\sin(-x)\csc(x) + \cos(-x)\sec(-x) = 0\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol24', this)">Ver Demostración</button>
+                <div id="sol24" class="solution">
+                    <div class="solution-step">Paridad: \(\sin(-x) = -\sin(x)\), \(\cos(-x) = \cos(x)\) y \(\sec(-x) = \sec(x)\)</div>
+                    <div class="solution-step">\((-\sin(x))\left(\frac{1}{\sin(x)}\right) + (\cos(x))\left(\frac{1}{\cos(x)}\right) = 0\)</div>
+                    <div class="solution-step">\(-1 + 1 = 0\)</div>
+                    <div class="solution-step">\(0 = 0\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">25.</span><span class="ex-eq">\(\frac{\cos(-x)}{1+\sin(-x)} + \frac{\cos(-x)}{1-\sin(-x)} = 2\sec(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol25', this)">Ver Demostración</button>
+                <div id="sol25" class="solution">
+                    <div class="solution-step">Aplicamos paridad: \(\frac{\cos(x)}{1-\sin(x)} + \frac{\cos(x)}{1+\sin(x)}\)</div>
+                    <div class="solution-step">Sumamos fracciones: \(\frac{\cos(x)(1+\sin(x)) + \cos(x)(1-\sin(x))}{(1-\sin(x))(1+\sin(x))}\)</div>
+                    <div class="solution-step">Simplificando numerador: \(\cos(x) + \cos(x)\sin(x) + \cos(x) - \cos(x)\sin(x) = 2\cos(x)\)</div>
+                    <div class="solution-step">Simplificando denominador: \(1 - \sin^2(x) = \cos^2(x)\)</div>
+                    <div class="solution-step">Queda: \(\frac{2\cos(x)}{\cos^2(x)} = \frac{2}{\cos(x)} = 2\sec(x)\)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEMA 6 -->
+    <div class="theme-section">
+        <div class="section-title">Tema 6: Operaciones y Factorización Algebraica</div>
+        <div class="grid">
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">26.</span><span class="ex-eq">\(\sin^2(x) + \sin^2(x)\tan^2(x) = \tan^2(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol26', this)">Ver Demostración</button>
+                <div id="sol26" class="solution">
+                    <div class="solution-step">Sacamos factor común \(\sin^2(x)\): \(\sin^2(x)[1 + \tan^2(x)]\)</div>
+                    <div class="solution-step">Por identidad pitagórica, \(1 + \tan^2(x) = \sec^2(x)\)</div>
+                    <div class="solution-step">\(\sin^2(x) \cdot \sec^2(x) = \sin^2(x) \cdot \frac{1}{\cos^2(x)}\)</div>
+                    <div class="solution-step">\(\frac{\sin^2(x)}{\cos^2(x)} = \tan^2(x)\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">27.</span><span class="ex-eq">\((\sin(x) - \cos(x))(\sin(x) + \cos(x)) = 1 - 2\cos^2(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol27', this)">Ver Demostración</button>
+                <div id="sol27" class="solution">
+                    <div class="solution-step">Aplicamos diferencia de cuadrados \((A-B)(A+B) = A^2 - B^2\):</div>
+                    <div class="solution-step">\(\sin^2(x) - \cos^2(x)\)</div>
+                    <div class="solution-step">Sustituimos \(\sin^2(x)\) por \(1 - \cos^2(x)\):</div>
+                    <div class="solution-step">\((1 - \cos^2(x)) - \cos^2(x) = 1 - 2\cos^2(x)\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">28.</span><span class="ex-eq">\(\frac{\sec^4(x) - 1}{\tan^2(x)} = \sec^2(x) + 1\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol28', this)">Ver Demostración</button>
+                <div id="sol28" class="solution">
+                    <div class="solution-step">Factorizamos el numerador como diferencia de cuadrados:</div>
+                    <div class="solution-step">\(\frac{(\sec^2(x) - 1)(\sec^2(x) + 1)}{\tan^2(x)}\)</div>
+                    <div class="solution-step">Sabemos que \(\sec^2(x) - 1 = \tan^2(x)\)</div>
+                    <div class="solution-step">\(\frac{\tan^2(x)(\sec^2(x) + 1)}{\tan^2(x)}\)</div>
+                    <div class="solution-step">Cancelando \(\tan^2(x)\): \(\sec^2(x) + 1 = \sec^2(x) + 1\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">29.</span><span class="ex-eq">\(\frac{1}{1-\cos(x)} + \frac{1}{1+\cos(x)} = 2\csc^2(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol29', this)">Ver Demostración</button>
+                <div id="sol29" class="solution">
+                    <div class="solution-step">Sumamos las fracciones buscando denominador común:</div>
+                    <div class="solution-step">\(\frac{(1+\cos(x)) + (1-\cos(x))}{(1-\cos(x))(1+\cos(x))}\)</div>
+                    <div class="solution-step">Numerador: \(1 + \cos(x) + 1 - \cos(x) = 2\)</div>
+                    <div class="solution-step">Denominador: \(1 - \cos^2(x) = \sin^2(x)\)</div>
+                    <div class="solution-step">\(\frac{2}{\sin^2(x)} = 2\csc^2(x)\)</div>
+                </div>
+            </div>
+
+            <div class="ex-card">
+                <div class="ex-header"><span class="ex-num">30.</span><span class="ex-eq">\(\frac{\cos^3(x) - \sin^3(x)}{\cos(x) - \sin(x)} = 1 + \sin(x)\cos(x)\)</span></div>
+                <button class="btn-toggle" onclick="toggleSol('sol30', this)">Ver Demostración</button>
+                <div id="sol30" class="solution">
+                    <div class="solution-step">Factorizamos la diferencia de cubos: \(A^3 - B^3 = (A-B)(A^2 + AB + B^2)\)</div>
+                    <div class="solution-step">\(\frac{(\cos(x) - \sin(x))(\cos^2(x) + \cos(x)\sin(x) + \sin^2(x))}{\cos(x) - \sin(x)}\)</div>
+                    <div class="solution-step">Cancelamos el término \((\cos(x) - \sin(x))\):</div>
+                    <div class="solution-step">\(\cos^2(x) + \sin^2(x) + \cos(x)\sin(x)\)</div>
+                    <div class="solution-step">Agrupamos identidades: \(1 + \sin(x)\cos(x) = 1 + \sin(x)\cos(x)\)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function toggleSol(id, btn) {
+        const solDiv = document.getElementById(id);
+        if (solDiv.style.display === "block") {
+            solDiv.style.display = "none";
+            btn.textContent = "Ver Demostración";
+            btn.classList.remove("active");
+        } else {
+            solDiv.style.display = "block";
+            btn.textContent = "Ocultar Demostración";
+            btn.classList.add("active");
+        }
+    }
+</script>
+</body>
+</html>

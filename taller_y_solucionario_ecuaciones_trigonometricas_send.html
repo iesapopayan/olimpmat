@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller de Ecuaciones Trigonométricas - Solucionario Interactivo</title>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']], processEscapes: true },
+            options: { ignoreHtmlClass: 'tex2jax_ignore', processHtmlClass: 'tex2jax_process' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #2563eb;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+            --accent: #d97706;
+            --accent-light: #fef3c7;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+        }
+
+        .header h2 {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin: 0 0 5px 0;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin: 0;
+        }
+
+        .instructions {
+            background-color: #eff6ff;
+            border-left: 4px solid var(--secondary);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .level-title {
+            font-size: 1.25rem;
+            color: #ffffff;
+            background-color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            margin: 30px 0 15px 0;
+            font-weight: bold;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .card {
+            background: #fafafa;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            border-color: var(--secondary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            padding: 12px 15px;
+            background: #f1f5f9;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+        }
+
+        .card-num {
+            font-weight: bold;
+            color: var(--secondary);
+            font-size: 1.1rem;
+            min-width: 30px;
+        }
+
+        .card-eq {
+            font-size: 1.1rem;
+            font-weight: 600;
+            flex-grow: 1;
+        }
+
+        .btn-toggle {
+            background-color: #e2e8f0;
+            color: #334155;
+            border: none;
+            padding: 8px;
+            width: 100%;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .btn-toggle:hover {
+            background-color: var(--secondary);
+            color: #ffffff;
+        }
+
+        .btn-toggle.active {
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+
+        .solution {
+            display: none;
+            padding: 15px;
+            background-color: #ffffff;
+            border-top: 1px dashed var(--border);
+            font-size: 0.95rem;
+        }
+
+        .step {
+            margin-bottom: 8px;
+            padding-left: 10px;
+            border-left: 3px solid var(--secondary);
+        }
+
+        .answer-box {
+            background-color: var(--accent-light);
+            border: 1px solid var(--accent);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #92400e;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            border-top: 1px solid var(--border);
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container tex2jax_process">
+    <div class="header">
+        <p><strong>Institución Educativa San Agustín</strong></p>
+        <h1>Taller y Solucionario: Ecuaciones Trigonométricas</h1>
+        <h2>Grado Décimo (10°) - Matemáticas</h2>
+        <p>Soluciones paso a paso para el intervalo \(-180^\circ < x \le 180^\circ\) (\((-\pi, \pi]\))</p>
+    </div>
+
+    <div class="instructions">
+        <strong>Indicaciones del Taller:</strong> Resuelva cada una de las 20 ecuaciones trigonométricas determinando todos los valores angulares posibles para \(x\) en el intervalo \(-180^\circ < x \le 180^\circ\). Este es el rango estándar de salida (valor principal y sus simétricos/periódicos) que arroja una calculadora científica.
+    </div>
+
+    <!-- NIVEL 1 -->
+    <div class="level-title">Nivel 1: Despeje Directo y Ángulos Notables</div>
+    <div class="grid">
+
+        <!-- Ejercicio 1 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">1.</span>
+                <span class="card-eq">\(2\cos(x) - 1 = 0\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol1', this)">Ver Solución Paso a Paso</button>
+            <div id="sol1" class="solution">
+                <div class="step">Despejamos el coseno: \(2\cos(x) = 1 \implies \cos(x) = \frac{1}{2}\)</div>
+                <div class="step">Con la calculadora obtenemos el valor principal: \(x_1 = \arccos(0.5) = 60^\circ\)</div>
+                <div class="step">Como la función coseno es par (\(\cos(-x) = \cos(x)\)), la otra solución en el intervalo es su opuesto:</div>
+                <div class="step">\(x_2 = -60^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{-60^\circ, 60^\circ\}\)</div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 2 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">2.</span>
+                <span class="card-eq">\(\sqrt{2}\sin(x) + 1 = 0\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol2', this)">Ver Solución Paso a Paso</button>
+            <div id="sol2" class="solution">
+                <div class="step">Despejamos el seno: \(\sqrt{2}\sin(x) = -1 \implies \sin(x) = -\frac{\sqrt{2}}{2}\)</div>
+                <div class="step">Con la calculadora obtenemos el valor principal: \(x_1 = \arcsin(-\frac{\sqrt{2}}{2}) = -45^\circ\)</div>
+                <div class="step">El seno también es negativo en el tercer cuadrante. Para hallar el otro ángulo, usamos la simetría \(\sin(-180^\circ - x) = \sin(x)\):</div>
+                <div class="step">\(x_2 = -180^\circ - (-45^\circ) = -135^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{-135^\circ, -45^\circ\}\)</div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 3 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">3.</span>
+                <span class="card-eq">\(\sqrt{3}\tan(x) - 1 = 0\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol3', this)">Ver Solución Paso a Paso</button>
+            <div id="sol3" class="solution">
+                <div class="step">Despejamos la tangente: \(\tan(x) = \frac{1}{\sqrt{3}} = \frac{\sqrt{3}}{3}\)</div>
+                <div class="step">El valor principal de la calculadora es: \(x_1 = \arctan(\frac{\sqrt{3}}{3}) = 30^\circ\)</div>
+                <div class="step">La función tangente tiene periodo de \(180^\circ\). Para mantenernos en el intervalo restamos \(180^\circ\):</div>
+                <div class="step">\(x_2 = 30^\circ - 180^\circ = -150^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{-150^\circ, 30^\circ\}\)</div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 4 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">4.</span>
+                <span class="card-eq">\(2\sin(x) - \sqrt{3} = 0\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol4', this)">Ver Solución Paso a Paso</button>
+            <div id="sol4" class="solution">
+                <div class="step">Despejamos el seno: \(\sin(x) = \frac{\sqrt{3}}{2}\)</div>
+                <div class="step">Valor principal: \(x_1 = \arcsin(\frac{\sqrt{3}}{2}) = 60^\circ\)</div>
+                <div class="step">El seno también es positivo en el segundo cuadrante (\(180^\circ - x\)):</div>
+                <div class="step">\(x_2 = 180^\circ - 60^\circ = 120^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{60^\circ, 120^\circ\}\)</div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 5 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">5.</span>
+                <span class="card-eq">\(3\tan^2(x) - 3 = 0\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol5', this)">Ver Solución Paso a Paso</button>
+            <div id="sol5" class="solution">
+                <div class="step">Despejamos \(\tan^2(x)\): \(3\tan^2(x) = 3 \implies \tan^2(x) = 1\)</div>
+                <div class="step">Extraemos raíz cuadrada: \(\tan(x) = 1\) ó \(\tan(x) = -1\)</div>
+                <div class="step">Para \(\tan(x) = 1\): \(x_1 = 45^\circ\) y \(x_2 = 45^\circ - 180^\circ = -135^\circ\)</div>
+                <div class="step">Para \(\tan(x) = -1\): \(x_3 = -45^\circ\) y \(x_4 = -45^\circ + 180^\circ = 135^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{-135^\circ, -45^\circ, 45^\circ, 135^\circ\}\)</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- NIVEL 2 -->
+    <div class="level-title">Nivel 2: Factorización y Forma Cuadrática</div>
+    <div class="grid">
+
+        <!-- Ejercicio 6 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">6.</span>
+                <span class="card-eq">\(\sin(x)\cos(x) - \cos(x) = 0\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol6', this)">Ver Solución Paso a Paso</button>
+            <div id="sol6" class="solution">
+                <div class="step">Factorizamos \(\cos(x)\): \(\cos(x)(\sin(x) - 1) = 0\)</div>
+                <div class="step"><strong>Caso 1:</strong> \(\cos(x) = 0 \implies x_1 = 90^\circ, x_2 = -90^\circ\)</div>
+                <div class="step"><strong>Caso 2:</strong> \(\sin(x) - 1 = 0 \implies \sin(x) = 1 \implies x_3 = 90^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{-90^\circ, 90^\circ\}\)</div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 7 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">7.</span>
+                <span class="card-eq">\(2\sin^2(x) - \sin(x) - 1 = 0\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol7', this)">Ver Solución Paso a Paso</button>
+            <div id="sol7" class="solution">
+                <div class="step">Factorizamos: \((2\sin(x) + 1)(\sin(x) - 1) = 0\)</div>
+                <div class="step"><strong>Factor 1:</strong> \(2\sin(x) + 1 = 0 \implies \sin(x) = -0.5\)</div>
+                <div class="step">Valor principal: \(-30^\circ\). La otra solución (cuadrante III) es \(-180^\circ - (-30^\circ) = -150^\circ\)</div>
+                <div class="step"><strong>Factor 2:</strong> \(\sin(x) - 1 = 0 \implies \sin(x) = 1 \implies x = 90^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{-150^\circ, -30^\circ, 90^\circ\}\)</div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 8 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">8.</span>
+                <span class="card-eq">\(2\cos^2(x) + \cos(x) = 0\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol8', this)">Ver Solución Paso a Paso</button>
+            <div id="sol8" class="solution">
+                <div class="step">Factor común \(\cos(x)\): \(\cos(x)(2\cos(x) + 1) = 0\)</div>
+                <div class="step"><strong>Caso 1:</strong> \(\cos(x) = 0 \implies x \in \{-90^\circ, 90^\circ\}\)</div>
+                <div class="step"><strong>Caso 2:</strong> \(\cos(x) = -0.5 \implies x = \arccos(-0.5) = 120^\circ\)</div>
+                <div class="step">La otra solución por simetría par es \(-120^\circ\).</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{-120^\circ, -90^\circ, 90^\circ, 120^\circ\}\)</div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 9 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">9.</span>
+                <span class="card-eq">\(\tan^2(x) + \tan(x) = 0\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol9', this)">Ver Solución Paso a Paso</button>
+            <div id="sol9" class="solution">
+                <div class="step">Factor común \(\tan(x)\): \(\tan(x)(\tan(x) + 1) = 0\)</div>
+                <div class="step"><strong>Caso 1:</strong> \(\tan(x) = 0 \implies x_1 = 0^\circ, x_2 = 180^\circ\)</div>
+                <div class="step"><strong>Caso 2:</strong> \(\tan(x) = -1 \implies x_3 = -45^\circ\). Sumando el periodo: \(x_4 = -45^\circ + 180^\circ = 135^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{-45^\circ, 0^\circ, 135^\circ, 180^\circ\}\)</div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 10 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">10.</span>
+                <span class="card-eq">\(2\cos^2(x) - 3\cos(x) + 1 = 0\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol10', this)">Ver Solución Paso a Paso</button>
+            <div id="sol10" class="solution">
+                <div class="step">Factorizamos la cuadrática: \((2\cos(x) - 1)(\cos(x) - 1) = 0\)</div>
+                <div class="step"><strong>Factor 1:</strong> \(2\cos(x) - 1 = 0 \implies \cos(x) = 0.5 \implies x \in \{-60^\circ, 60^\circ\}\)</div>
+                <div class="step"><strong>Factor 2:</strong> \(\cos(x) - 1 = 0 \implies \cos(x) = 1 \implies x = 0^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{-60^\circ, 0^\circ, 60^\circ\}\)</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- NIVEL 3 -->
+    <div class="level-title">Nivel 3: Identidades Pitagóricas y Recíprocas</div>
+    <div class="grid">
+
+        <!-- Ejercicio 11 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">11.</span>
+                <span class="card-eq">\(2\sin^2(x) + \cos(x) = 1\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol11', this)">Ver Solución Paso a Paso</button>
+            <div id="sol11" class="solution">
+                <div class="step">Identidad pitagórica \(\sin^2(x) = 1 - \cos^2(x)\):</div>
+                <div class="step">\(2(1 - \cos^2(x)) + \cos(x) - 1 = 0 \implies -2\cos^2(x) + \cos(x) + 1 = 0\)</div>
+                <div class="step">Multiplicando por \(-1\) y factorizando: \((2\cos(x) + 1)(\cos(x) - 1) = 0\)</div>
+                <div class="step">\(2\cos(x) + 1 = 0 \implies \cos(x) = -0.5 \implies x \in \{-120^\circ, 120^\circ\}\)</div>
+                <div class="step">\(\cos(x) - 1 = 0 \implies \cos(x) = 1 \implies x = 0^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{-120^\circ, 0^\circ, 120^\circ\}\)</div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 12 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">12.</span>
+                <span class="card-eq">\(\sec^2(x) + 2\tan(x) = 4\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol12', this)">Ver Solución Paso a Paso</button>
+            <div id="sol12" class="solution">
+                <div class="step">Sustituimos \(\sec^2(x) = 1 + \tan^2(x)\):</div>
+                <div class="step">\(\tan^2(x) + 2\tan(x) - 3 = 0 \implies (\tan(x) + 3)(\tan(x) - 1) = 0\)</div>
+                <div class="step"><strong>Factor 1:</strong> \(\tan(x) = 1 \implies x_1 = 45^\circ\). Con el periodo: \(x_2 = 45^\circ - 180^\circ = -135^\circ\)</div>
+                <div class="step"><strong>Factor 2:</strong> \(\tan(x) = -3 \implies x_3 = \arctan(-3) \approx -71.57^\circ\). Con el periodo: \(x_4 = -71.57^\circ + 180^\circ = 108.43^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{-135^\circ, \approx -71.57^\circ, 45^\circ, \approx 108.43^\circ\}\)</div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 13 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">13.</span>
+                <span class="card-eq">\(\cos^2(x) - \sin^2(x) = 0\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol13', this)">Ver Solución Paso a Paso</button>
+            <div id="sol13" class="solution">
+                <div class="step">Dividimos entre \(\cos^2(x)\): \(1 - \tan^2(x) = 0 \implies \tan^2(x) = 1\)</div>
+                <div class="step">\(\tan(x) = 1 \implies x \in \{-135^\circ, 45^\circ\}\)</div>
+                <div class="step">\(\tan(x) = -1 \implies x \in \{-45^\circ, 135^\circ\}\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{-135^\circ, -45^\circ, 45^\circ, 135^\circ\}\)</div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 14 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">14.</span>
+                <span class="card-eq">\(\sin(x) + \csc(x) = \frac{5}{2}\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol14', this)">Ver Solución Paso a Paso</button>
+            <div id="sol14" class="solution">
+                <div class="step">Sustituimos \(\csc(x) = \frac{1}{\sin(x)}\): \(\sin(x) + \frac{1}{\sin(x)} = 2.5\)</div>
+                <div class="step">Multiplicando por \(\sin(x)\): \(\sin^2(x) - 2.5\sin(x) + 1 = 0\)</div>
+                <div class="step">Multiplicamos por 2 para facilitar: \(2\sin^2(x) - 5\sin(x) + 2 = 0 \implies (2\sin(x) - 1)(\sin(x) - 2) = 0\)</div>
+                <div class="step">\(\sin(x) = 2\) se descarta. Queda \(\sin(x) = 0.5 \implies x = 30^\circ, 150^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{30^\circ, 150^\circ\}\)</div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 15 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">15.</span>
+                <span class="card-eq">\(2\cos^2(x) + 3\sin(x) - 3 = 0\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol15', this)">Ver Solución Paso a Paso</button>
+            <div id="sol15" class="solution">
+                <div class="step">Sustituimos \(\cos^2(x) = 1 - \sin^2(x)\):</div>
+                <div class="step">\(2(1 - \sin^2(x)) + 3\sin(x) - 3 = 0 \implies -2\sin^2(x) + 3\sin(x) - 1 = 0\)</div>
+                <div class="step">Factorizamos: \((2\sin(x) - 1)(\sin(x) - 1) = 0\)</div>
+                <div class="step">\(2\sin(x) - 1 = 0 \implies \sin(x) = 0.5 \implies x \in \{30^\circ, 150^\circ\}\)</div>
+                <div class="step">\(\sin(x) - 1 = 0 \implies \sin(x) = 1 \implies x = 90^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{30^\circ, 90^\circ, 150^\circ\}\)</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- NIVEL 4 -->
+    <div class="level-title">Nivel 4: Ángulo Doble y Ecuaciones de Síntesis</div>
+    <div class="grid">
+
+        <!-- Ejercicio 16 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">16.</span>
+                <span class="card-eq">\(\sin(2x) = \sin(x)\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol16', this)">Ver Solución Paso a Paso</button>
+            <div id="sol16" class="solution">
+                <div class="step">Usamos la identidad del ángulo doble: \(2\sin(x)\cos(x) - \sin(x) = 0 \implies \sin(x)(2\cos(x) - 1) = 0\)</div>
+                <div class="step"><strong>Caso 1:</strong> \(\sin(x) = 0 \implies x_1 = 0^\circ, x_2 = 180^\circ\)</div>
+                <div class="step"><strong>Caso 2:</strong> \(\cos(x) = 0.5 \implies x_3 = 60^\circ, x_4 = -60^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{-60^\circ, 0^\circ, 60^\circ, 180^\circ\}\)</div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 17 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">17.</span>
+                <span class="card-eq">\(\cos(2x) - \cos(x) = 0\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol17', this)">Ver Solución Paso a Paso</button>
+            <div id="sol17" class="solution">
+                <div class="step">Sustituimos \(\cos(2x) = 2\cos^2(x) - 1\):</div>
+                <div class="step">\(2\cos^2(x) - \cos(x) - 1 = 0 \implies (2\cos(x) + 1)(\cos(x) - 1) = 0\)</div>
+                <div class="step">\(2\cos(x) + 1 = 0 \implies \cos(x) = -0.5 \implies x \in \{-120^\circ, 120^\circ\}\)</div>
+                <div class="step">\(\cos(x) - 1 = 0 \implies \cos(x) = 1 \implies x = 0^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{-120^\circ, 0^\circ, 120^\circ\}\)</div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 18 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">18.</span>
+                <span class="card-eq">\(\sin(2x) - \sqrt{3}\cos(x) = 0\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol18', this)">Ver Solución Paso a Paso</button>
+            <div id="sol18" class="solution">
+                <div class="step">Sustituimos \(\sin(2x) = 2\sin(x)\cos(x)\):</div>
+                <div class="step">\(\cos(x)(2\sin(x) - \sqrt{3}) = 0\)</div>
+                <div class="step"><strong>Caso 1:</strong> \(\cos(x) = 0 \implies x \in \{-90^\circ, 90^\circ\}\)</div>
+                <div class="step"><strong>Caso 2:</strong> \(\sin(x) = \frac{\sqrt{3}}{2} \implies x_1 = 60^\circ, x_2 = 180^\circ - 60^\circ = 120^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{-90^\circ, 60^\circ, 90^\circ, 120^\circ\}\)</div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 19 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">19.</span>
+                <span class="card-eq">\(\tan(2x) = \sqrt{3}\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol19', this)">Ver Solución Paso a Paso</button>
+            <div id="sol19" class="solution">
+                <div class="step">Sea \(\theta = 2x\). La solución general para \(\tan(\theta) = \sqrt{3}\) es \(\theta = 60^\circ + 180^\circ k\) (donde \(k\) es un entero).</div>
+                <div class="step">Despejando \(x\): \(x = 30^\circ + 90^\circ k\)</div>
+                <div class="step">Evaluamos para obtener soluciones en el rango \((-180^\circ, 180^\circ]\):</div>
+                <div class="step">Si \(k=-2 \implies x = -150^\circ\)</div>
+                <div class="step">Si \(k=-1 \implies x = -60^\circ\)</div>
+                <div class="step">Si \(k=0 \implies x = 30^\circ\)</div>
+                <div class="step">Si \(k=1 \implies x = 120^\circ\)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{-150^\circ, -60^\circ, 30^\circ, 120^\circ\}\)</div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 20 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-num">20.</span>
+                <span class="card-eq">\(\sin(x) - \cos(x) = 1\)</span>
+            </div>
+            <button class="btn-toggle" onclick="toggleSol('sol20', this)">Ver Solución Paso a Paso</button>
+            <div id="sol20" class="solution">
+                <div class="step">Elevamos al cuadrado: \((\sin(x) - \cos(x))^2 = 1 \implies \sin^2(x) - 2\sin(x)\cos(x) + \cos^2(x) = 1\)</div>
+                <div class="step">\(1 - \sin(2x) = 1 \implies \sin(2x) = 0 \implies 2x = 0^\circ, 180^\circ, -180^\circ, 360^\circ\)</div>
+                <div class="step">Por lo que las posibles soluciones son: \(x \in \{-90^\circ, 0^\circ, 90^\circ, 180^\circ\}\)</div>
+                <div class="step"><strong>Descartando soluciones extrañas (comprobación):</strong></div>
+                <div class="step">\(x = 0^\circ \implies 0 - 1 = -1 \neq 1\) (Falso)</div>
+                <div class="step">\(x = 90^\circ \implies 1 - 0 = 1\) (Verdadero)</div>
+                <div class="step">\(x = 180^\circ \implies 0 - (-1) = 1\) (Verdadero)</div>
+                <div class="step">\(x = -90^\circ \implies -1 - 0 = -1 \neq 1\) (Falso)</div>
+                <div class="answer-box">Conjunto Solución: \(x \in \{90^\circ, 180^\circ\}\)</div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        Institución Educativa San Agustín &copy; 2026 — Material Pedagógico de Apoyo en Matemáticas
+    </footer>
+</div>
+
+<script>
+    function toggleSol(id, btn) {
+        const sol = document.getElementById(id);
+        if (sol.style.display === "block") {
+            sol.style.display = "none";
+            btn.textContent = "Ver Solución Paso a Paso";
+            btn.classList.remove("active");
+        } else {
+            sol.style.display = "block";
+            btn.textContent = "Ocultar Solución";
+            btn.classList.add("active");
+        }
+    }
+</script>
+
+</body>
+</html>

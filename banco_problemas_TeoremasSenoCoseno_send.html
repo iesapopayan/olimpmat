@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco de Problemas: Teoremas del Seno y Coseno</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #2563eb;
+            --seno-color: #0d9488;
+            --coseno-color: #7c3aed;
+            --bg-light: #f8fafc;
+            --text-main: #334155;
+            --border: #e2e8f0;
+            --example-bg: #eff6ff;
+            --exercise-bg: #fdfcd5;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.7;
+            color: var(--text-main);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .header h1 {
+            margin: 0 0 1rem 0;
+            font-size: 2.5rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-title {
+            padding: 1rem;
+            color: white;
+            border-radius: 8px;
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .seno-title { background-color: var(--seno-color); }
+        .coseno-title { background-color: var(--coseno-color); }
+
+        .case-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid var(--border);
+        }
+
+        .case-title {
+            color: var(--primary);
+            font-size: 1.6rem;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+            margin-bottom: 2rem;
+        }
+
+        .problem-pair {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .problem-pair { grid-template-columns: 1fr 1fr; }
+        }
+
+        .box {
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .example-box {
+            background-color: var(--example-bg);
+            border-left: 4px solid var(--secondary);
+        }
+
+        .exercise-box {
+            background-color: #fefce8;
+            border-left: 4px solid #eab308;
+        }
+
+        .box-title {
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .example-box .box-title { color: var(--secondary); }
+        .exercise-box .box-title { color: #ca8a04; }
+
+        .solution {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px dashed rgba(0,0,0,0.1);
+        }
+
+        .result-container {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #fde047;
+            border-radius: 6px;
+        }
+
+        .btn-toggle {
+            background-color: #eab308;
+            color: #422006;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: background-color 0.2s;
+            align-self: flex-start;
+        }
+
+        .btn-toggle:hover {
+            background-color: #ca8a04;
+            color: white;
+        }
+
+        .highlight {
+            font-weight: 600;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>Sistema de Evaluación Trigonométrica</h1>
+        <p>Ejercicios interactivos organizados por Teorema</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- SECCIÓN 1: TEOREMA DEL SENO -->
+        <h2 class="section-title seno-title">Bloque I: Teorema del Seno</h2>
+
+        <section class="case-section">
+            <h3 class="case-title">Caso 1: Conociendo Ángulo-Ángulo-Lado (AAL)</h3>
+            <div class="problem-pair">
+                <div class="box example-box">
+                    <h4 class="box-title">Ejemplo 1</h4>
+                    <p>En el triángulo \(ABC\), el ángulo \(A = 40^\circ\), el ángulo \(B = 60^\circ\) y el lado \(a = 10 \text{ m}\). Calcula la longitud del lado \(b\).</p>
+                    <div class="solution">
+                        <strong>Solución:</strong>
+                        <p>\(\frac{10}{\sin(40^\circ)} = \frac{b}{\sin(60^\circ)}\)</p>
+                        <p>\(b = \frac{10(0.866)}{0.6427} \approx 13.47 \text{ m}\)</p>
+                    </div>
+                </div>
+                <div class="box exercise-box">
+                    <h4 class="box-title">Ejercicio 1</h4>
+                    <p>En un triángulo \(DEF\), el ángulo \(D = 35^\circ\), el ángulo \(E = 85^\circ\) y el lado \(d = 25 \text{ mm}\). Calcula la longitud del lado \(e\).</p>
+                    <button class="btn-toggle" onclick="toggleResult('res1', this)">Ver Resultado</button>
+                    <div id="res1" class="result-container">
+                        <strong>Resultado:</strong>
+                        <p>\(e = \frac{25 \cdot \sin(85^\circ)}{\sin(35^\circ)}\)</p>
+                        <p class="highlight">\(e \approx 43.42 \text{ mm}\)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h3 class="case-title">Caso 2: Conociendo Ángulo-Lado-Ángulo (ALA)</h3>
+            <div class="problem-pair">
+                <div class="box example-box">
+                    <h4 class="box-title">Ejemplo 2</h4>
+                    <p>En el triángulo \(ABC\), \(A = 50^\circ\), \(C = 70^\circ\) y el lado comprendido \(b = 15 \text{ m}\). Halla el lado \(a\).</p>
+                    <div class="solution">
+                        <strong>Solución:</strong>
+                        <p>\(B = 180^\circ - 50^\circ - 70^\circ = 60^\circ\)</p>
+                        <p>\(a = \frac{15 \cdot \sin(50^\circ)}{\sin(60^\circ)} \approx 13.27 \text{ m}\)</p>
+                    </div>
+                </div>
+                <div class="box exercise-box">
+                    <h4 class="box-title">Ejercicio 2</h4>
+                    <p>Para un triángulo \(MNP\), se conocen los ángulos \(M = 45^\circ\), \(N = 55^\circ\) y el lado comprendido \(p = 30 \text{ cm}\). Determina la longitud del lado \(m\).</p>
+                    <button class="btn-toggle" onclick="toggleResult('res2', this)">Ver Resultado</button>
+                    <div id="res2" class="result-container">
+                        <strong>Resultado:</strong>
+                        <p>Ángulo \(P = 180^\circ - (45^\circ + 55^\circ) = 80^\circ\)</p>
+                        <p>\(m = \frac{30 \cdot \sin(45^\circ)}{\sin(80^\circ)}\)</p>
+                        <p class="highlight">\(m \approx 21.54 \text{ cm}\)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h3 class="case-title">Caso 3: Caso Ambiguo LLA (Cero Soluciones)</h3>
+            <div class="problem-pair">
+                <div class="box example-box">
+                    <h4 class="box-title">Ejemplo 3</h4>
+                    <p>Intenta resolver el triángulo con \(a = 5 \text{ cm}\), \(b = 12 \text{ cm}\) y \(A = 45^\circ\).</p>
+                    <div class="solution">
+                        <strong>Solución:</strong>
+                        <p>\(\sin(B) = \frac{12 \cdot \sin(45^\circ)}{5} \approx 1.697\)</p>
+                        <p class="highlight">Imposible. No existe solución porque \(\sin(B) > 1\).</p>
+                    </div>
+                </div>
+                <div class="box exercise-box">
+                    <h4 class="box-title">Ejercicio 3</h4>
+                    <p>Demuestra matemáticamente que es imposible construir un triángulo donde el lado \(x = 8\), el lado \(y = 20\) y el ángulo \(X = 30^\circ\).</p>
+                    <button class="btn-toggle" onclick="toggleResult('res3', this)">Ver Resultado</button>
+                    <div id="res3" class="result-container">
+                        <strong>Resultado:</strong>
+                        <p>\(\sin(Y) = \frac{20 \cdot \sin(30^\circ)}{8} = \frac{20 \cdot 0.5}{8} = 1.25\)</p>
+                        <p class="highlight">Como \(1.25 > 1\), el arco seno no está definido. (0 soluciones).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h3 class="case-title">Caso 4: Caso Ambiguo LLA (Dos Soluciones)</h3>
+            <div class="problem-pair">
+                <div class="box example-box">
+                    <h4 class="box-title">Ejemplo 4</h4>
+                    <p>En el triángulo \(ABC\), \(a = 10 \text{ cm}\), \(b = 14 \text{ cm}\) y \(A = 30^\circ\). Encuentra los valores para el ángulo \(B\).</p>
+                    <div class="solution">
+                        <strong>Solución:</strong>
+                        <p>\(\sin(B) = \frac{14 \cdot \sin(30^\circ)}{10} = 0.7\)</p>
+                        <p class="highlight">\(B_1 \approx 44.43^\circ \text{ y } B_2 \approx 135.57^\circ\)</p>
+                    </div>
+                </div>
+                <div class="box exercise-box">
+                    <h4 class="box-title">Ejercicio 4</h4>
+                    <p>Se proporcionan las medidas \(a = 15 \text{ cm}\), \(b = 20 \text{ cm}\) y \(A = 40^\circ\). Calcula los dos posibles valores para el ángulo \(B\).</p>
+                    <button class="btn-toggle" onclick="toggleResult('res4', this)">Ver Resultado</button>
+                    <div id="res4" class="result-container">
+                        <strong>Resultado:</strong>
+                        <p>\(\sin(B) = \frac{20 \cdot \sin(40^\circ)}{15} \approx 0.857\)</p>
+                        <p class="highlight">Solución 1: \(B_1 = \arcsin(0.857) \approx 58.99^\circ\)</p>
+                        <p class="highlight">Solución 2: \(B_2 = 180^\circ - 58.99^\circ = 121.01^\circ\)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h3 class="case-title">Caso 5: Infinitas Soluciones (Semejanza)</h3>
+            <div class="problem-pair">
+                <div class="box example-box">
+                    <h4 class="box-title">Ejemplo 5</h4>
+                    <p>De un triángulo solo conocemos sus ángulos: \(A = 40^\circ\), \(B = 60^\circ\), \(C = 80^\circ\).</p>
+                    <div class="solution">
+                        <strong>Solución:</strong>
+                        <p>Faltan medidas de longitud, existen <strong>infinitas soluciones</strong> proporcionales a:</p>
+                        <p>\(a \approx 0.643k\), \(b \approx 0.866k\), \(c \approx 0.985k\)</p>
+                    </div>
+                </div>
+                <div class="box exercise-box">
+                    <h4 class="box-title">Ejercicio 5</h4>
+                    <p>Para una prueba de olimpiadas, se pide resolver un triángulo con ángulos de \(30^\circ\), \(70^\circ\) y \(80^\circ\). Escribe la proporción de sus lados que demuestra que hay infinitos triángulos válidos.</p>
+                    <button class="btn-toggle" onclick="toggleResult('res5', this)">Ver Resultado</button>
+                    <div id="res5" class="result-container">
+                        <strong>Resultado:</strong>
+                        <p>Los lados son directamente proporcionales a los senos de los ángulos (Teorema del Seno):</p>
+                        <p class="highlight">\(a : b : c = \sin(30^\circ) : \sin(70^\circ) : \sin(80^\circ)\)</p>
+                        <p class="highlight">Proporción \(\approx 0.500 : 0.940 : 0.985\). Al multiplicar por cualquier constante \(k > 0\), se obtiene un triángulo válido.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: TEOREMA DEL COSENO -->
+        <h2 class="section-title coseno-title">Bloque II: Teorema del Coseno</h2>
+
+        <section class="case-section">
+            <h3 class="case-title">Caso 6: Conociendo Lado-Ángulo-Lado (LAL)</h3>
+            <div class="problem-pair">
+                <div class="box example-box">
+                    <h4 class="box-title">Ejemplo 6</h4>
+                    <p>Conocemos los lados \(a = 8 \text{ cm}\), \(b = 11 \text{ cm}\) y el ángulo \(C = 50^\circ\). Calcula \(c\).</p>
+                    <div class="solution">
+                        <strong>Solución:</strong>
+                        <p>\(c^2 = 8^2 + 11^2 - 2(8)(11)\cos(50^\circ)\)</p>
+                        <p>\(c^2 = 185 - 113.11 = 71.89 \implies c \approx 8.48 \text{ cm}\)</p>
+                    </div>
+                </div>
+                <div class="box exercise-box">
+                    <h4 class="box-title">Ejercicio 6</h4>
+                    <p>En el triángulo \(PQR\), \(p = 15 \text{ cm}\), \(q = 22 \text{ cm}\) y el ángulo \(R = 115^\circ\). Determina \(r\).</p>
+                    <button class="btn-toggle" onclick="toggleResult('res6', this)">Ver Resultado</button>
+                    <div id="res6" class="result-container">
+                        <strong>Resultado:</strong>
+                        <p>\(r^2 = 15^2 + 22^2 - 2(15)(22)\cos(115^\circ)\)</p>
+                        <p>\(r^2 = 225 + 484 - 660(-0.4226) = 709 + 278.9 = 987.9\)</p>
+                        <p class="highlight">\(r \approx 31.43 \text{ cm}\)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h3 class="case-title">Caso 7: Conociendo Lado-Lado-Lado (LLL)</h3>
+            <div class="problem-pair">
+                <div class="box example-box">
+                    <h4 class="box-title">Ejemplo 7</h4>
+                    <p>Los lados miden \(a = 7\), \(b = 9\) y \(c = 12\). Halla el ángulo mayor (\(C\)).</p>
+                    <div class="solution">
+                        <strong>Solución:</strong>
+                        <p>\(\cos(C) = \frac{7^2 + 9^2 - 12^2}{2(7)(9)} = \frac{-14}{126} \approx -0.111\)</p>
+                        <p>\(C \approx 96.38^\circ\)</p>
+                    </div>
+                </div>
+                <div class="box exercise-box">
+                    <h4 class="box-title">Ejercicio 7</h4>
+                    <p>Un triángulo tiene lados que miden \(14 \text{ cm}\), \(18 \text{ cm}\) y \(20 \text{ cm}\). Calcula el valor del ángulo más pequeño.</p>
+                    <button class="btn-toggle" onclick="toggleResult('res7', this)">Ver Resultado</button>
+                    <div id="res7" class="result-container">
+                        <strong>Resultado:</strong>
+                        <p>El ángulo más pequeño (\(A\)) se opone al lado más pequeño (14).</p>
+                        <p>\(\cos(A) = \frac{18^2 + 20^2 - 14^2}{2(18)(20)} = \frac{324 + 400 - 196}{720} = \frac{528}{720} \approx 0.7333\)</p>
+                        <p class="highlight">\(A = \arccos(0.7333) \approx 42.83^\circ\)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h3 class="case-title">Caso 8: Aplicación - Origami Modular (LLL)</h3>
+            <div class="problem-pair">
+                <div class="box example-box">
+                    <h4 class="box-title">Ejemplo 8</h4>
+                    <p>Para ensamblar origami modular, una pestaña triangular tiene lados de \(4 \text{ cm}\) y \(5 \text{ cm}\) con un ángulo de \(60^\circ\). Calcula el tercer lado.</p>
+                    <div class="solution">
+                        <strong>Solución:</strong>
+                        <p>\(L^2 = 4^2 + 5^2 - 2(4)(5)\cos(60^\circ) = 21\)</p>
+                        <p>\(L \approx 4.58 \text{ cm}\)</p>
+                    </div>
+                </div>
+                <div class="box exercise-box">
+                    <h4 class="box-title">Ejercicio 8</h4>
+                    <p>Un módulo triangular de papel tiene lados de \(3 \text{ cm}\), \(6 \text{ cm}\) y \(7 \text{ cm}\). Determina el ángulo de la esquina mayor para asegurar el encaje.</p>
+                    <button class="btn-toggle" onclick="toggleResult('res8', this)">Ver Resultado</button>
+                    <div id="res8" class="result-container">
+                        <strong>Resultado:</strong>
+                        <p>El ángulo mayor (\(C\)) se opone al lado de 7 cm.</p>
+                        <p>\(\cos(C) = \frac{3^2 + 6^2 - 7^2}{2(3)(6)} = \frac{9 + 36 - 49}{36} = -\frac{4}{36}\)</p>
+                        <p class="highlight">\(C = \arccos(-0.1111) \approx 96.38^\circ\)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h3 class="case-title">Caso 9: Aplicación - Geometría Sismorresistente (LAL)</h3>
+            <div class="problem-pair">
+                <div class="box example-box">
+                    <h4 class="box-title">Ejemplo 9</h4>
+                    <p>Las vigas forman un triángulo. Miden 3m y 4.5m, formando un ángulo de \(110^\circ\). Calcula la longitud del tensor de refuerzo.</p>
+                    <div class="solution">
+                        <strong>Solución:</strong>
+                        <p>\(x^2 = 3^2 + 4.5^2 - 2(3)(4.5)\cos(110^\circ) \approx 38.48\)</p>
+                        <p>\(x \approx 6.20 \text{ m}\)</p>
+                    </div>
+                </div>
+                <div class="box exercise-box">
+                    <h4 class="box-title">Ejercicio 9</h4>
+                    <p>Desde un punto topográfico \(P\), la distancia a una zapata Z1 es de 8m y a otra zapata Z2 es de 10m. El ángulo medido entre ambas zapatas desde \(P\) es de \(55^\circ\). Calcula la distancia entre las zapatas.</p>
+                    <button class="btn-toggle" onclick="toggleResult('res9', this)">Ver Resultado</button>
+                    <div id="res9" class="result-container">
+                        <strong>Resultado:</strong>
+                        <p>\(d^2 = 8^2 + 10^2 - 2(8)(10)\cos(55^\circ)\)</p>
+                        <p>\(d^2 = 64 + 100 - 160(0.5736) = 164 - 91.77 = 72.23\)</p>
+                        <p class="highlight">Distancia \(d = \sqrt{72.23} \approx 8.50 \text{ metros}\)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h3 class="case-title">Caso 10: Aplicación - Distancias Geográficas (LAL)</h3>
+            <div class="problem-pair">
+                <div class="box example-box">
+                    <h4 class="box-title">Ejemplo 10</h4>
+                    <p>Un turista en el departamento del Cauca mide que la distancia desde un mirador al Cerro A es 12km y al Cerro B es 15km. El ángulo entre ambos es \(75^\circ\). ¿Distancia entre cerros?</p>
+                    <div class="solution">
+                        <strong>Solución:</strong>
+                        <p>\(d^2 = 12^2 + 15^2 - 2(12)(15)\cos(75^\circ) \approx 275.83\)</p>
+                        <p>\(d \approx 16.61 \text{ km}\)</p>
+                    </div>
+                </div>
+                <div class="box exercise-box">
+                    <h4 class="box-title">Ejercicio 10</h4>
+                    <p>Un ingeniero viaja de Popayán al municipio M1 (a 35 km) y luego evalúa la ruta desde Popayán al municipio M2 (a 50 km). El ángulo de separación entre ambas rutas es de \(45^\circ\). ¿Qué distancia en línea recta hay entre M1 y M2?</p>
+                    <button class="btn-toggle" onclick="toggleResult('res10', this)">Ver Resultado</button>
+                    <div id="res10" class="result-container">
+                        <strong>Resultado:</strong>
+                        <p>\(x^2 = 35^2 + 50^2 - 2(35)(50)\cos(45^\circ)\)</p>
+                        <p>\(x^2 = 1225 + 2500 - 3500(0.7071) = 3725 - 2474.85 = 1250.15\)</p>
+                        <p class="highlight">Distancia \(x = \sqrt{1250.15} \approx 35.36 \text{ km}\)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        function toggleResult(id, btn) {
+            const resultDiv = document.getElementById(id);
+            if (resultDiv.style.display === "none" || resultDiv.style.display === "") {
+                resultDiv.style.display = "block";
+                btn.textContent = "Ocultar Resultado";
+            } else {
+                resultDiv.style.display = "none";
+                btn.textContent = "Ver Resultado";
+            }
+        }
+    </script>
+</body>
+</html>
