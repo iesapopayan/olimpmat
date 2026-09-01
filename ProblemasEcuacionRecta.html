@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller: Ecuación General de la Recta</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #dee2e6;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: var(--primary-color);
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+        h2 {
+            font-size: 18px;
+            color: #666;
+            margin: 0;
+        }
+        .school-info {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #555;
+            font-weight: bold;
+        }
+        .problem-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            transition: box-shadow 0.3s ease;
+        }
+        .problem-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .difficulty {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+        .diff-low { background-color: #d4edda; color: #155724; }
+        .diff-med { background-color: #fff3cd; color: #856404; }
+        .diff-high { background-color: #f8d7da; color: #721c24; }
+        
+        .answer-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--border-color);
+            display: none;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #004494;
+        }
+        .controls {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Taller de Matemáticas: Geometría Analítica</h1>
+        <h2>La Ecuación General de la Recta \( Ax + By + C = 0 \)</h2>
+        <div class="school-info">Institución Educativa San Agustín | Popayán, Cauca</div>
+    </header>
+
+    <div class="controls">
+        <button onclick="toggleAllAnswers()">Mostrar / Ocultar Todas las Respuestas</button>
+    </div>
+
+    <div class="problem-card">
+        <span class="difficulty diff-low">Nivel 1: Conceptos Básicos</span>
+        <p><strong>1.</strong> Expresa la siguiente ecuación explícita de la recta en su forma general: <br> \( y = 3x - 5 \)</p>
+        <button onclick="toggleAnswer('ans1')">Ver Respuesta</button>
+        <div id="ans1" class="answer-section">
+            <p><strong>Solución:</strong> Igualamos a cero pasando todos los términos a un solo lado de la igualdad, manteniendo preferiblemente el coeficiente de \(x\) positivo.</p>
+            <p>\( 3x - y - 5 = 0 \)</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <span class="difficulty diff-low">Nivel 2: Punto-Pendiente</span>
+        <p><strong>2.</strong> Convierte la siguiente ecuación, dada en su forma punto-pendiente, a la forma general: <br> \( y - 2 = -4(x + 1) \)</p>
+        <button onclick="toggleAnswer('ans2')">Ver Respuesta</button>
+        <div id="ans2" class="answer-section">
+            <p><strong>Solución:</strong> Primero aplicamos la propiedad distributiva y luego reordenamos.</p>
+            <p>\( y - 2 = -4x - 4 \)<br>
+               \( 4x + y - 2 + 4 = 0 \)<br>
+               <strong>\( 4x + y + 2 = 0 \)</strong></p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <span class="difficulty diff-low">Nivel 3: Dos Puntos</span>
+        <p><strong>3.</strong> Encuentra la ecuación general de la recta que pasa por los puntos \( P_1(2, 3) \) y \( P_2(5, 9) \).</p>
+        <button onclick="toggleAnswer('ans3')">Ver Respuesta</button>
+        <div id="ans3" class="answer-section">
+            <p><strong>Solución:</strong> Calculamos la pendiente \( m = \frac{9 - 3}{5 - 2} = \frac{6}{3} = 2 \).</p>
+            <p>Usamos punto-pendiente con \( P_1 \): \( y - 3 = 2(x - 2) \)<br>
+               \( y - 3 = 2x - 4 \)<br>
+               <strong>\( 2x - y - 1 = 0 \)</strong></p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <span class="difficulty diff-med">Nivel 4: Interceptos</span>
+        <p><strong>4.</strong> Dada la ecuación general \( 3x - 4y + 24 = 0 \), determina los puntos de corte exactos con los ejes coordenados \( x \) e \( y \).</p>
+        <button onclick="toggleAnswer('ans4')">Ver Respuesta</button>
+        <div id="ans4" class="answer-section">
+            <p><strong>Solución:</strong></p>
+            <p>Corte en \( x \) (hacemos \( y = 0 \)): \( 3x + 24 = 0 \Rightarrow x = -8 \). Punto: \( (-8, 0) \).</p>
+            <p>Corte en \( y \) (hacemos \( x = 0 \)): \( -4y + 24 = 0 \Rightarrow y = 6 \). Punto: \( (0, 6) \).</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <span class="difficulty diff-med">Nivel 5: Rectas Paralelas</span>
+        <p><strong>5.</strong> Halla la ecuación general de la recta que es paralela a \( 2x + 5y - 10 = 0 \) y pasa por el punto \( (-1, 4) \).</p>
+        <button onclick="toggleAnswer('ans5')">Ver Respuesta</button>
+        <div id="ans5" class="answer-section">
+            <p><strong>Solución:</strong> La recta paralela tendrá la forma \( 2x + 5y + K = 0 \).</p>
+            <p>Sustituimos el punto \( (-1, 4) \): \( 2(-1) + 5(4) + K = 0 \Rightarrow -2 + 20 + K = 0 \Rightarrow K = -18 \).</p>
+            <p>Ecuación: <strong>\( 2x + 5y - 18 = 0 \)</strong></p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <span class="difficulty diff-med">Nivel 6: Rectas Perpendiculares</span>
+        <p><strong>6.</strong> Encuentra la ecuación general de la recta perpendicular a \( x - 3y + 6 = 0 \) que cruza exactamente por el origen \( (0,0) \).</p>
+        <button onclick="toggleAnswer('ans6')">Ver Respuesta</button>
+        <div id="ans6" class="answer-section">
+            <p><strong>Solución:</strong> La pendiente de la recta dada es \( m_1 = 1/3 \). La pendiente perpendicular es \( m_2 = -3 \).</p>
+            <p>Como pasa por el origen, su intercepto es 0: \( y = -3x \).</p>
+            <p>Ecuación general: <strong>\( 3x + y = 0 \)</strong></p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <span class="difficulty diff-med">Nivel 7: Sistemas Lineales</span>
+        <p><strong>7.</strong> Encuentra las coordenadas del punto de intersección de las rectas dadas por las ecuaciones \( 2x + y - 8 = 0 \) y \( 3x - 2y + 2 = 0 \).</p>
+        <button onclick="toggleAnswer('ans7')">Ver Respuesta</button>
+        <div id="ans7" class="answer-section">
+            <p><strong>Solución:</strong> Resolvemos el sistema de ecuaciones. Despejando \( y \) de la primera: \( y = 8 - 2x \).</p>
+            <p>Sustituyendo en la segunda: \( 3x - 2(8 - 2x) + 2 = 0 \Rightarrow 3x - 16 + 4x + 2 = 0 \Rightarrow 7x = 14 \Rightarrow x = 2 \).</p>
+            <p>Sustituyendo \( x \): \( y = 8 - 2(2) = 4 \). <br>El punto es <strong>\( (2, 4) \)</strong>.</p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <span class="difficulty diff-high">Nivel 8: Aplicación Geométrica</span>
+        <p><strong>8.</strong> Los vértices de un triángulo son \( A(0,0) \), \( B(6,0) \) y \( C(2,8) \). Encuentra la ecuación general de la recta que contiene a la mediana trazada desde el vértice \( C \).</p>
+        <button onclick="toggleAnswer('ans8')">Ver Respuesta</button>
+        <div id="ans8" class="answer-section">
+            <p><strong>Solución:</strong> La mediana desde \( C \) va hasta el punto medio \( M \) del segmento \( AB \).</p>
+            <p>Punto medio \( M = (\frac{0+6}{2}, \frac{0+0}{2}) = (3,0) \).</p>
+            <p>Recta que pasa por \( C(2,8) \) y \( M(3,0) \): Pendiente \( m = \frac{0 - 8}{3 - 2} = -8 \).</p>
+            <p>Ecuación: \( y - 0 = -8(x - 3) \Rightarrow y = -8x + 24 \).</p>
+            <p>Forma general: <strong>\( 8x + y - 24 = 0 \)</strong></p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <span class="difficulty diff-high">Nivel 9: Análisis de Parámetros</span>
+        <p><strong>9.</strong> ¿Para qué valor exacto de \( k \) las rectas \( kx + 3y - 7 = 0 \) y \( 2x - 5y + 1 = 0 \) son perpendiculares?</p>
+        <button onclick="toggleAnswer('ans9')">Ver Respuesta</button>
+        <div id="ans9" class="answer-section">
+            <p><strong>Solución:</strong> La condición de perpendicularidad con coeficientes de la forma general es \( A_1A_2 + B_1B_2 = 0 \).</p>
+            <p>\( (k)(2) + (3)(-5) = 0 \)<br>
+               \( 2k - 15 = 0 \)<br>
+               <strong>\( k = \frac{15}{2} \) o \( 7.5 \)</strong></p>
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <span class="difficulty diff-high">Nivel 10: Modelado Matemático</span>
+        <p><strong>10.</strong> Un colegio adquiere componentes de hardware (como microcontroladores y sensores) por un valor inicial de $120,000 COP. Se estima que su valor se deprecia de manera lineal hasta alcanzar los $20,000 COP tras 5 años de uso. Si \( y \) representa el valor del equipo y \( x \) el tiempo en años, modela esta situación y expresa el modelo final en la forma general \( Ax + By + C = 0 \).</p>
+        <button onclick="toggleAnswer('ans10')">Ver Respuesta</button>
+        <div id="ans10" class="answer-section">
+            <p><strong>Solución:</strong> Tenemos dos puntos coordenados \( (tiempo, valor) \): \( (0, 120000) \) y \( (5, 20000) \).</p>
+            <p>Calculamos la pendiente de depreciación: \( m = \frac{20000 - 120000}{5 - 0} = \frac{-100000}{5} = -20000 \).</p>
+            <p>La ecuación usando el intercepto inicial es: \( y = -20000x + 120000 \).</p>
+            <p>Convirtiendo a forma general: <strong>\( 20000x + y - 120000 = 0 \)</strong></p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function toggleAnswer(id) {
+        var element = document.getElementById(id);
+        if (element.style.display === "block") {
+            element.style.display = "none";
+        } else {
+            element.style.display = "block";
+        }
+    }
+
+    function toggleAllAnswers() {
+        var answers = document.getElementsByClassName('answer-section');
+        var anyHidden = false;
+        
+        for(var i = 0; i < answers.length; i++) {
+            if(answers[i].style.display !== "block") {
+                anyHidden = true;
+                break;
+            }
+        }
+
+        for(var i = 0; i < answers.length; i++) {
+            answers[i].style.display = anyHidden ? "block" : "none";
+        }
+    }
+</script>
+
+</body>
+</html>
