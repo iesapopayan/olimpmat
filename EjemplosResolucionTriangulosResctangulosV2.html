@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gran Taller de Ejercicios Resueltos: Triángulos Rectángulos</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .header h3 {
+            color: #7f8c8d;
+            margin-top: 0;
+            font-weight: normal;
+        }
+        .level-title {
+            background-color: #ecf0f1;
+            padding: 12px;
+            border-left: 5px solid #2c3e50;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-size: 1.2em;
+        }
+        .sub-level {
+            background-color: #e8f4f8;
+            padding: 8px;
+            border-left: 4px solid #3498db;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            color: #2980b9;
+            font-weight: bold;
+        }
+        .exercise {
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #fafafa;
+            overflow: hidden;
+        }
+        .statement {
+            padding: 15px 20px;
+            font-weight: 500;
+            font-size: 15px;
+        }
+        .toggle-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            outline: none;
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .toggle-btn:hover {
+            background-color: #2980b9;
+        }
+        .solution {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease;
+            background-color: #fff;
+            border-top: 1px solid #e0e0e0;
+        }
+        .solution p { margin: 10px 0; }
+        .step {
+            margin-bottom: 8px;
+            padding-left: 15px;
+            border-left: 3px solid #27ae60;
+            font-size: 14.5px;
+        }
+        .math {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f8f9fa;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: #d35400;
+        }
+        .final-answer {
+            background-color: #e8f8f5;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #117a65;
+            margin-top: 12px;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Taller General de Resolución de Triángulos Rectángulos</h1>
+        <p>Glosario: <strong>c</strong> = hipotenusa, <strong>a</strong> y <strong>b</strong> = catetos, <strong>&alpha;</strong> = ángulo opuesto a, <strong>&beta;</strong> = ángulo opuesto b.</p>
+    </div>
+
+    <!-- SECCIÓN 1: TIPO PITAGÓRICO -->
+    <h3 class="level-title">Sección 1: Tipo Pitagórico (Cálculo directo de lados)</h3>
+
+    <div class="exercise">
+        <div class="statement">1. Los catetos miden <span class="math">a = 6 cm</span> y <span class="math">b = 8 cm</span>. Halla la hipotenusa.</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step"><span class="math">c&sup2; = a&sup2; + b&sup2;</span> &rarr; <span class="math">c&sup2; = 6&sup2; + 8&sup2; = 36 + 64 = 100</span></div>
+            <div class="step"><span class="math">c = &radic;100 = 10</span></div>
+            <div class="final-answer">Hipotenusa c = 10 cm</div>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <div class="statement">2. La hipotenusa mide <span class="math">c = 13 m</span> y un cateto <span class="math">a = 5 m</span>. Halla el cateto b.</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step"><span class="math">b&sup2; = c&sup2; - a&sup2;</span> &rarr; <span class="math">b&sup2; = 13&sup2; - 5&sup2; = 169 - 25 = 144</span></div>
+            <div class="step"><span class="math">b = &radic;144 = 12</span></div>
+            <div class="final-answer">Cateto b = 12 m</div>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <div class="statement">3. La hipotenusa es <span class="math">c = 15 cm</span> y un cateto <span class="math">b = 9 cm</span>. Halla el cateto a.</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step"><span class="math">a&sup2; = c&sup2; - b&sup2;</span> &rarr; <span class="math">a&sup2; = 15&sup2; - 9&sup2; = 225 - 81 = 144</span></div>
+            <div class="step"><span class="math">a = &radic;144 = 12</span></div>
+            <div class="final-answer">Cateto a = 12 cm</div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 2: NIVEL 1 -->
+    <h3 class="level-title">Sección 2: Nivel 1 (Conociendo dos lados, hallar ángulos)</h3>
+
+    <div class="exercise">
+        <div class="statement">4. Dados <span class="math">a = 3</span> y <span class="math">b = 4</span>. Halla los ángulos &alpha; y &beta;.</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step"><span class="math">tan(&alpha;) = 3 / 4 = 0.75</span> &rarr; <span class="math">&alpha; = arctan(0.75) &approx; 36.87&deg;</span></div>
+            <div class="step"><span class="math">&beta; = 90&deg; - 36.87&deg; = 53.13&deg;</span></div>
+            <div class="final-answer">&alpha; &approx; 36.87&deg;, &beta; &approx; 53.13&deg;</div>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <div class="statement">5. Dados <span class="math">c = 25</span> y <span class="math">a = 7</span>. Halla el ángulo &alpha;.</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step">Conocemos opuesto e hipotenusa: <span class="math">sen(&alpha;) = 7 / 25 = 0.28</span></div>
+            <div class="step"><span class="math">&alpha; = arcsen(0.28) &approx; 16.26&deg;</span></div>
+            <div class="final-answer">&alpha; &approx; 16.26&deg;</div>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <div class="statement">6. Dados <span class="math">c = 17</span> y <span class="math">b = 8</span>. Halla el ángulo &alpha;.</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step">Para el ángulo &alpha;, b es el adyacente: <span class="math">cos(&alpha;) = 8 / 17 &approx; 0.4705</span></div>
+            <div class="step"><span class="math">&alpha; = arccos(0.4705) &approx; 61.93&deg;</span></div>
+            <div class="final-answer">&alpha; &approx; 61.93&deg;</div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 3: NIVEL 2 -->
+    <h3 class="level-title">Sección 3: Nivel 2 (Conociendo un lado y un ángulo agudo)</h3>
+
+    <div class="exercise">
+        <div class="statement">7. Hipotenusa <span class="math">c = 10</span> y <span class="math">&alpha; = 30&deg;</span>. Halla los catetos a y b.</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step"><span class="math">sen(30&deg;) = a / 10</span> &rarr; <span class="math">a = 10 &times; 0.5 = 5</span></div>
+            <div class="step"><span class="math">cos(30&deg;) = b / 10</span> &rarr; <span class="math">b = 10 &times; 0.866 = 8.66</span></div>
+            <div class="final-answer">a = 5, b &approx; 8.66</div>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <div class="statement">8. Cateto <span class="math">a = 14</span> y <span class="math">&beta; = 45&deg;</span>. Halla b y c.</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step">Si &beta; = 45&deg;, entonces &alpha; = 45&deg;. Es un triángulo isósceles, luego <span class="math">b = a = 14</span></div>
+            <div class="step"><span class="math">cos(45&deg;) = 14 / c</span> &rarr; <span class="math">c = 14 / cos(45&deg;) &approx; 14 / 0.707 &approx; 19.8</span></div>
+            <div class="final-answer">b = 14, c &approx; 19.8</div>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <div class="statement">9. Cateto <span class="math">b = 20</span> y <span class="math">&alpha; = 60&deg;</span>. Halla a y c.</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step"><span class="math">tan(60&deg;) = a / 20</span> &rarr; <span class="math">a = 20 &times; tan(60&deg;) &approx; 20 &times; 1.732 = 34.64</span></div>
+            <div class="step"><span class="math">cos(60&deg;) = 20 / c</span> &rarr; <span class="math">c = 20 / cos(60&deg;) = 20 / 0.5 = 40</span></div>
+            <div class="final-answer">a &approx; 34.64, c = 40</div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 4: PROBLEMAS DE APLICACIÓN -->
+    <h3 class="level-title">Sección 4: Problemas de Aplicación</h3>
+
+    <div class="sub-level">Aplicación Pitagórica (Cálculo de distancias)</div>
+
+    <div class="exercise">
+        <div class="statement">10. Una escalera de 5 m de longitud está apoyada contra una pared. Si la base de la escalera está a 3 m de la pared, ¿a qué altura del suelo toca la pared?</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step">Hipotenusa c = 5m. Cateto base = 3m. Buscamos el cateto altura (h).</div>
+            <div class="step"><span class="math">h&sup2; = 5&sup2; - 3&sup2; = 25 - 9 = 16</span></div>
+            <div class="step"><span class="math">h = &radic;16 = 4</span></div>
+            <div class="final-answer">La escalera alcanza una altura de 4 metros.</div>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <div class="statement">11. Un turista camina por el centro histórico de Popayán. Avanza 8 cuadras (800 m) hacia el norte y luego 6 cuadras (600 m) hacia el este. ¿Cuál es la distancia en línea recta desde su punto de partida?</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step">Catetos: a = 800 m, b = 600 m. Buscamos la hipotenusa (c).</div>
+            <div class="step"><span class="math">c&sup2; = 800&sup2; + 600&sup2; = 640000 + 360000 = 1000000</span></div>
+            <div class="step"><span class="math">c = &radic;1000000 = 1000</span></div>
+            <div class="final-answer">La distancia en línea recta es 1000 metros (1 km).</div>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <div class="statement">12. La pantalla de un monitor tiene forma rectangular. Mide 16 pulgadas de ancho y 12 pulgadas de alto. ¿De cuántas pulgadas es el monitor (medida de su diagonal)?</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step">Catetos: 16 y 12. La diagonal es la hipotenusa.</div>
+            <div class="step"><span class="math">c&sup2; = 16&sup2; + 12&sup2; = 256 + 144 = 400</span></div>
+            <div class="step"><span class="math">c = &radic;400 = 20</span></div>
+            <div class="final-answer">El monitor es de 20 pulgadas.</div>
+        </div>
+    </div>
+
+    <div class="sub-level">Aplicación Nivel 1 (Hallar ángulos de inclinación o elevación)</div>
+
+    <div class="exercise">
+        <div class="statement">13. Una rampa de accesibilidad tiene una longitud total de 10 metros y alcanza una altura de 2 metros. ¿Cuál es el ángulo de inclinación de la rampa?</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step">Hipotenusa = 10 m, Opuesto (altura) = 2 m. Buscamos el ángulo &alpha;.</div>
+            <div class="step"><span class="math">sen(&alpha;) = Opuesto / Hipotenusa = 2 / 10 = 0.2</span></div>
+            <div class="step"><span class="math">&alpha; = arcsen(0.2) &approx; 11.54&deg;</span></div>
+            <div class="final-answer">El ángulo de inclinación es aproximadamente 11.54&deg;.</div>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <div class="statement">14. Un estudiante de la I.E. San Agustín nota que un árbol de 15 m de altura proyecta una sombra de 20 m en el suelo. ¿Cuál es el ángulo de elevación del sol en ese instante?</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step">Opuesto (árbol) = 15 m, Adyacente (sombra) = 20 m. Buscamos &alpha;.</div>
+            <div class="step"><span class="math">tan(&alpha;) = 15 / 20 = 0.75</span></div>
+            <div class="step"><span class="math">&alpha; = arctan(0.75) &approx; 36.87&deg;</span></div>
+            <div class="final-answer">El ángulo de elevación del sol es 36.87&deg;.</div>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <div class="statement">15. Una escalera de 6 m de largo está apoyada en un muro. Si la base está a 1.5 m del muro, ¿qué ángulo forma la escalera con el suelo?</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step">Hipotenusa = 6 m, Adyacente = 1.5 m. Buscamos &alpha;.</div>
+            <div class="step"><span class="math">cos(&alpha;) = 1.5 / 6 = 0.25</span></div>
+            <div class="step"><span class="math">&alpha; = arccos(0.25) &approx; 75.52&deg;</span></div>
+            <div class="final-answer">Forma un ángulo de 75.52&deg; con el suelo.</div>
+        </div>
+    </div>
+
+    <div class="sub-level">Aplicación Nivel 2 (Hallar longitudes usando ángulos)</div>
+
+    <div class="exercise">
+        <div class="statement">16. Una cometa está sostenida por un hilo de 50 m de longitud. Si el hilo forma un ángulo de 40&deg; con la horizontal (asumiendo que está tenso), ¿a qué altura vuela la cometa?</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step">Hipotenusa = 50 m, Ángulo &alpha; = 40&deg;. Buscamos el Opuesto (altura).</div>
+            <div class="step"><span class="math">sen(40&deg;) = Altura / 50</span></div>
+            <div class="step"><span class="math">Altura = 50 &times; sen(40&deg;) &approx; 50 &times; 0.6428 = 32.14</span></div>
+            <div class="final-answer">La cometa vuela a una altura de 32.14 metros.</div>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <div class="statement">17. Desde lo alto de un faro de 40 m sobre el nivel del mar, se observa un barco con un ángulo de depresión de 25&deg;. ¿A qué distancia de la base del faro se encuentra el barco?</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step">Por alternos internos, el ángulo de elevación desde el barco es 25&deg;. Opuesto (faro) = 40 m. Buscamos el Adyacente (distancia d).</div>
+            <div class="step"><span class="math">tan(25&deg;) = 40 / d</span> &rarr; <span class="math">d = 40 / tan(25&deg;)</span></div>
+            <div class="step"><span class="math">d &approx; 40 / 0.4663 &approx; 85.78</span></div>
+            <div class="final-answer">El barco está a 85.78 metros de la base.</div>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <div class="statement">18. El ángulo de elevación del sol es de 55&deg;. En ese momento, un poste de luz proyecta una sombra de 8 metros de largo. ¿Cuál es la altura del poste?</div>
+        <button class="toggle-btn" onclick="toggleSolution(this)"><span>Ver Solución</span><span>▼</span></button>
+        <div class="solution">
+            <div class="step">Ángulo = 55&deg;, Adyacente (sombra) = 8 m. Buscamos el Opuesto (altura h).</div>
+            <div class="step"><span class="math">tan(55&deg;) = h / 8</span> &rarr; <span class="math">h = 8 &times; tan(55&deg;)</span></div>
+            <div class="step"><span class="math">h &approx; 8 &times; 1.4281 &approx; 11.42</span></div>
+            <div class="final-answer">El poste tiene una altura de 11.42 metros.</div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function toggleSolution(button) {
+        var solution = button.nextElementSibling;
+        var icon = button.querySelectorAll('span')[1];
+
+        if (solution.style.maxHeight) {
+            // Ocultar
+            solution.style.maxHeight = null;
+            solution.style.paddingTop = "0";
+            solution.style.paddingBottom = "0";
+            icon.innerHTML = "▼";
+            button.style.backgroundColor = "#3498db";
+        } else {
+            // Mostrar
+            solution.style.paddingTop = "15px";
+            solution.style.paddingBottom = "15px";
+            // Sumamos padding adicional para asegurar que se vea todo el contenido
+            solution.style.maxHeight = solution.scrollHeight + 50 + "px"; 
+            icon.innerHTML = "▲";
+            button.style.backgroundColor = "#2c3e50";
+        }
+    }
+</script>
+
+</body>
+</html>
