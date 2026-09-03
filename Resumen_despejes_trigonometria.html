@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen de Despejes Trigonométricos</title>
+    <style>
+        :root {
+            --seno: #3498db;
+            --coseno: #2ecc71;
+            --tangente: #e67e22;
+            --text-dark: #2c3e50;
+            --bg-color: #f4f7f6;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid var(--text-dark);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            margin: 0 0 10px 0;
+            color: var(--text-dark);
+            font-size: 2.2em;
+        }
+        .header h3 {
+            margin: 0;
+            color: #7f8c8d;
+            font-weight: normal;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+        .legend-item span {
+            font-weight: bold;
+            color: #d35400;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #eaeaea;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-header {
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+        }
+        .card.seno .card-header { background-color: var(--seno); }
+        .card.coseno .card-header { background-color: var(--coseno); }
+        .card.tangente .card-header { background-color: var(--tangente); }
+        
+        .formula-base {
+            text-align: center;
+            padding: 20px;
+            background: #fdfdfd;
+            border-bottom: 1px solid #eaeaea;
+            font-size: 1.3em;
+        }
+        .despejes {
+            padding: 20px;
+        }
+        .despeje-item {
+            margin-bottom: 20px;
+            background: #f9fbfd;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 5px solid;
+        }
+        .card.seno .despeje-item { border-left-color: var(--seno); background: #f2f8fc; }
+        .card.coseno .despeje-item { border-left-color: var(--coseno); background: #f2fcf5; }
+        .card.tangente .despeje-item { border-left-color: var(--tangente); background: #fdf7f2; }
+        
+        .despeje-item:last-child {
+            margin-bottom: 0;
+        }
+        .label {
+            display: block;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .math {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+        }
+        .frac {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            vertical-align: middle;
+            margin: 0 8px;
+        }
+        .frac .num {
+            border-bottom: 2px solid var(--text-dark);
+            padding: 0 5px;
+        }
+        .frac .den {
+            padding: 0 5px;
+        }
+        .note {
+            display: block;
+            font-size: 0.75em;
+            color: #95a5a6;
+            margin-top: 5px;
+            font-family: sans-serif;
+            font-weight: normal;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Ficha de Resumen: Fórmulas y Despejes Trigonométricos</h1>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item"><span>&alpha;</span> = Ángulo de referencia</div>
+        <div class="legend-item"><span>CO</span> = Cateto Opuesto</div>
+        <div class="legend-item"><span>CA</span> = Cateto Adyacente</div>
+        <div class="legend-item"><span>H</span> = Hipotenusa</div>
+    </div>
+
+    <div class="grid">
+        <!-- FUNCIÓN SENO -->
+        <div class="card seno">
+            <div class="card-header">Seno (sen)</div>
+            <div class="formula-base">
+                <div class="math" style="justify-content: center;">
+                    sen(&alpha;) = 
+                    <div class="frac">
+                        <span class="num">CO</span>
+                        <span class="den">H</span>
+                    </div>
+                </div>
+            </div>
+            <div class="despejes">
+                <div class="despeje-item">
+                    <span class="label">Para hallar el Cateto Opuesto:</span>
+                    <div class="math">CO = H &times; sen(&alpha;)</div>
+                </div>
+                <div class="despeje-item">
+                    <span class="label">Para hallar la Hipotenusa:</span>
+                    <div class="math">
+                        H = 
+                        <div class="frac">
+                            <span class="num">CO</span>
+                            <span class="den">sen(&alpha;)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="despeje-item">
+                    <span class="label">Para hallar el Ángulo:</span>
+                    <div class="math">
+                        &alpha; = sen⁻¹<span style="font-size: 1.5em; font-weight: 300;">(</span>
+                        <div class="frac">
+                            <span class="num">CO</span>
+                            <span class="den">H</span>
+                        </div>
+                        <span style="font-size: 1.5em; font-weight: 300;">)</span>
+                    </div>
+                    <span class="note">* sen⁻¹ es la función inversa (arcsen), en calculadoras suele ser SHIFT + sin</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- FUNCIÓN COSENO -->
+        <div class="card coseno">
+            <div class="card-header">Coseno (cos)</div>
+            <div class="formula-base">
+                <div class="math" style="justify-content: center;">
+                    cos(&alpha;) = 
+                    <div class="frac">
+                        <span class="num">CA</span>
+                        <span class="den">H</span>
+                    </div>
+                </div>
+            </div>
+            <div class="despejes">
+                <div class="despeje-item">
+                    <span class="label">Para hallar el Cateto Adyacente:</span>
+                    <div class="math">CA = H &times; cos(&alpha;)</div>
+                </div>
+                <div class="despeje-item">
+                    <span class="label">Para hallar la Hipotenusa:</span>
+                    <div class="math">
+                        H = 
+                        <div class="frac">
+                            <span class="num">CA</span>
+                            <span class="den">cos(&alpha;)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="despeje-item">
+                    <span class="label">Para hallar el Ángulo:</span>
+                    <div class="math">
+                        &alpha; = cos⁻¹<span style="font-size: 1.5em; font-weight: 300;">(</span>
+                        <div class="frac">
+                            <span class="num">CA</span>
+                            <span class="den">H</span>
+                        </div>
+                        <span style="font-size: 1.5em; font-weight: 300;">)</span>
+                    </div>
+                    <span class="note">* cos⁻¹ es la función inversa (arccos), en calculadoras suele ser SHIFT + cos</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- FUNCIÓN TANGENTE -->
+        <div class="card tangente">
+            <div class="card-header">Tangente (tan)</div>
+            <div class="formula-base">
+                <div class="math" style="justify-content: center;">
+                    tan(&alpha;) = 
+                    <div class="frac">
+                        <span class="num">CO</span>
+                        <span class="den">CA</span>
+                    </div>
+                </div>
+            </div>
+            <div class="despejes">
+                <div class="despeje-item">
+                    <span class="label">Para hallar el Cateto Opuesto:</span>
+                    <div class="math">CO = CA &times; tan(&alpha;)</div>
+                </div>
+                <div class="despeje-item">
+                    <span class="label">Para hallar el Cateto Adyacente:</span>
+                    <div class="math">
+                        CA = 
+                        <div class="frac">
+                            <span class="num">CO</span>
+                            <span class="den">tan(&alpha;)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="despeje-item">
+                    <span class="label">Para hallar el Ángulo:</span>
+                    <div class="math">
+                        &alpha; = tan⁻¹<span style="font-size: 1.5em; font-weight: 300;">(</span>
+                        <div class="frac">
+                            <span class="num">CO</span>
+                            <span class="den">CA</span>
+                        </div>
+                        <span style="font-size: 1.5em; font-weight: 300;">)</span>
+                    </div>
+                    <span class="note">* tan⁻¹ es la función inversa (arctan), en calculadoras suele ser SHIFT + tan</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
